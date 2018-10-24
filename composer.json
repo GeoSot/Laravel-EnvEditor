@@ -1,0 +1,51 @@
+{
+  "name": "geo-sot/laravel-env-editor",
+  "description": "A laravel Package that Supports .Env File editing and backup ",
+  "keywords": [
+    "geo-sot",
+    "laravel",
+    "laravel-env-editor",
+    "EnvEditor"
+  ],
+  "authors": [
+    {
+      "name": "Geo Sot",
+      "email": "geo.sotis@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "GeoSot\\EnvEditor\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+    },
+    "laravel": {
+      "providers": [
+        "GeoSot\\EnvEditor\\ServiceProvider"
+      ],
+      "aliases": {
+        "EnvEditor": "GeoSot\\EnvEditor\\Facades\\EnvEditor"
+      }
+    }
+  },
+  "require-dev": {
+    "laravel/framework": "5.5.x"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GeoSot\\EnvEditor\\": "tests/"
+    }
+  }
+}
+
+
+
+
