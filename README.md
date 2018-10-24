@@ -1,3 +1,4 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/f494c7292af300b0c7fc/maintainability)](https://codeclimate.com/github/GeoSot/Laravel-EnvEditor/maintainability)
 [![License](https://poser.pugx.org/geo-sot/laravel-env-editor/license)](https://packagist.org/packages/geo-sot/laravel-env-editor)
 
 # Laravel .env Editor (plus GUI) 
@@ -5,7 +6,7 @@ This Package allows to manage Laravel .env file values on the Fly (add, edit, de
 <br/>
 Management can be done through the user interface, or programmatically by using the `EnvEditor` Facade, without breaking the files structure. 
 <br/>
-The inspiration for this package was [Brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor).
+The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor).
 
 
 * [Installation](#installation)
