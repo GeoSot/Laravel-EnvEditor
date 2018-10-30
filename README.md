@@ -83,6 +83,9 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
  
     EnvEditor::keyExists($key)
     // Search key existance in .env
+    
+    EnvEditor::getKey(string $key, $default = null)    
+    // Get key value from .env,
  
      EnvEditor::addKey($key, $value, array $options = [])
      // Adds new Key in .env file

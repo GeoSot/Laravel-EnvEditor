@@ -38,6 +38,21 @@ class EnvKeysManager
         return !is_null($env->firstWhere('key', '==', $key));
     }
 
+
+    /**
+     * Add the  Key  on the Current Env
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     * @throws EnvException
+     */
+    public function getKey(string $key, $default = null)
+    {
+        return $this->getEnvData()->get($key, $default);
+    }
+
     /**
      * Add the  Key  on the Current Env
      *

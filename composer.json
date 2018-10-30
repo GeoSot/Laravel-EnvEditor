@@ -7,25 +7,27 @@
     "laravel-env-editor",
     "EnvEditor"
   ],
+  "license": "MIT",
   "authors": [
     {
       "name": "Geo Sot",
       "email": "geo.sotis@gmail.com"
     }
   ],
-  "license": "MIT",
   "require": {
     "php": "^7.0"
+  },
+  "require-dev": {
+    "laravel/framework": "5.5.x"
   },
   "autoload": {
     "psr-4": {
       "GeoSot\\EnvEditor\\": "src/"
     }
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "extra": {
     "branch-alias": {
+      "dev-master": "0.9.*-dev"
     },
     "laravel": {
       "providers": [
@@ -36,9 +38,8 @@
       }
     }
   },
-  "require-dev": {
-    "laravel/framework": "5.5.x"
-  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload-dev": {
     "psr-4": {
       "GeoSot\\EnvEditor\\": "tests/"

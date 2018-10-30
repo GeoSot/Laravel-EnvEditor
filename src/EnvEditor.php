@@ -65,6 +65,20 @@ class EnvEditor
      * Add the  Key  on the Current Env
      *
      * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     * @throws EnvException
+     */
+    public function getKey(string $key, $default = null)
+    {
+        return $this->getKeysManager()->getKey($key, $default);
+    }
+
+    /**
+     * Add the  Key  on the Current Env
+     *
+     * @param string $key
      * @param mixed  $value
      * @param array  $options
      *
