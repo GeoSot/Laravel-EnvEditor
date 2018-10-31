@@ -6,28 +6,28 @@ namespace GeoSot\EnvEditor\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 
 class EnvFileContentManager
 {
 
     protected $envEditor;
     protected $package = 'env-editor';
+    protected $filesystem;
 
     /**
      * Constructor
-     *
      * @param  EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
         $this->envEditor = $envEditor;
+        $this->filesystem = new Filesystem();
     }
 
     /**
      * Parse the .env Contents
-     *
      * @param string $fileName
      *
      * @return Collection
@@ -46,15 +46,15 @@ class EnvFileContentManager
                 $groupIndex++;
                 continue;
             }
-                $entry = explode("=", $line, 2);
-                $groupArray = [
-                    'key' => $entry[0],
-                    'value' => array_get($entry, 1),
-                    'group' => $groupIndex,
-                    'index' => $index,
-                    'separator' => false
-                ];
-                $collection->push($groupArray);
+            $entry = explode("=", $line, 2);
+            $groupArray = [
+                'key' => $entry[0],
+                'value' => array_get($entry, 1),
+                'group' => $groupIndex,
+                'index' => $index,
+                'separator' => false
+            ];
+            $collection->push($groupArray);
 
         }
 
@@ -74,18 +74,21 @@ class EnvFileContentManager
      */
     protected function getFileContents(string $file = '')
     {
+        $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
-        $envFile = $this->envEditor->getFilesManager()->getFilePath($file) ;
-
-        if (!File::exists($envFile)) {
+        if (!$this->filesystem->exists($envFile)) {
             throw new EnvException(__($this->package . '::exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
-        return File::get($envFile);
+        try {
+            return $this->filesystem->get($envFile);
+        } catch (\Exception $e) {
+            throw new EnvException(__($this->package . '::exceptions.fileNotExists', ['name' => $envFile]), 2);
+        }
+
     }
 
     /**
      * Save the new collection on .env file
-     *
      * @param Collection $envValues
      * @param  string    $fileName
      *
@@ -103,7 +106,7 @@ class EnvFileContentManager
         });
 
         $content = implode("\n", $env->toArray());
-        $result = File::put($this->envEditor->getFilesManager()->getFilePath($fileName), $content);
+        $result = $this->filesystem->put($this->envEditor->getFilesManager()->getFilePath($fileName), $content);
         return $result !== false;
     }
 

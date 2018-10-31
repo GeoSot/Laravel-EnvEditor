@@ -8,22 +8,18 @@ Management can be done through the user interface, or programmatically by using 
 <br/>
 The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor).
 
+*   [Installation](#installation)
+*   [Available Methods](#available_methods)
+*   [User Interface](#user_interface)
 
-* [Installation](#installation)
-* [Available Methods](#available_methods)
-* [User Interface](#user_interface)
-
-
-
-### <a name="installation">Installation:</a>
+    ## <a name="installation">Installation:</a>
 
 1. Install package
-
     ```bash
     composer require geo-sot/laravel-env-editor
     ```
     
- 2. Edit config/app.php (*Skip this step if you are using laravel 5.5+*)
+2. Edit config/app.php (*Skip this step if you are using laravel 5.5+*)
 
     Service provider:
 
@@ -44,9 +40,9 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
       ```
       
       This will publish all files:
-      * config -> env-editor.php
-      * views -> resources/views/vendor/geo-sot/env-editor/..
-      * lang -> resources/lang/vendor/geo-sot/env-editor.php
+    * config -> env-editor.php
+    * views -> resources/views/vendor/geo-sot/env-editor/..
+    * lang -> resources/lang/vendor/geo-sot/env-editor.php
       
      Or publish specific tags
 
@@ -61,19 +57,20 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
  
      ```
      
-### <a name="available_methods">Available Methods:</a>
+## <a name="available_methods">Available Methods:</a>
 
->- getEnvFileContent
->- keyExists
->- addKey
->- editKey
->- deleteKey
->- getAllBackUps
->- upload
->- backUpCurrent
->- getFilePath
->- deleteBackup
->- restoreBackUp
+>* getEnvFileContent
+>* keyExists
+>* getKey
+>* addKey
+>* editKey
+>* deleteKey
+>* getAllBackUps
+>* upload
+>* backUpCurrent
+>* getFilePath
+>* deleteBackup
+>* restoreBackUp
 
    ```php
      
@@ -120,47 +117,47 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
  <br/>
  
 
-### <a name="user_interface">User Interface</a>
+## <a name="user_interface">User Interface</a>
 
 User Interface Contains three Tabs 
 
  -  [Current .env](#current_env)
-    - [Add new Key](#add_key)
-    - [Edit Key](#edit_key)
-    - [Delete new Key](#delete_key)
+    * [Add new Key](#add_key)
+    * [Edit Key](#edit_key)
+    * [Delete new Key](#delete_key)
  - [Backups](#backups)
-   - [Backups Index](#backups_index)
-   - [Backup file details](#backup_file_details)
+   * [Backups Index](#backups_index)
+   * [Backup file details](#backup_file_details)
  - [Upload](#upload)
  
  <br/>
  
-#### ### <a name="current_env">Current .env </a>
+### <a name="current_env">Current .env </a>
 ![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/01_currentEnv.png)
 <br/>
 <br/>
-###### <a name="add_key">Add new key</a>
+#### <a name="add_key">Add new key</a>
 ![AddKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/02_addKey.png)
 <br/>
 <br/>
-###### <a name="edit_key">Edit key</a>
+#### <a name="edit_key">Edit key</a>
 ![EditKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/03_editKey.png)
 <br/>
 <br/>
-###### <a name="delete_key">Delete key</a>
+#### <a name="delete_key">Delete key</a>
 ![DeleteKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/04_deleteKey.png)
 <br/>
 <br/>
-#### <a name="backups">Backups</a>
-###### <a name="backups_index">Backups Index</a>
+### <a name="backups">Backups</a>
+#### <a name="backups_index">Backups Index</a>
 ![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/05_backupsIndex.png)
 <br/>
 <br/>
-###### <a name="backup_file_details">Backup file details</a>
+#### <a name="backup_file_details">Backup file details</a>
 ![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/06_backups_details.png)
 <br/>
 <br/>
-#### Upload
+### Upload
 ![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/07_upload.png)
 
    

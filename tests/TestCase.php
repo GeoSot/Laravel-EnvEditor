@@ -10,22 +10,20 @@ class TestCase extends OrchestraTestCase
 {
 	/**
 	 * Load package service provider
-	 * @param  \Illuminate\Foundation\Application $app
-	 * @return geo-s\env-editor\MyPackageServiceProvider
+     * @return geo-s\env-editor\ServiceProvider
 	 */
-	protected function getPackageProviders($app)
-	{
+	protected function getPackageProviders()
+    {
 		return [ServiceProvider::class];
 	}
 
 	/**
 	 * Load package alias
-	 * @param  \Illuminate\Foundation\Application $app
-	 * @return array
+ * @return array
 	 */
-	protected function getPackageAliases($app)
-	{
-		return [
+	protected function getPackageAliases()
+    {
+        return [
 			'env-editor' => EnvEditor::class,
 		];
 	}

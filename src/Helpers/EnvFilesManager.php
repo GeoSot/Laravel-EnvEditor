@@ -6,25 +6,26 @@ namespace GeoSot\EnvEditor\Helpers;
 use Carbon\Carbon;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 
 class EnvFilesManager
 {
 
     protected $envEditor;
     protected $package = 'env-editor';
+    protected $filesystem;
 
 
     /**
      * Constructor
-     *
      * @param  EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
         $this->envEditor = $envEditor;
+        $this->filesystem = new Filesystem();
         $this->makeBackupsDirectory();
     }
 
@@ -37,7 +38,7 @@ class EnvFilesManager
     public function getAllBackUps()
     {
 
-        $files = File::files($this->getBackupsDir() . '\\.');
+        $files = $this->filesystem->files($this->getBackupsDir() . '\\.');
         $collection = collect([]);
         foreach ($files as $file) {
 
@@ -50,7 +51,7 @@ class EnvFilesManager
                 'modified_at_formatted' => Carbon::createFromTimestamp($file->getMTime())->format($this->envEditor->config('timeFormat')),
                 'content' => $file->getContents(),
                 'path' => $file->getPath(),
-                'parsed_data' => $this->envEditor->getFileContentManager()->getParsedFileContent( $file->getFilename())
+                'parsed_data' => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename())
             ];
 
             $collection->push($data);
@@ -70,7 +71,7 @@ class EnvFilesManager
      */
     public function backUpCurrentEnv()
     {
-        return File::copy(
+        return $this->filesystem->copy(
             $this->getFilePath(),
             $this->getBackupsDir(true) . $this->makeBackUpFileName()
         );
@@ -86,18 +87,17 @@ class EnvFilesManager
      */
     public function restoreBackup(string $fileName)
     {
-        if (empty($fileName)){
+        if (empty($fileName)) {
             throw new EnvException(__($this->package . '::exceptions.provideFileName'), 1);
         }
         $file = $this->getFilePath($fileName);
-        return File::copy($file, $this->getFilePath());
+        return $this->filesystem->copy($file, $this->getFilePath());
     }
 
     /**
      * uploadBackup
-     *
-     * @param  UploadedFile $uploadedFile
-     * @param bool          $replaceCurrentEnv
+     * @param UploadedFile $uploadedFile
+     * @param bool         $replaceCurrentEnv
      *
      * @return \Symfony\Component\HttpFoundation\File\File
      */
@@ -115,14 +115,14 @@ class EnvFilesManager
      * @return  bool
      * @throws EnvException
      */
-    public function deleteBackup(string $fileName )
+    public function deleteBackup(string $fileName)
     {
-        if (empty($fileName)){
+        if (empty($fileName)) {
             throw new EnvException(__($this->package . '::exceptions.provideFileName'), 1);
         }
         $file = $this->getFilePath($fileName);
 
-        return File::delete($file);
+        return $this->filesystem->delete($file);
 
     }
 
@@ -130,7 +130,7 @@ class EnvFilesManager
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file
      * @param  string $fileName
      *
-     * @return  bool
+     * @return  string
      * @throws EnvException
      */
     public function getFilePath(string $fileName = '')
@@ -139,7 +139,7 @@ class EnvFilesManager
             $this->getEnvDir(true) . $this->getEnvFileName() :
             $this->getBackupsDir(true) . $fileName;
 
-        if (File::exists($path)) {
+        if ($this->filesystem->exists($path)) {
             return $path;
         } else {
             throw new EnvException(__($this->package . '::exceptions.fileNotExists', ['name' => $path]), 0);
@@ -150,6 +150,7 @@ class EnvFilesManager
 
     /**
      * Get the backup File Name
+     *
      * @return string
      */
     protected function makeBackUpFileName()
@@ -159,6 +160,7 @@ class EnvFilesManager
 
     /**
      * Get the .env File Name
+     *
      * @return string
      */
     protected function getEnvFileName()
@@ -166,11 +168,19 @@ class EnvFilesManager
         return $this->envEditor->config('envFileName');
     }
 
+    /**
+     * @param bool $appendSlash
+     * @return string
+     */
     public function getBackupsDir(bool $appendSlash = false)
     {
         return storage_path($this->envEditor->config('paths.backupDirectory')) . ($appendSlash ? '\\' : '');
     }
 
+    /**
+     * @param bool $appendSlash
+     * @return string
+     */
     public function getEnvDir(bool $appendSlash = false)
     {
         return $this->envEditor->config('paths.env') . ($appendSlash ? '\\' : '');
@@ -178,13 +188,12 @@ class EnvFilesManager
 
     /**
      *Checks if Backups directory Exists and creates it
-     * @return string
      */
     public function makeBackupsDirectory()
     {
         $path = $this->getBackupsDir();
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0755, true, true);
+        if (!$this->filesystem->exists($path)) {
+            $this->filesystem->makeDirectory($path, 0755, true, true);
         }
     }
 

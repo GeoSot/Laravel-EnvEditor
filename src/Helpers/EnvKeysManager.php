@@ -16,7 +16,6 @@ class EnvKeysManager
 
     /**
      * Constructor
-     *
      * @param  EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
@@ -26,7 +25,6 @@ class EnvKeysManager
 
     /**
      * Check if key Exist in Current env
-     *
      * @param string $key
      *
      * @return  bool
@@ -41,7 +39,6 @@ class EnvKeysManager
 
     /**
      * Add the  Key  on the Current Env
-     *
      * @param string $key
      * @param mixed  $default
      *
@@ -55,7 +52,6 @@ class EnvKeysManager
 
     /**
      * Add the  Key  on the Current Env
-     *
      * @param string $key
      * @param mixed  $value
      * @param array  $options
@@ -91,7 +87,6 @@ class EnvKeysManager
 
     /**
      * Deletes the Given Key form env
-     *
      * @param string $keyToChange
      * @param mixed  $newValue
      *
@@ -115,7 +110,6 @@ class EnvKeysManager
 
     /**
      * Deletes the Given Key form env
-     *
      * @param string $key
      *
      * @return  bool
