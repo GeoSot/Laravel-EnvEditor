@@ -1,6 +1,6 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9393e7e8eee54d749745f7115a075ecd)](https://www.codacy.com/app/geo.sotis/LaravelSettings?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GeoSot/LaravelSettings&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f494c7292af300b0c7fc/maintainability)](https://codeclimate.com/github/GeoSot/Laravel-EnvEditor/maintainability)
 [![License](https://poser.pugx.org/geo-sot/laravel-env-editor/license)](https://packagist.org/packages/geo-sot/laravel-env-editor)
-
 # Laravel .env Editor (plus GUI) 
 This Package allows to manage Laravel .env file values on the Fly (add, edit, delete keys), upload another .env or create backups
 <br/>
@@ -18,27 +18,19 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
     ```bash
     composer require geo-sot/laravel-env-editor
     ```
-    
 2. Edit config/app.php (*Skip this step if you are using laravel 5.5+*)
-
     Service provider:
-
     ```php
     GeoSot\EnvEditor\ServiceProvider::class
     ```
-
     Class aliases:
-
     ```php
     'EnvEditor' => GeoSot\\EnvEditor\\Facades\\EnvEditor::class
     ```
-
-3. Publish assets 
-
+ 3. Publish assets 
      ```bash
      php artisan vendor:publish --provider=GeoSot\EnvEditor\ServiceProvider     
-      ```
-      
+      ```      
       This will publish all files:
     * config -> env-editor.php
     * views -> resources/views/vendor/geo-sot/env-editor/..
