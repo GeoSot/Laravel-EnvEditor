@@ -18,6 +18,7 @@ class EnvFileContentManager
 
     /**
      * Constructor
+     *
      * @param  EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
@@ -28,6 +29,7 @@ class EnvFileContentManager
 
     /**
      * Parse the .env Contents
+     *
      * @param string $fileName
      *
      * @return Collection
@@ -48,10 +50,10 @@ class EnvFileContentManager
             }
             $entry = explode("=", $line, 2);
             $groupArray = [
-                'key' => $entry[0],
-                'value' => array_get($entry, 1),
-                'group' => $groupIndex,
-                'index' => $index,
+                'key'       => array_get($entry, 0),
+                'value'     => array_get($entry, 1),
+                'group'     => $groupIndex,
+                'index'     => $index,
                 'separator' => false
             ];
             $collection->push($groupArray);
@@ -67,6 +69,7 @@ class EnvFileContentManager
 
     /**
      * Get The File Contents
+     *
      * @param string $file
      *
      * @return mixed
@@ -89,6 +92,7 @@ class EnvFileContentManager
 
     /**
      * Save the new collection on .env file
+     *
      * @param Collection $envValues
      * @param  string    $fileName
      *

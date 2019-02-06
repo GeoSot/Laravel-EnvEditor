@@ -16,6 +16,7 @@ class EnvKeysManager
 
     /**
      * Constructor
+     *
      * @param  EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
@@ -25,6 +26,7 @@ class EnvKeysManager
 
     /**
      * Check if key Exist in Current env
+     *
      * @param string $key
      *
      * @return  bool
@@ -39,6 +41,7 @@ class EnvKeysManager
 
     /**
      * Add the  Key  on the Current Env
+     *
      * @param string $key
      * @param mixed  $default
      *
@@ -52,6 +55,7 @@ class EnvKeysManager
 
     /**
      * Add the  Key  on the Current Env
+     *
      * @param string $key
      * @param mixed  $value
      * @param array  $options
@@ -65,7 +69,8 @@ class EnvKeysManager
             throw new EnvException(__($this->package . '::exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $env = $this->getEnvData();
-        $givenGroup = array_get($options, 'group', false);
+        $givenGroup = array_get($options, 'group', null);
+
         $groupIndex = $givenGroup ?? $env->pluck('group')->unique()->sort()->last() + 1;
 
         if (!$givenGroup and !$env->last()['separator']) {
@@ -73,20 +78,28 @@ class EnvKeysManager
             $env->push($separator);
         }
 
+        $lastSameGroupIndex = $env->last(function ($value, $key) use ($givenGroup) {
+            return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) and !is_null($value['key']);
+        });
+
+
         $keyArray = [
-            'key' => $key,
-            'value' => $value,
-            'group' => $groupIndex,
-            'index' => array_get($options, 'index', $env->count() + 2),
+            'key'       => $key,
+            'value'     => $value,
+            'group'     => $groupIndex,
+            'index'     => array_get($options, 'index', $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
             'separator' => false
         ];
 
+
         $env->push($keyArray);
+
         return $this->envEditor->getFileContentManager()->save($env);
     }
 
     /**
      * Deletes the Given Key form env
+     *
      * @param string $keyToChange
      * @param mixed  $newValue
      *
@@ -110,6 +123,7 @@ class EnvKeysManager
 
     /**
      * Deletes the Given Key form env
+     *
      * @param string $key
      *
      * @return  bool
@@ -132,15 +146,16 @@ class EnvKeysManager
     /**
      * @param $groupIndex
      * @param $index
+     *
      * @return array
      */
     public function getKeysSeparator($groupIndex, $index)
     {
         $groupArray = [
-            'key' => '',
-            'value' => '',
-            'group' => $groupIndex,
-            'index' => $index,
+            'key'       => '',
+            'value'     => '',
+            'group'     => $groupIndex,
+            'index'     => $index,
             'separator' => true
         ];
         return $groupArray;

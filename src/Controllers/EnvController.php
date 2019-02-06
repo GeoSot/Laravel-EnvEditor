@@ -159,7 +159,7 @@ class EnvController extends Controller
     {
         if (!empty($translationWord) and $success) {
             $data = array_merge($data, [
-                'message' => __($this->package . "::general.controllerMessages.$translationWord", ['name' => $keyName])
+                'message' => __($this->package . "::env-editor.controllerMessages.$translationWord", ['name' => $keyName])
             ]);
         }
         return response()

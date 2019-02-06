@@ -22,7 +22,7 @@ return [
     */
     'route' => [
         // Prefix url for route Group
-        'prefix' => 'editor',
+        'prefix' => 'env-editor',
         // Routes base name
         'name' => 'env-editor',
         // Middleware(s) applied on route Group
