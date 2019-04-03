@@ -22,7 +22,7 @@
                     <template v-for="(item, index) in items">
                         <tr :key="item.real_name" :bind="item">
                             <th scope="row" class="font-weight-bold ">@{{ item.name }}</th>
-                            <td>@{{ item.created_at_formatted }}</td>
+                            <td>@{{ item.crated_at_formatted }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button class="btn btn-info" data-toggle="collapse" aria-expanded="false"

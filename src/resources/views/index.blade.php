@@ -40,16 +40,13 @@
     </div>
 
 
-    @include('env-editor::components._itemModal')
-    @include('env-editor::components._currentEnv')
-    @include('env-editor::components._upload')
-    @include('env-editor::components._backup')
+
 
 @stop
-
-
-
-
+@include('env-editor::components._itemModal')
+@include('env-editor::components._currentEnv')
+@include('env-editor::components._upload')
+@include('env-editor::components._backup')
 @push('scripts')
     <script>
         window.envEventBus = new Vue();
@@ -69,10 +66,12 @@
             }, 3000)
 
         };
-        Vue.component('env-main-tab', itemsWrapper);
-        Vue.component('env-keys-modal', itemsModal);
-        Vue.component('env-file-upload', fileUpload);
-        Vue.component('env-editor-backups', backUps);
-        const env = new Vue({el: '#env-editor'})
+
+        const env = new Vue({el: '#env-editor',  components: {
+                'env-main-tab':itemsWrapper,
+                'env-keys-modal':itemsModal,
+                'env-file-upload':fileUpload,
+                'env-editor-backups':backUps
+            }})
     </script>
 @endpush
