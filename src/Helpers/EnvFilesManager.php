@@ -174,7 +174,7 @@ class EnvFilesManager
      */
     public function getBackupsDir(bool $appendSlash = false)
     {
-        return storage_path($this->envEditor->config('paths.backupDirectory')) . ($appendSlash ? '\\' : '');
+        return storage_path($this->envEditor->config('paths.backupDirectory')) . (DIRECTORY_SEPARATOR ? '\\' : '');
     }
 
     /**
@@ -183,7 +183,7 @@ class EnvFilesManager
      */
     public function getEnvDir(bool $appendSlash = false)
     {
-        return $this->envEditor->config('paths.env') . ($appendSlash ? '\\' : '');
+        return $this->envEditor->config('paths.env') . ($appendSlash ? DIRECTORY_SEPARATOR : '');
     }
 
     /**
