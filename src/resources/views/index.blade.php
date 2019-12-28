@@ -62,16 +62,19 @@
             let $html = alert.replace('__type__', $type).replace('__text__', $text).replace('__id__', $id);
             $('#env-alerts').append($html);
             setTimeout(() => {
-                $('#'+$id).alert('close')
+                $('#' + $id).alert('close')
             }, 3000)
 
         };
 
-        const env = new Vue({el: '#env-editor',  components: {
-                'env-main-tab':itemsWrapper,
-                'env-keys-modal':itemsModal,
-                'env-file-upload':fileUpload,
-                'env-editor-backups':backUps
-            }})
+        const dotEnv = new Vue({
+            el: '#env-editor',
+            components: {
+                'env-main-tab': itemsWrapper,
+                'env-keys-modal': itemsModal,
+                'env-file-upload': fileUpload,
+                'env-editor-backups': backUps
+            }
+        })
     </script>
 @endpush

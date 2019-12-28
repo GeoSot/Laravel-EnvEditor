@@ -21,8 +21,8 @@
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-info" @click="edit(item)" title="{{__($translatePrefix.'btn.edit')}}"><span class="fa fa-edit"></span></button>
-                            <button class="btn btn-secondary" @click="addAfter(item)"  title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fa fa-share"></span></button>
-                            <button class="btn btn-danger" @click="remove(item)"  title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
+                            <button class="btn btn-secondary" @click="addAfter(item)" title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fa fa-share"></span></button>
+                            <button class="btn btn-danger" @click="remove(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
                         </div>
                     </td>
                 </tr>
@@ -45,7 +45,7 @@
                 template: '#env-editor-main-tab',
                 data: () => {
                     return {
-                        items: []
+                        items: [],
                     }
                 },
                 mounted() {
@@ -55,15 +55,19 @@
                     this.getItemsWithAjax()
                 },
                 methods: {
+                    getKeysModal() {
+                        console.log(this.$parent)
+                        return this.$parent.$refs.keysModal;
+                    },
                     edit: function (item) {
-                        env.$refs.keysModal.makeReadOnly('key');
-                        env.$refs.keysModal.show('edit', item);
+                        this.getKeysModal().makeReadOnly('key');
+                        this.getKeysModal().show('edit', item);
                     },
                     addNew() {
-                        env.$refs.keysModal.show('new');
+                        this.getKeysModal().show('new');
                     },
                     addAfter(item) {
-                        env.$refs.keysModal.show('new', {
+                        this.getKeysModal().show('new', {
                             key: null,
                             value: null,
                             group: item.group,
@@ -71,13 +75,13 @@
                         });
                     },
                     remove(item) {
-                        env.$refs.keysModal.makeReadOnly();
-                        env.$refs.keysModal.show('delete', item);
+                        this.getKeysModal().makeReadOnly();
+                        this.getKeysModal().show('delete', item);
                     },
                     getItemsWithAjax() {
                         axios.get('{{route(config($package.'.route.name').'.index')}}').then((response) => {
                             this.items = response.data.items;
-                        }).catch((error)=>{
+                        }).catch((error) => {
                             envAlert('danger', error.response.data.message);
                         })
                     }

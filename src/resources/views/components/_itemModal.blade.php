@@ -124,6 +124,7 @@
                 submit() {
                     axios({
                         method: this.getAjaxMethod(),
+                        _token:'{{csrf_token()}}',
                         url: '{{route(config($package.'.route.name').'.key')}}',
                         data: this.modalItem
                     }).then((response) => {

@@ -50,8 +50,8 @@ class EnvFileContentManager
             }
             $entry = explode("=", $line, 2);
             $groupArray = [
-                'key'       => array_get($entry, 0),
-                'value'     => array_get($entry, 1),
+                'key'       => Arr::get($entry, 0),
+                'value'     => Arr::get($entry, 1),
                 'group'     => $groupIndex,
                 'index'     => $index,
                 'separator' => false
