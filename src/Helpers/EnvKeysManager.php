@@ -5,6 +5,7 @@ namespace GeoSot\EnvEditor\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class EnvKeysManager
@@ -69,7 +70,7 @@ class EnvKeysManager
             throw new EnvException(__($this->package . '::exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $env = $this->getEnvData();
-        $givenGroup = array_get($options, 'group', null);
+        $givenGroup = Arr::get($options, 'group', null);
 
         $groupIndex = $givenGroup ?? $env->pluck('group')->unique()->sort()->last() + 1;
 
@@ -87,7 +88,7 @@ class EnvKeysManager
             'key'       => $key,
             'value'     => $value,
             'group'     => $groupIndex,
-            'index'     => array_get($options, 'index', $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
+            'index'     => Arr::get($options, 'index', $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
             'separator' => false
         ];
 

@@ -50,6 +50,17 @@
             },
             mounted() {
                 this.modalItem = this.newModalItem();
+
+                envEventBus.$on('env:item:edit', (item) => {
+                    this.makeReadOnly('key');
+                    this.show('edit', item);
+                }).$on('env:item:delete', (item) => {
+                    this.makeReadOnly('key');
+                    this.makeReadOnly('value');
+                    this.show('delete', item);
+                }).$on('env:item:new', (item) => {
+                    this.show('new', item);
+                });
             },
             computed: {
                 submitBtn() {
@@ -124,6 +135,7 @@
                 submit() {
                     axios({
                         method: this.getAjaxMethod(),
+                        _token:'{{csrf_token()}}',
                         url: '{{route(config($package.'.route.name').'.key')}}',
                         data: this.modalItem
                     }).then((response) => {

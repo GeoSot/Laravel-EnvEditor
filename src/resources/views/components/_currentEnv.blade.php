@@ -21,8 +21,8 @@
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-info" @click="edit(item)" title="{{__($translatePrefix.'btn.edit')}}"><span class="fa fa-edit"></span></button>
-                            <button class="btn btn-secondary" @click="addAfter(item)"  title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fa fa-share"></span></button>
-                            <button class="btn btn-danger" @click="remove(item)"  title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
+                            <button class="btn btn-secondary" @click="addAfter(item)" title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fa fa-share"></span></button>
+                            <button class="btn btn-danger" @click="remove(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
                         </div>
                     </td>
                 </tr>
@@ -45,7 +45,7 @@
                 template: '#env-editor-main-tab',
                 data: () => {
                     return {
-                        items: []
+                        items: [],
                     }
                 },
                 mounted() {
@@ -56,28 +56,28 @@
                 },
                 methods: {
                     edit: function (item) {
-                        env.$refs.keysModal.makeReadOnly('key');
-                        env.$refs.keysModal.show('edit', item);
+                        envEventBus.$emit('env:item:edit', item);
                     },
                     addNew() {
-                        env.$refs.keysModal.show('new');
+                        envEventBus.$emit('env:item:new');
                     },
                     addAfter(item) {
-                        env.$refs.keysModal.show('new', {
+                        let oldItem = {
                             key: null,
                             value: null,
                             group: item.group,
                             index: item.index + 0.1,
-                        });
+                        }
+
+                        envEventBus.$emit('env:item:new', oldItem);
                     },
                     remove(item) {
-                        env.$refs.keysModal.makeReadOnly();
-                        env.$refs.keysModal.show('delete', item);
+                        envEventBus.$emit('env:item:delete', item);
                     },
                     getItemsWithAjax() {
                         axios.get('{{route(config($package.'.route.name').'.index')}}').then((response) => {
                             this.items = response.data.items;
-                        }).catch((error)=>{
+                        }).catch((error) => {
                             envAlert('danger', error.response.data.message);
                         })
                     }

@@ -7,6 +7,7 @@ namespace GeoSot\EnvEditor\Helpers;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class EnvFileContentManager
@@ -50,8 +51,8 @@ class EnvFileContentManager
             }
             $entry = explode("=", $line, 2);
             $groupArray = [
-                'key'       => array_get($entry, 0),
-                'value'     => array_get($entry, 1),
+                'key'       => Arr::get($entry, 0),
+                'value'     => Arr::get($entry, 1),
                 'group'     => $groupIndex,
                 'index'     => $index,
                 'separator' => false
