@@ -2,10 +2,10 @@
 @php($translatePrefix='env-editor::env-editor.')
 
 @extends(config("$package.layout"))
-
-@section('documentTitle') <i class="fa fa-cog" aria-hidden="true"></i>
-{{trans('env-editor::env-editor.env-editorListing')}}
-@stop
+@push('documentTitle')
+    <i class="fa fa-cog" aria-hidden="true"></i>
+{{trans('env-editor::env-editor.menuTitle')}}
+@endpush
 
 @section('content')
 

@@ -2,7 +2,7 @@
 
 return [
 
-
+    'menuTitle' => '.env Editor',
     'controllerMessages' => [
         'backupWasCreated' => 'A new backup was created',
         'fileWasRestored' => 'The backup file ":name", was restored as default .env',

@@ -20,7 +20,8 @@
 <body>
 <div id="app" class="container-fluid ">
 
-    <div id="body-wrapper" class="py-5 px-2">
+    <div id="body-wrapper" class="py-5 px-2"
+        <h1>@stack('documentTitle')</h1>>
         <main class="" role="main" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/Table">
             @yield('content')
         </main>
