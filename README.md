@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9393e7e8eee54d749745f7115a075ecd)](https://www.codacy.com/app/geo.sotis/LaravelSettings?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GeoSot/LaravelSettings&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bdb3a7b58b5d4efc9dbf07be99ae84df)](https://www.codacy.com/manual/geo.sotis/Laravel-EnvEditor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GeoSot/Laravel-EnvEditor&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f494c7292af300b0c7fc/maintainability)](https://codeclimate.com/github/GeoSot/Laravel-EnvEditor/maintainability)
 [![License](https://poser.pugx.org/geo-sot/laravel-env-editor/license)](https://packagist.org/packages/geo-sot/laravel-env-editor)
 # Laravel .env Editor (plus GUI) 
