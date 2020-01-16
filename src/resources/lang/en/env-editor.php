@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'menuTitle' => '.env Editor',
     'controllerMessages' => [
         'backupWasCreated' => 'A new backup was created',

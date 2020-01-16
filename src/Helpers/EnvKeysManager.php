@@ -18,7 +18,7 @@ class EnvKeysManager
     /**
      * Constructor
      *
-     * @param  EnvEditor $envEditor
+     * @param  EnvEditor  $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -28,7 +28,7 @@ class EnvKeysManager
     /**
      * Check if key Exist in Current env
      *
-     * @param string $key
+     * @param  string  $key
      *
      * @return  bool
      * @throws EnvException
@@ -43,8 +43,8 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param  string  $key
+     * @param  mixed  $default
      *
      * @return mixed
      * @throws EnvException
@@ -57,9 +57,9 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param array  $options
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  array  $options
      *
      * @return  bool
      * @throws EnvException
@@ -67,7 +67,7 @@ class EnvKeysManager
     public function addKey(string $key, $value, array $options = [])
     {
         if ($this->keyExists($key)) {
-            throw new EnvException(__($this->package . '::exceptions.keyAlreadyExists', ['name' => $key]), 0);
+            throw new EnvException(__($this->package.'::exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $env = $this->getEnvData();
         $givenGroup = Arr::get($options, 'group', null);
@@ -85,10 +85,11 @@ class EnvKeysManager
 
 
         $keyArray = [
-            'key'       => $key,
-            'value'     => $value,
-            'group'     => $groupIndex,
-            'index'     => Arr::get($options, 'index', $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
+            'key' => $key,
+            'value' => $value,
+            'group' => $groupIndex,
+            'index' => Arr::get($options, 'index',
+                $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
             'separator' => false
         ];
 
@@ -101,8 +102,8 @@ class EnvKeysManager
     /**
      * Deletes the Given Key form env
      *
-     * @param string $keyToChange
-     * @param mixed  $newValue
+     * @param  string  $keyToChange
+     * @param  mixed  $newValue
      *
      * @return  bool
      * @throws EnvException
@@ -110,7 +111,7 @@ class EnvKeysManager
     public function editKey(string $keyToChange, $newValue)
     {
         if (!$this->keyExists($keyToChange)) {
-            throw  new EnvException(__($this->package . '::exceptions.keyNotExists', ['name' => $keyToChange]), 11);
+            throw  new EnvException(__($this->package.'::exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
         $env = $this->getEnvData();
         $newEnv = $env->map(function ($item) use ($keyToChange, $newValue) {
@@ -125,7 +126,7 @@ class EnvKeysManager
     /**
      * Deletes the Given Key form env
      *
-     * @param string $key
+     * @param  string  $key
      *
      * @return  bool
      * @throws EnvException
@@ -133,7 +134,7 @@ class EnvKeysManager
     public function deleteKey(string $key)
     {
         if (!$this->keyExists($key)) {
-            throw  new EnvException(__($this->package . '::exceptions.keyNotExists', ['name' => $key]), 10);
+            throw  new EnvException(__($this->package.'::exceptions.keyNotExists', ['name' => $key]), 10);
         }
         $env = $this->getEnvData();
         $newEnv = $env->filter(function ($item) use ($key) {
@@ -153,10 +154,10 @@ class EnvKeysManager
     public function getKeysSeparator($groupIndex, $index)
     {
         $groupArray = [
-            'key'       => '',
-            'value'     => '',
-            'group'     => $groupIndex,
-            'index'     => $index,
+            'key' => '',
+            'value' => '',
+            'group' => $groupIndex,
+            'index' => $index,
             'separator' => true
         ];
         return $groupArray;

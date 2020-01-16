@@ -2,11 +2,14 @@
 
 namespace GeoSot\EnvEditor\Controllers;
 
-use App\Http\Controllers\Controller;
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class EnvController extends Controller
+class EnvController extends BaseController
 {
     protected $package = 'env-editor';
 
@@ -14,7 +17,7 @@ class EnvController extends Controller
     /**
      * Display main view with the Collection of current .env values
      *
-     * @return \Illuminate\Http\Response
+     * @return Response|View
      */
     public function index()
     {
@@ -22,26 +25,27 @@ class EnvController extends Controller
         if (request()->wantsJson()) {
             return $this->returnGenericResponse(true, ['items' => $envValues]);
         }
-        return view($this->package . '::index', compact('envValues'));
+        return view($this->package.'::index', compact('envValues'));
     }
 
     /**
      * Add a new key on current .env file
-     * @param Request $request
+     * @param  Request  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function addKey(Request $request)
     {
-        $result = EnvEditor::addKey($request->input('key'), $request->input('value'), $request->except(['key', 'value']));
+        $result = EnvEditor::addKey($request->input('key'), $request->input('value'),
+            $request->except(['key', 'value']));
         return $this->returnGenericResponse($result, [], 'keyWasAdded', $request->input('key'));
     }
 
     /**
      * Edit a key of current .env file
-     * @param Request $request
+     * @param  Request  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function editKey(Request $request)
     {
@@ -51,9 +55,9 @@ class EnvController extends Controller
 
     /**
      * Delete a key from current .env file
-     * @param Request $request
+     * @param  Request  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function deleteKey(Request $request)
     {
@@ -65,7 +69,7 @@ class EnvController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|Response
      */
     public function getBackupFiles()
     {
@@ -73,13 +77,13 @@ class EnvController extends Controller
         if (request()->wantsJson()) {
             return $this->returnGenericResponse(true, ['items' => $backUpFiles]);
         }
-        return view($this->package . '::index', compact('backUpFiles'));
+        return view($this->package.'::index', compact('backUpFiles'));
     }
 
     /**
      * Create BackUp of .env File
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function createBackup()
     {
@@ -91,8 +95,8 @@ class EnvController extends Controller
     /**
      * Restore Backup file
      *
-     * @param string $filename
-     * @return \Illuminate\Http\Response
+     * @param  string  $filename
+     * @return Response
      */
     public function restoreBackup(string $filename)
     {
@@ -104,8 +108,8 @@ class EnvController extends Controller
     /**
      * Delete Backup file
      *
-     * @param string $filename
-     * @return \Illuminate\Http\Response
+     * @param  string  $filename
+     * @return Response
      */
     public function destroyBackup(string $filename)
     {
@@ -117,8 +121,8 @@ class EnvController extends Controller
     /**
      * Get Files As Download
      *
-     * @param string $filename
-     * @return \Illuminate\Http\Response
+     * @param  string  $filename
+     * @return BinaryFileResponse
      */
     public function download(string $filename = '')
     {
@@ -130,8 +134,8 @@ class EnvController extends Controller
     /**
      * Upload File As BackUp or replace Current .Env
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function upload(Request $request)
     {
@@ -148,24 +152,27 @@ class EnvController extends Controller
     /**
      * Generic ajax response
      *
-     * @param  bool   $success
+     * @param  bool  $success
      * @param  array  $data
-     * @param  string $translationWord
-     * @param  string $keyName
+     * @param  string  $translationWord
+     * @param  string  $keyName
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    protected function returnGenericResponse(bool $success, array $data = [], string $translationWord = '', string $keyName = '')
-    {
+    protected function returnGenericResponse(
+        bool $success,
+        array $data = [],
+        string $translationWord = '',
+        string $keyName = ''
+    ) {
         if (!empty($translationWord) and $success) {
             $data = array_merge($data, [
-                'message' => __($this->package . "::env-editor.controllerMessages.$translationWord", ['name' => $keyName])
+                'message' => __($this->package."::env-editor.controllerMessages.$translationWord", ['name' => $keyName])
             ]);
         }
-        return response()
-            ->json(array_merge($data, [
-                'success' => $success,
-            ]));
+        return response()->json(array_merge($data, [
+            'success' => $success,
+        ]));
     }
 
 }
