@@ -126,31 +126,31 @@ User Interface Contains three Tabs
  <br/>
  
 ### <a name="current_env">Current .env </a>
-![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/01_currentEnv.png)
+![Overview](https://user-images.githubusercontent.com/22406063/73443980-60500600-4360-11ea-9d60-7ddf335cfa11.png)
 <br/>
 <br/>
 #### <a name="add_key">Add new key</a>
-![AddKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/02_addKey.png)
+![AddKey](https://user-images.githubusercontent.com/22406063/73443992-65ad5080-4360-11ea-9311-7ad53a207298.png)
 <br/>
 <br/>
 #### <a name="edit_key">Edit key</a>
-![EditKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/03_editKey.png)
+![EditKey](https://user-images.githubusercontent.com/22406063/73443996-66de7d80-4360-11ea-879c-365d87b08610.png)
 <br/>
 <br/>
 #### <a name="delete_key">Delete key</a>
-![DeleteKey](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/04_deleteKey.png)
+![DeleteKey](https://user-images.githubusercontent.com/22406063/73443999-68a84100-4360-11ea-8955-371fcfc0c1b5.png)
 <br/>
 <br/>
 ### <a name="backups">Backups</a>
 #### <a name="backups_index">Backups Index</a>
-![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/05_backupsIndex.png)
+![Overview](https://user-images.githubusercontent.com/22406063/73444004-6a720480-4360-11ea-9260-2f3978b828ca.png)
 <br/>
 <br/>
 #### <a name="backup_file_details">Backup file details</a>
-![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/06_backups_details.png)
+![Overview](https://user-images.githubusercontent.com/22406063/73444009-6c3bc800-4360-11ea-9f36-5d50571a84aa.png)
 <br/>
 <br/>
 ### Upload
-![Overview](https://raw.githubusercontent.com/GeoSot/Laravel-EnvEditor/master/images/07_upload.png)
+![Overview](https://user-images.githubusercontent.com/22406063/73444015-6e058b80-4360-11ea-80b0-c60f837392ba.png)
 
    
