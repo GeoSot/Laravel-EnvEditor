@@ -81,7 +81,7 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
      // As options can pass ['index'=>'someNumericIndex'] in order to place the new key after an other and not in the end,
      // or ['group'=>'MAIL/APP etc'] to place the new key oat the end of the group 
  
-     EnvEditor::editKey($key, $nvalue)
+     EnvEditor::editKey($key, $value)
      // Edits existing key value
  
      EnvEditor::deleteKey($key)    
