@@ -1,0 +1,8 @@
+preset: laravel
+
+finder:
+  exclude:
+    - "tests"
+    - "storage"
+    - "vendor"
+    - "src/resources"
