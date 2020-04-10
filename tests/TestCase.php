@@ -1,30 +1,56 @@
 <?php
 
-namespace lasselehtinen\MyPackage\Test;
+namespace GeoSot\EnvEditor\Tests;
 
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\ServiceProvider;
+use Illuminate\Filesystem\Filesystem;
+use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
+/**
+ * Class TestCase
+ *
+ * @package env-editor
+ *
+ */
 class TestCase extends OrchestraTestCase
 {
-	/**
-	 * Load package service provider
-     * @return geo-s\env-editor\ServiceProvider
-	 */
-	protected function getPackageProviders()
-    {
-		return [ServiceProvider::class];
-	}
+    private $tempDir;
 
-	/**
-	 * Load package alias
- * @return array
-	 */
-	protected function getPackageAliases()
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // set up database configuration
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getPackageProviders($app)
     {
         return [
-			'env-editor' => EnvEditor::class,
-		];
-	}
+            ServiceProvider::class
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getPackageAliases($app)
+    {
+        return [
+            'env-editor' => EnvEditor::class,
+        ];
+    }
 }

@@ -35,10 +35,10 @@ class EnvFilesManager
      * @return  Collection
      * @throws EnvException
      */
-    public function getAllBackUps()
+    public function getAllBackUps(): Collection
     {
 
-        $files = $this->filesystem->files($this->getBackupsDir().'\\.');
+        $files = $this->filesystem->files($this->getBackupsDir());
         $collection = collect([]);
         foreach ($files as $file) {
 
@@ -57,9 +57,7 @@ class EnvFilesManager
             $collection->push($data);
         }
 
-        $filtered = $collection->sortByDesc('created_at');
-
-        return $filtered;
+        return $collection->sortByDesc('created_at');
     }
 
     /**
@@ -69,11 +67,11 @@ class EnvFilesManager
      * @return bool
      * @throws EnvException
      */
-    public function backUpCurrentEnv()
+    public function backUpCurrentEnv(): bool
     {
         return $this->filesystem->copy(
             $this->getFilePath(),
-            $this->getBackupsDir(true).$this->makeBackUpFileName()
+            $this->getBackupsDir($this->makeBackUpFileName())
         );
     }
 
@@ -85,12 +83,12 @@ class EnvFilesManager
      * @return  bool
      * @throws EnvException
      */
-    public function restoreBackup(string $fileName)
+    public function restoreBackup(string $fileName): bool
     {
         if (empty($fileName)) {
             throw new EnvException(__($this->package.'::exceptions.provideFileName'), 1);
         }
-        $file = $this->getFilePath($fileName);
+        $file = $this->getBackupsDir($fileName);
         return $this->filesystem->copy($file, $this->getFilePath());
     }
 
@@ -101,7 +99,7 @@ class EnvFilesManager
      *
      * @return \Symfony\Component\HttpFoundation\File\File
      */
-    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv)
+    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): bool
     {
         return $replaceCurrentEnv ?
             $uploadedFile->move($this->getEnvDir(), $this->getEnvFileName()) :
@@ -115,7 +113,7 @@ class EnvFilesManager
      * @return bool
      * @throws EnvException
      */
-    public function deleteBackup(string $fileName)
+    public function deleteBackup(string $fileName): bool
     {
         if (empty($fileName)) {
             throw new EnvException(__($this->package.'::exceptions.provideFileName'), 1);
@@ -133,11 +131,11 @@ class EnvFilesManager
      * @return string
      * @throws EnvException
      */
-    public function getFilePath(string $fileName = '')
+    public function getFilePath(string $fileName = ''): string
     {
         $path = (empty($fileName))
-            ? $this->getEnvDir(true).$this->getEnvFileName()
-            : $this->getBackupsDir(true).$fileName;
+            ? $this->getEnvDir($this->getEnvFileName())
+            : $this->getBackupsDir($fileName);
 
         if ($this->filesystem->exists($path)) {
             return $path;
@@ -151,7 +149,7 @@ class EnvFilesManager
      *
      * @return string
      */
-    protected function makeBackUpFileName()
+    protected function makeBackUpFileName(): string
     {
         return 'env_'.date('Y-m-d_His');
     }
@@ -161,33 +159,33 @@ class EnvFilesManager
      *
      * @return string
      */
-    protected function getEnvFileName()
+    protected function getEnvFileName(): string
     {
         return $this->envEditor->config('envFileName');
     }
 
     /**
-     * @param  bool  $appendSlash
+     * @param  string  $path
      * @return string
      */
-    public function getBackupsDir(bool $appendSlash = false)
+    public function getBackupsDir(string $path = ''): string
     {
-        return storage_path($this->envEditor->config('paths.backupDirectory')).($appendSlash ? DIRECTORY_SEPARATOR : '');
+        return storage_path($this->envEditor->config('paths.backupDirectory')).($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
-     * @param  bool  $appendSlash
+     * @param  string  $path
      * @return string
      */
-    public function getEnvDir(bool $appendSlash = false)
+    public function getEnvDir(string $path = ''): string
     {
-        return $this->envEditor->config('paths.env').($appendSlash ? DIRECTORY_SEPARATOR : '');
+        return $this->envEditor->config('paths.env').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
      *Checks if Backups directory Exists and creates it
      */
-    public function makeBackupsDirectory()
+    public function makeBackupsDirectory(): void
     {
         $path = $this->getBackupsDir();
         if (!$this->filesystem->exists($path)) {

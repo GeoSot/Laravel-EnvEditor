@@ -15,15 +15,24 @@
     }
   ],
   "require": {
-    "php": "^7.0"
+    "php": "^7.1",
+    "laravel/framework": "^5.5"
   },
   "require-dev": {
-    "laravel/framework": "5.5.x"
+    "orchestra/testbench": "^3"
   },
   "autoload": {
     "psr-4": {
       "GeoSot\\EnvEditor\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GeoSot\\EnvEditor\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
   },
   "extra": {
     "branch-alias": {
@@ -39,12 +48,7 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload-dev": {
-    "psr-4": {
-      "GeoSot\\EnvEditor\\": "tests/"
-    }
-  }
+  "prefer-stable": true
 }
 
 

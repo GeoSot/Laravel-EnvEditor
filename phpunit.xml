@@ -8,10 +8,10 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="true">
     <testsuites>
-        <testsuite name="MyPackage Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Env Editor Suite">
+            <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
