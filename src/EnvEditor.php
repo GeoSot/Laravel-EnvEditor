@@ -23,7 +23,7 @@ class EnvEditor
     /**
      * Constructor.
      *
-     * @param  array  $config
+     * @param array $config
      */
     public function __construct($config = [])
     {
@@ -36,11 +36,11 @@ class EnvEditor
     /**
      * Parse the .env Contents.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return Collection
      * @throws EnvException
      *
+     * @return Collection
      */
     public function getEnvFileContent(string $fileName = '')
     {
@@ -50,11 +50,11 @@ class EnvEditor
     /**
      * Check if key Exist in Current env.
      *
-     * @param  string  $key
+     * @param string $key
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function keyExists(string $key)
     {
@@ -64,12 +64,12 @@ class EnvEditor
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
      *
-     * @return mixed
      * @throws EnvException
      *
+     * @return mixed
      */
     public function getKey(string $key, $default = null)
     {
@@ -79,13 +79,13 @@ class EnvEditor
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $options
+     * @param string $key
+     * @param mixed  $value
+     * @param array  $options
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function addKey(string $key, $value, array $options = [])
     {
@@ -95,12 +95,12 @@ class EnvEditor
     /**
      * Edits the Given Key  env.
      *
-     * @param  string  $keyToChange
-     * @param  mixed  $newValue
+     * @param string $keyToChange
+     * @param mixed  $newValue
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function editKey(string $keyToChange, $newValue)
     {
@@ -110,11 +110,11 @@ class EnvEditor
     /**
      * Deletes the Given Key form env.
      *
-     * @param  string  $key
+     * @param string $key
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function deleteKey(string $key)
     {
@@ -124,9 +124,9 @@ class EnvEditor
     /**
      * Get all Backup Files.
      *
-     * @return Collection
      * @throws EnvException
      *
+     * @return Collection
      */
     public function getAllBackUps()
     {
@@ -136,8 +136,8 @@ class EnvEditor
     /**
      * uploadBackup.
      *
-     * @param  UploadedFile  $uploadedFile
-     * @param  bool  $replaceCurrentEnv
+     * @param UploadedFile $uploadedFile
+     * @param bool         $replaceCurrentEnv
      *
      * @return \Symfony\Component\HttpFoundation\File\File
      */
@@ -150,9 +150,9 @@ class EnvEditor
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function backUpCurrent()
     {
@@ -162,11 +162,11 @@ class EnvEditor
     /**
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return string
      * @throws EnvException
      *
+     * @return string
      */
     public function getFilePath(string $fileName = '')
     {
@@ -176,11 +176,11 @@ class EnvEditor
     /**
      * Delete the given backup-file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function deleteBackup(string $fileName)
     {
@@ -190,11 +190,11 @@ class EnvEditor
     /**
      * Restore  the given backup-file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function restoreBackUp(string $fileName)
     {
@@ -202,8 +202,8 @@ class EnvEditor
     }
 
     /**
-     * @param  string  $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */

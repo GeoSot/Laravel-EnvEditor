@@ -17,7 +17,7 @@ class EnvFileContentManager
     /**
      * Constructor.
      *
-     * @param  EnvEditor  $envEditor
+     * @param EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -28,11 +28,11 @@ class EnvFileContentManager
     /**
      * Parse the .env Contents.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return Collection
      * @throws EnvException
      *
+     * @return Collection
      */
     public function getParsedFileContent(string $fileName = '')
     {
@@ -49,10 +49,10 @@ class EnvFileContentManager
             }
             $entry = explode('=', $line, 2);
             $groupArray = [
-                'key' => Arr::get($entry, 0),
-                'value' => Arr::get($entry, 1),
-                'group' => $groupIndex,
-                'index' => $index,
+                'key'       => Arr::get($entry, 0),
+                'value'     => Arr::get($entry, 1),
+                'group'     => $groupIndex,
+                'index'     => $index,
                 'separator' => false,
             ];
             $collection->push($groupArray);
@@ -68,11 +68,11 @@ class EnvFileContentManager
     /**
      * Get The File Contents.
      *
-     * @param  string  $file
+     * @param string $file
      *
-     * @return mixed
      * @throws EnvException
      *
+     * @return mixed
      */
     protected function getFileContents(string $file = '')
     {
@@ -92,12 +92,12 @@ class EnvFileContentManager
     /**
      * Save the new collection on .env file.
      *
-     * @param  Collection  $envValues
-     * @param  string  $fileName
+     * @param Collection $envValues
+     * @param string     $fileName
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function save(Collection $envValues, string $fileName = '')
     {

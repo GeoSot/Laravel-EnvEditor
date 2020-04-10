@@ -18,7 +18,7 @@ class EnvFilesManager
     /**
      * Constructor.
      *
-     * @param  EnvEditor  $envEditor
+     * @param EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -30,9 +30,9 @@ class EnvFilesManager
     /**
      * Get all Backup Files.
      *
-     * @return Collection
      * @throws EnvException
      *
+     * @return Collection
      */
     public function getAllBackUps(): Collection
     {
@@ -40,15 +40,15 @@ class EnvFilesManager
         $collection = collect([]);
         foreach ($files as $file) {
             $data = [
-                'real_name' => $file->getFilename(),
-                'name' => $file->getFilename(),
-                'crated_at' => $file->getCTime(),
-                'modified_at' => $file->getMTime(),
-                'created_at_formatted' => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
+                'real_name'             => $file->getFilename(),
+                'name'                  => $file->getFilename(),
+                'crated_at'             => $file->getCTime(),
+                'modified_at'           => $file->getMTime(),
+                'created_at_formatted'  => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
                 'modified_at_formatted' => Carbon::createFromTimestamp($file->getMTime())->format($this->envEditor->config('timeFormat')),
-                'content' => $file->getContents(),
-                'path' => $file->getPath(),
-                'parsed_data' => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
+                'content'               => $file->getContents(),
+                'path'                  => $file->getPath(),
+                'parsed_data'           => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
             ];
 
             $collection->push($data);
@@ -61,9 +61,9 @@ class EnvFilesManager
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function backUpCurrentEnv(): bool
     {
@@ -76,11 +76,11 @@ class EnvFilesManager
     /**
      * Restore  the given backup-file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function restoreBackup(string $fileName): bool
     {
@@ -95,8 +95,8 @@ class EnvFilesManager
     /**
      * uploadBackup.
      *
-     * @param  UploadedFile  $uploadedFile
-     * @param  bool  $replaceCurrentEnv
+     * @param UploadedFile $uploadedFile
+     * @param bool         $replaceCurrentEnv
      *
      * @return \Symfony\Component\HttpFoundation\File\File
      */
@@ -110,11 +110,11 @@ class EnvFilesManager
     /**
      * Delete the given backup-file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return bool
      * @throws EnvException
      *
+     * @return bool
      */
     public function deleteBackup(string $fileName): bool
     {
@@ -129,11 +129,11 @@ class EnvFilesManager
     /**
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @param  string  $fileName
+     * @param string $fileName
      *
-     * @return string
      * @throws EnvException
      *
+     * @return string
      */
     public function getFilePath(string $fileName = ''): string
     {
@@ -169,7 +169,7 @@ class EnvFilesManager
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      *
      * @return string
      */
@@ -179,7 +179,7 @@ class EnvFilesManager
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      *
      * @return string
      */

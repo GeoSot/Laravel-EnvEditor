@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 
 $package = 'env-editor';
@@ -10,16 +9,13 @@ $controllerName = 'GeoSot\EnvEditor\Controllers\\EnvController';
 Route::prefix(config($package.'.route.prefix'))
     ->middleware(config($package.'.route.middleware'))
     ->group(function () use ($package, $routeMainName, $controllerName) {
-
         Route::get('/', $controllerName.'@index')->name($routeMainName.'.index');
 
         Route::post('key', $controllerName.'@addKey')->name($routeMainName.'.key');
         Route::patch('key', $controllerName.'@editKey')->name($routeMainName.'.key');
         Route::delete('key', $controllerName.'@deleteKey')->name($routeMainName.'.key');
 
-
         Route::prefix('files')->group(function () use ($package, $routeMainName, $controllerName) {
-
             Route::get('/', $controllerName.'@getBackupFiles')
                 ->name($routeMainName.'.getBackups');
             Route::post('create-backup', $controllerName.'@createBackup')
