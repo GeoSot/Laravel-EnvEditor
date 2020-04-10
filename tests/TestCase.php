@@ -4,48 +4,41 @@ namespace GeoSot\EnvEditor\Tests;
 
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\ServiceProvider;
-use Illuminate\Filesystem\Filesystem;
-use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 /**
- * Class TestCase
- *
- * @package env-editor
- *
+ * Class TestCase.
  */
 class TestCase extends OrchestraTestCase
 {
     private $tempDir;
 
-
-
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getEnvironmentSetUp($app)
     {
         // set up database configuration
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class
+            ServiceProvider::class,
         ];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getPackageAliases($app)
     {

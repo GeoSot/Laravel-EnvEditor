@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class EnvEditor extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

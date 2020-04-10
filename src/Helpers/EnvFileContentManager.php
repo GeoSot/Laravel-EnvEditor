@@ -1,8 +1,6 @@
 <?php
 
-
 namespace GeoSot\EnvEditor\Helpers;
-
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
@@ -12,15 +10,14 @@ use Illuminate\Support\Collection;
 
 class EnvFileContentManager
 {
-
     protected $envEditor;
     protected $package = 'env-editor';
     protected $filesystem;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  EnvEditor  $envEditor
+     * @param EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -29,12 +26,13 @@ class EnvFileContentManager
     }
 
     /**
-     * Parse the .env Contents
+     * Parse the .env Contents.
      *
-     * @param  string  $fileName
+     * @param string $fileName
+     *
+     * @throws EnvException
      *
      * @return Collection
-     * @throws EnvException
      */
     public function getParsedFileContent(string $fileName = '')
     {
@@ -49,32 +47,32 @@ class EnvFileContentManager
                 $groupIndex++;
                 continue;
             }
-            $entry = explode("=", $line, 2);
+            $entry = explode('=', $line, 2);
             $groupArray = [
-                'key' => Arr::get($entry, 0),
-                'value' => Arr::get($entry, 1),
-                'group' => $groupIndex,
-                'index' => $index,
-                'separator' => false
+                'key'       => Arr::get($entry, 0),
+                'value'     => Arr::get($entry, 1),
+                'group'     => $groupIndex,
+                'index'     => $index,
+                'separator' => false,
             ];
             $collection->push($groupArray);
-
         }
 
         $filtered = $collection->sortBy('index')->reject(function ($value) use ($collection) {
-            return ($value['separator'] and $collection->where('group', '==', $value['group'])->count() == 1);
+            return $value['separator'] and $collection->where('group', '==', $value['group'])->count() == 1;
         });
 
         return $filtered;
     }
 
     /**
-     * Get The File Contents
+     * Get The File Contents.
      *
-     * @param  string  $file
+     * @param string $file
+     *
+     * @throws EnvException
      *
      * @return mixed
-     * @throws EnvException
      */
     protected function getFileContents(string $file = '')
     {
@@ -83,22 +81,23 @@ class EnvFileContentManager
         if (!$this->filesystem->exists($envFile)) {
             throw new EnvException(__($this->package.'::exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
+
         try {
             return $this->filesystem->get($envFile);
         } catch (\Exception $e) {
             throw new EnvException(__($this->package.'::exceptions.fileNotExists', ['name' => $envFile]), 2);
         }
-
     }
 
     /**
-     * Save the new collection on .env file
+     * Save the new collection on .env file.
      *
-     * @param  Collection  $envValues
-     * @param  string  $fileName
+     * @param Collection $envValues
+     * @param string     $fileName
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function save(Collection $envValues, string $fileName = '')
     {
@@ -106,12 +105,13 @@ class EnvFileContentManager
             if ($item['key'] == '') {
                 return '';
             }
+
             return $item['key'].'='.$item['value'];
         });
 
         $content = implode("\n", $env->toArray());
         $result = $this->filesystem->put($this->envEditor->getFilesManager()->getFilePath($fileName), $content);
+
         return $result !== false;
     }
-
 }
