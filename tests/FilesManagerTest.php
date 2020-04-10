@@ -7,9 +7,8 @@ use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use Illuminate\Support\Arr;
 
 /**
- * Class FilesManagerTest
+ * Class FilesManagerTest.
  *
- * @package env-editor
  * @group helpers
  */
 class FilesManagerTest extends TestCase
@@ -31,7 +30,6 @@ class FilesManagerTest extends TestCase
         $this->cleanBackUpDir();
         parent::tearDown();
     }
-
 
     /**
      * @test
@@ -56,18 +54,15 @@ class FilesManagerTest extends TestCase
         $constructor->invoke($mock, $this->app[EnvEditor::class]);
     }
 
-
     /**
      * @test
      * Test makeBackupsDirectory method
      */
     public function backupDir_is_created()
     {
-
         $path = $this->manager->getBackupsDir();
         $this->createAndTestPath($path);
     }
-
 
     /**
      * @test
@@ -131,10 +126,8 @@ class FilesManagerTest extends TestCase
      */
     public function backUpCurrentEnv_works_and_returns_bool()
     {
-
         $fileName = 'test.tmp';
         $this->app['config']->set('env-editor.envFileName', $fileName);
-
 
         $content = time().'_dummy';
         $file = $this->manager->getEnvDir($fileName);
@@ -145,15 +138,12 @@ class FilesManagerTest extends TestCase
         $this->assertTrue(file_exists($currentEnv));
         $this->assertEquals(file_get_contents($currentEnv), $content);
 
-
         $result = $this->manager->backUpCurrentEnv();
         $this->assertTrue($result);
-
 
         $backUps = $this->manager->getAllBackUps();
         $this->assertEquals(1, $backUps->count());
         $this->assertEquals(Arr::get($backUps->first(), 'content'), $content);
-
 
         unlink($file);
     }
@@ -171,17 +161,14 @@ class FilesManagerTest extends TestCase
         $file = $this->manager->getBackupsDir($fileName);
         file_put_contents($file, $content);
 
-
         $result = $this->manager->restoreBackup($fileName);
         $this->assertTrue($result);
 
         $currentEnv = $this->manager->getFilePath();
         $this->assertEquals(file_get_contents($currentEnv), $content);
 
-
         unlink($file);
     }
-
 
     /**
      * @test
@@ -197,11 +184,10 @@ class FilesManagerTest extends TestCase
         $this->assertTrue($result);
 
         $this->assertFalse(file_exists($file));
-
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      */
     private function createAndTestPath(string $path): void
     {
@@ -224,8 +210,5 @@ class FilesManagerTest extends TestCase
                 unlink($file);
             }
         }
-
     }
-
-
 }

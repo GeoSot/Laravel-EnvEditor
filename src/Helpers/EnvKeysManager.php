@@ -2,7 +2,6 @@
 
 namespace GeoSot\EnvEditor\Helpers;
 
-
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use Illuminate\Support\Arr;
@@ -10,15 +9,13 @@ use Illuminate\Support\Collection;
 
 class EnvKeysManager
 {
-
-
     protected $envEditor;
     protected $package = 'env-editor';
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  EnvEditor  $envEditor
+     * @param EnvEditor $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -26,28 +23,30 @@ class EnvKeysManager
     }
 
     /**
-     * Check if key Exist in Current env
+     * Check if key Exist in Current env.
      *
-     * @param  string  $key
+     * @param string $key
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function keyExists(string $key)
     {
         $env = $this->getEnvData();
+
         return !is_null($env->firstWhere('key', '==', $key));
     }
 
-
     /**
-     * Add the  Key  on the Current Env
+     * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @throws EnvException
      *
      * @return mixed
-     * @throws EnvException
      */
     public function getKey(string $key, $default = null)
     {
@@ -55,14 +54,15 @@ class EnvKeysManager
     }
 
     /**
-     * Add the  Key  on the Current Env
+     * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $options
+     * @param string $key
+     * @param mixed  $value
+     * @param array  $options
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function addKey(string $key, $value, array $options = [])
     {
@@ -83,16 +83,17 @@ class EnvKeysManager
             return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) and !is_null($value['key']);
         });
 
-
         $keyArray = [
-            'key' => $key,
+            'key'   => $key,
             'value' => $value,
             'group' => $groupIndex,
-            'index' => Arr::get($options, 'index',
-                $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2),
-            'separator' => false
+            'index' => Arr::get(
+                $options,
+                'index',
+                $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2
+            ),
+            'separator' => false,
         ];
-
 
         $env->push($keyArray);
 
@@ -100,13 +101,14 @@ class EnvKeysManager
     }
 
     /**
-     * Deletes the Given Key form env
+     * Deletes the Given Key form env.
      *
-     * @param  string  $keyToChange
-     * @param  mixed  $newValue
+     * @param string $keyToChange
+     * @param mixed  $newValue
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function editKey(string $keyToChange, $newValue)
     {
@@ -118,18 +120,21 @@ class EnvKeysManager
             if ($item['key'] == $keyToChange) {
                 $item['value'] = $newValue;
             }
+
             return $item;
         });
+
         return $this->envEditor->getFileContentManager()->save($newEnv);
     }
 
     /**
-     * Deletes the Given Key form env
+     * Deletes the Given Key form env.
      *
-     * @param  string  $key
+     * @param string $key
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function deleteKey(string $key)
     {
@@ -144,7 +149,6 @@ class EnvKeysManager
         return $this->envEditor->getFileContentManager()->save($newEnv);
     }
 
-
     /**
      * @param $groupIndex
      * @param $index
@@ -154,22 +158,23 @@ class EnvKeysManager
     public function getKeysSeparator($groupIndex, $index)
     {
         $groupArray = [
-            'key' => '',
-            'value' => '',
-            'group' => $groupIndex,
-            'index' => $index,
-            'separator' => true
+            'key'       => '',
+            'value'     => '',
+            'group'     => $groupIndex,
+            'index'     => $index,
+            'separator' => true,
         ];
+
         return $groupArray;
     }
 
     /**
-     * @return Collection
      * @throws EnvException
+     *
+     * @return Collection
      */
     protected function getEnvData()
     {
         return $this->envEditor->getFileContentManager()->getParsedFileContent();
     }
-
 }

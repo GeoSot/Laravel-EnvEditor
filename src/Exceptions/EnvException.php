@@ -6,8 +6,6 @@ use Exception;
 
 class EnvException extends Exception
 {
-
-
     public function __construct($message, $code, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -17,5 +15,4 @@ class EnvException extends Exception
     {
         return __CLASS__.":[{$this->code}]: {$this->message}\n";
     }
-
 }

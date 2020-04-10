@@ -2,7 +2,6 @@
 
 namespace GeoSot\EnvEditor;
 
-
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -36,7 +35,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-
         $this->loadResources();
         $this->publishResources();
     }
@@ -49,7 +47,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . "/config/{$this->package}.php", $this->package
+            __DIR__."/config/{$this->package}.php",
+            $this->package
         );
 
         $this->app->singleton(EnvEditor::class, function () {
@@ -59,29 +58,25 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->alias(EnvEditor::class, 'env-editor');
     }
 
-
     private function loadResources()
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes.php');
-        $this->loadViewsFrom(__DIR__ . '/resources/views', $this->package);
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', $this->package);
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadViewsFrom(__DIR__.'/resources/views', $this->package);
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', $this->package);
     }
 
     private function publishResources()
     {
         $this->publishes([
-            __DIR__ . "/config/{$this->package}.php" => config_path($this->package . '.php')
+            __DIR__."/config/{$this->package}.php" => config_path($this->package.'.php'),
         ], 'config');
 
-
         $this->publishes([
-            __DIR__ . '/resources/views/' => resource_path("views/vendor/{$this->vendor}/{$this->package}"),
+            __DIR__.'/resources/views/' => resource_path("views/vendor/{$this->vendor}/{$this->package}"),
         ], 'views');
 
         $this->publishes([
-            __DIR__ . '/resources/lang/' => resource_path("lang/vendor/{$this->vendor}"),
+            __DIR__.'/resources/lang/' => resource_path("lang/vendor/{$this->vendor}"),
         ], 'translations');
     }
-
-
 }

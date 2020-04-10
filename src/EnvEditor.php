@@ -1,5 +1,6 @@
-<?php namespace GeoSot\EnvEditor;
+<?php
 
+namespace GeoSot\EnvEditor;
 
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
@@ -9,8 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 
 /**
- * Class Settings
- * @package Efriandika\LaravelSettings
+ * Class Settings.
  */
 class EnvEditor
 {
@@ -20,9 +20,8 @@ class EnvEditor
     protected $fileContentManager;
     protected $package = 'env-editor';
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $config
      */
@@ -35,26 +34,27 @@ class EnvEditor
     }
 
     /**
-     * Parse the .env Contents
+     * Parse the .env Contents.
      *
      * @param string $fileName
      *
-     * @return Collection
      * @throws EnvException
+     *
+     * @return Collection
      */
     public function getEnvFileContent(string $fileName = '')
     {
         return $this->getFileContentManager()->getParsedFileContent($fileName);
     }
 
-
     /**
-     * Check if key Exist in Current env
+     * Check if key Exist in Current env.
      *
      * @param string $key
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function keyExists(string $key)
     {
@@ -62,13 +62,14 @@ class EnvEditor
     }
 
     /**
-     * Add the  Key  on the Current Env
+     * Add the  Key  on the Current Env.
      *
      * @param string $key
      * @param mixed  $default
      *
-     * @return mixed
      * @throws EnvException
+     *
+     * @return mixed
      */
     public function getKey(string $key, $default = null)
     {
@@ -76,14 +77,15 @@ class EnvEditor
     }
 
     /**
-     * Add the  Key  on the Current Env
+     * Add the  Key  on the Current Env.
      *
      * @param string $key
      * @param mixed  $value
      * @param array  $options
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function addKey(string $key, $value, array $options = [])
     {
@@ -91,13 +93,14 @@ class EnvEditor
     }
 
     /**
-     * Edits the Given Key  env
+     * Edits the Given Key  env.
      *
      * @param string $keyToChange
      * @param mixed  $newValue
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function editKey(string $keyToChange, $newValue)
     {
@@ -105,12 +108,13 @@ class EnvEditor
     }
 
     /**
-     * Deletes the Given Key form env
+     * Deletes the Given Key form env.
      *
      * @param string $key
      *
-     * @return  bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function deleteKey(string $key)
     {
@@ -118,10 +122,11 @@ class EnvEditor
     }
 
     /**
-     * Get all Backup Files
+     * Get all Backup Files.
+     *
+     * @throws EnvException
      *
      * @return Collection
-     * @throws EnvException
      */
     public function getAllBackUps()
     {
@@ -129,7 +134,7 @@ class EnvEditor
     }
 
     /**
-     * uploadBackup
+     * uploadBackup.
      *
      * @param UploadedFile $uploadedFile
      * @param bool         $replaceCurrentEnv
@@ -141,26 +146,27 @@ class EnvEditor
         return $this->getFilesManager()->upload($uploadedFile, $replaceCurrentEnv);
     }
 
-
     /**
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @return bool
      * @throws EnvException
+     *
+     * @return bool
      */
     public function backUpCurrent()
     {
         return $this->getFilesManager()->backUpCurrentEnv();
     }
 
-
     /**
-     * Returns the full path of a backup file. If $fileName is empty return the path of the .env file
-     * @param  string $fileName
+     * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @return  string
+     * @param string $fileName
+     *
      * @throws EnvException
+     *
+     * @return string
      */
     public function getFilePath(string $fileName = '')
     {
@@ -168,11 +174,13 @@ class EnvEditor
     }
 
     /**
-     * Delete the given backup-file
-     * @param  string $fileName
+     * Delete the given backup-file.
      *
-     * @return  bool
+     * @param string $fileName
+     *
      * @throws EnvException
+     *
+     * @return bool
      */
     public function deleteBackup(string $fileName)
     {
@@ -180,11 +188,13 @@ class EnvEditor
     }
 
     /**
-     * Restore  the given backup-file
-     * @param  string $fileName
+     * Restore  the given backup-file.
      *
-     * @return  bool
+     * @param string $fileName
+     *
      * @throws EnvException
+     *
+     * @return bool
      */
     public function restoreBackUp(string $fileName)
     {
@@ -194,13 +204,13 @@ class EnvEditor
     /**
      * @param string $key
      * @param mixed  $default
+     *
      * @return mixed
      */
     public function config(string $key, $default = null)
     {
-        return config($this->package . '.' . $key, $default);
+        return config($this->package.'.'.$key, $default);
     }
-
 
     /**
      * @return EnvKeysManager
@@ -225,5 +235,4 @@ class EnvEditor
     {
         return $this->fileContentManager;
     }
-
 }
