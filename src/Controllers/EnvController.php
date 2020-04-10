@@ -31,7 +31,7 @@ class EnvController extends BaseController
     /**
      * Add a new key on current .env file.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return Response
      */
@@ -49,7 +49,7 @@ class EnvController extends BaseController
     /**
      * Edit a key of current .env file.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return Response
      */
@@ -63,7 +63,7 @@ class EnvController extends BaseController
     /**
      * Delete a key from current .env file.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return Response
      */
@@ -104,7 +104,7 @@ class EnvController extends BaseController
     /**
      * Restore Backup file.
      *
-     * @param string $filename
+     * @param  string  $filename
      *
      * @return Response
      */
@@ -118,7 +118,7 @@ class EnvController extends BaseController
     /**
      * Delete Backup file.
      *
-     * @param string $filename
+     * @param  string  $filename
      *
      * @return Response
      */
@@ -132,7 +132,7 @@ class EnvController extends BaseController
     /**
      * Get Files As Download.
      *
-     * @param string $filename
+     * @param  string  $filename
      *
      * @return BinaryFileResponse
      */
@@ -146,7 +146,7 @@ class EnvController extends BaseController
     /**
      * Upload File As BackUp or replace Current .Env.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return Response
      */
@@ -166,10 +166,10 @@ class EnvController extends BaseController
     /**
      * Generic ajax response.
      *
-     * @param bool   $success
-     * @param array  $data
-     * @param string $translationWord
-     * @param string $keyName
+     * @param  bool  $success
+     * @param  array  $data
+     * @param  string  $translationWord
+     * @param  string  $keyName
      *
      * @return Response
      */
@@ -181,7 +181,8 @@ class EnvController extends BaseController
     ) {
         if (!empty($translationWord) and $success) {
             $data = array_merge($data, [
-                'message' => __($this->package."::env-editor.controllerMessages.$translationWord", ['name' => $keyName]),
+                'message' => __($this->package."::env-editor.controllerMessages.$translationWord",
+                    ['name' => $keyName]),
             ]);
         }
 
