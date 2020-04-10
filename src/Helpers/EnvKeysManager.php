@@ -164,7 +164,6 @@ class EnvKeysManager
             'index'     => $index,
             'separator' => true,
         ];
-
     }
 
     /**
