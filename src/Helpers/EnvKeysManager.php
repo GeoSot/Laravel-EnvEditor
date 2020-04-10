@@ -35,7 +35,7 @@ class EnvKeysManager
     {
         $env = $this->getEnvData();
 
-        return !is_null($env->firstWhere('key', '==', $key));
+        return $env->firstWhere('key', '==', $key) !== null;
     }
 
     /**
@@ -80,7 +80,7 @@ class EnvKeysManager
         }
 
         $lastSameGroupIndex = $env->last(function ($value, $key) use ($givenGroup) {
-            return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) and !is_null($value['key']);
+            return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) and $value['key'] !== null;
         });
 
         $keyArray = [
@@ -157,7 +157,7 @@ class EnvKeysManager
      */
     public function getKeysSeparator($groupIndex, $index)
     {
-        $groupArray = [
+        return [
             'key'       => '',
             'value'     => '',
             'group'     => $groupIndex,
@@ -165,7 +165,6 @@ class EnvKeysManager
             'separator' => true,
         ];
 
-        return $groupArray;
     }
 
     /**
