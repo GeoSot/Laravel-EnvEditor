@@ -35,9 +35,6 @@
     "test": "./vendor/bin/phpunit"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "0.9.*-dev"
-    },
     "laravel": {
       "providers": [
         "GeoSot\\EnvEditor\\ServiceProvider"
