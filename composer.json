@@ -1,51 +1,54 @@
 {
-  "name": "geo-sot/laravel-env-editor",
-  "description": "A laravel Package that Supports .Env File editing and backup ",
-  "keywords": [
-    "geo-sot",
-    "laravel",
-    "laravel-env-editor",
-    "EnvEditor"
-  ],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Geo Sot",
-      "email": "geo.sotis@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^7.1",
-    "laravel/framework": "^5.5|6.*|7.*"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^3"
-  },
-  "autoload": {
-    "psr-4": {
-      "GeoSot\\EnvEditor\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "GeoSot\\EnvEditor\\Tests\\": "tests"
-    }
-  },
-  "scripts": {
-    "test": "./vendor/bin/phpunit"
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "GeoSot\\EnvEditor\\ServiceProvider"
-      ],
-      "aliases": {
-        "EnvEditor": "GeoSot\\EnvEditor\\Facades\\EnvEditor"
-      }
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "geo-sot/laravel-env-editor",
+    "description": "A laravel Package that Supports .Env File editing and backup ",
+    "keywords": [
+        "geo-sot",
+        "laravel",
+        "laravel-env-editor",
+        "EnvEditor"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Geo Sot",
+            "email": "geo.sotis@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|~6.0|~7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3"
+    },
+    "autoload": {
+        "psr-4": {
+            "GeoSot\\EnvEditor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GeoSot\\EnvEditor\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9.*-dev"
+        },
+        "laravel": {
+            "providers": [
+                "GeoSot\\EnvEditor\\ServiceProvider"
+            ],
+            "aliases": {
+                "EnvEditor": "GeoSot\\EnvEditor\\Facades\\EnvEditor"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
 
 
