@@ -12,8 +12,8 @@ Route::prefix(config($package.'.route.prefix'))
         Route::get('/', $controllerName.'@index')->name($routeMainName.'.index');
 
         Route::post('key', $controllerName.'@addKey')->name($routeMainName.'.key');
-        Route::patch('key', $controllerName.'@editKey')->name($routeMainName.'.key');
-        Route::delete('key', $controllerName.'@deleteKey')->name($routeMainName.'.key');
+        Route::patch('key', $controllerName.'@editKey');
+        Route::delete('key', $controllerName.'@deleteKey');
 
         Route::prefix('files')->group(function () use ($package, $routeMainName, $controllerName) {
             Route::get('/', $controllerName.'@getBackupFiles')
