@@ -68,7 +68,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function publishResources()
     {
         $this->publishes([
-            __DIR__."/config/{$this->package}.php" => config_path($this->package.'.php'),
+            __DIR__."/../config/{$this->package}.php" => config_path($this->package.'.php'),
         ], 'config');
 
         $this->publishes([
