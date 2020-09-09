@@ -22,6 +22,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#upload-env" role="tab">{{__($translatePrefix.'views.tabTitles.upload')}}</a>
             </li>
+            <li class="nav-item ml-auto">
+                <env-editor-config-actions></env-editor-config-actions>
+            </li>
         </ul>
 
         <div class="tab-content" id="nav-tabContent">
@@ -47,6 +50,7 @@
 @include('env-editor::components._currentEnv')
 @include('env-editor::components._upload')
 @include('env-editor::components._backup')
+@include('env-editor::components._configActions')
 @push('scripts')
     <script>
         window.envEventBus = new Vue();
@@ -73,7 +77,8 @@
                 'env-main-tab': itemsWrapper,
                 'env-keys-modal': itemsModal,
                 'env-file-upload': fileUpload,
-                'env-editor-backups': backUps
+                'env-editor-backups': backUps,
+                'env-editor-config-actions': configActions
             }
         })
     </script>

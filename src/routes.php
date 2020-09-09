@@ -15,6 +15,8 @@ Route::prefix(config($package.'.route.prefix'))
         Route::patch('key', $controllerName.'@editKey')->name($routeMainName.'.key');
         Route::delete('key', $controllerName.'@deleteKey')->name($routeMainName.'.key');
 
+        Route::delete('clear-cache', $controllerName.'@clearConfigCache')->name($routeMainName.'.clearConfigCache');
+
         Route::prefix('files')->group(function () use ($routeMainName, $controllerName) {
             Route::get('/', $controllerName.'@getBackupFiles')
                 ->name($routeMainName.'.getBackups');
