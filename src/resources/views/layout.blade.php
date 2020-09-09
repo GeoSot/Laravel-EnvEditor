@@ -20,8 +20,8 @@
 <body>
 <div id="app" class="container-fluid ">
 
-    <div id="body-wrapper" class="py-5 px-2"
-        <h1>@stack('documentTitle')</h1>>
+    <div id="body-wrapper" class="py-5 px-2">
+        <h2 class="mb-4">@stack('documentTitle')</h2>
         <main class="" role="main" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/Table">
             @yield('content')
         </main>
@@ -39,7 +39,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     @stack('scripts')
-	
+
 </span>
 </body>
 </html>
