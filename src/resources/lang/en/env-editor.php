@@ -27,11 +27,11 @@ return [
                 'actions' => 'Actions',
             ],
             'btn' => [
-                'edit'        => 'Edit File',
-                'delete'      => 'Delete Key',
-                'addAfterKey' => 'Add new key after this key',
-                'addNewKey'   => 'Add New key',
-                'deleteConfigCache'   => 'Clear config cache',
+                'edit'                    => 'Edit File',
+                'delete'                  => 'Delete Key',
+                'addAfterKey'             => 'Add new key after this key',
+                'addNewKey'               => 'Add New key',
+                'deleteConfigCache'       => 'Clear config cache',
                 'deleteConfigCacheDesc'   => 'On production environments changed values may not applied immediately cause of cached config. So you may try to un-cache it',
             ],
             'modal' => [

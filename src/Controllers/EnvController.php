@@ -165,7 +165,7 @@ class EnvController extends BaseController
     }
 
     /**
-     * Clears Config cache to get new values
+     * Clears Config cache to get new values.
      *
      * @return Response
      */
