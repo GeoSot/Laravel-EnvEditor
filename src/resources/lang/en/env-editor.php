@@ -11,6 +11,7 @@ return [
         'keyWasAdded'                            => 'Key ":name" was added',
         'keyWasEdited'                           => 'Key ":name" has ben updated',
         'keyWasDeleted'                          => 'Key ":name" was Deleted',
+        'configCacheWasCleared'                  => 'Config cache, was cleared',
     ],
     'views' => [
         'tabTitles' => [
@@ -26,10 +27,12 @@ return [
                 'actions' => 'Actions',
             ],
             'btn' => [
-                'edit'        => 'Edit File',
-                'delete'      => 'Delete Key',
-                'addAfterKey' => 'Add new key after this key',
-                'addNewKey'   => 'Add New key',
+                'edit'                    => 'Edit File',
+                'delete'                  => 'Delete Key',
+                'addAfterKey'             => 'Add new key after this key',
+                'addNewKey'               => 'Add New key',
+                'deleteConfigCache'       => 'Clear config cache',
+                'deleteConfigCacheDesc'   => 'On production environments changed values may not applied immediately cause of cached config. So you may try to un-cache it',
             ],
             'modal' => [
                 'title' => [

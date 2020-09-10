@@ -6,6 +6,7 @@ use GeoSot\EnvEditor\Facades\EnvEditor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -161,6 +162,18 @@ class EnvController extends BaseController
         $successMsg = ($replaceCurrentEnv) ? 'currentEnvWasReplacedByTheUploadedFile' : 'uploadedFileSavedAsBackup';
 
         return $this->returnGenericResponse(true, [], $successMsg, $file->getFilename());
+    }
+
+    /**
+     * Clears Config cache to get new values.
+     *
+     * @return Response
+     */
+    public function clearConfigCache()
+    {
+        Artisan::call('config:clear');
+
+        return $this->returnGenericResponse(true, [], 'configCacheWasCleared');
     }
 
     /**
