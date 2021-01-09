@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "laravel/framework": ">=5.5",
+        "laravel/framework": ">=5.5"
     },
     "require-dev": {
         "orchestra/testbench": "^3"
