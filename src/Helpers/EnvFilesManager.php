@@ -85,7 +85,7 @@ class EnvFilesManager
     public function restoreBackup(string $fileName): bool
     {
         if (empty($fileName)) {
-            throw new EnvException(__($this->package.'::exceptions.provideFileName'), 1);
+            throw new EnvException(__($this->package.'::env-editor.exceptions.provideFileName'), 1);
         }
         $file = $this->getBackupsDir($fileName);
 
@@ -119,7 +119,7 @@ class EnvFilesManager
     public function deleteBackup(string $fileName): bool
     {
         if (empty($fileName)) {
-            throw new EnvException(__($this->package.'::exceptions.provideFileName'), 1);
+            throw new EnvException(__($this->package.'::env-editor.exceptions.provideFileName'), 1);
         }
         $file = $this->getFilePath($fileName);
 
@@ -145,7 +145,7 @@ class EnvFilesManager
             return $path;
         }
 
-        throw new EnvException(__($this->package.'::exceptions.fileNotExists', ['name' => $path]), 0);
+        throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $path]), 0);
     }
 
     /**

@@ -79,13 +79,13 @@ class EnvFileContentManager
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
         if (!$this->filesystem->exists($envFile)) {
-            throw new EnvException(__($this->package.'::exceptions.fileNotExists', ['name' => $envFile]), 0);
+            throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
 
         try {
             return $this->filesystem->get($envFile);
         } catch (\Exception $e) {
-            throw new EnvException(__($this->package.'::exceptions.fileNotExists', ['name' => $envFile]), 2);
+            throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 2);
         }
     }
 

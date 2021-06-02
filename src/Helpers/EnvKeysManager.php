@@ -67,7 +67,7 @@ class EnvKeysManager
     public function addKey(string $key, $value, array $options = [])
     {
         if ($this->keyExists($key)) {
-            throw new EnvException(__($this->package.'::exceptions.keyAlreadyExists', ['name' => $key]), 0);
+            throw new EnvException(__($this->package.'::env-editor.exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $env = $this->getEnvData();
         $givenGroup = Arr::get($options, 'group', null);
@@ -113,7 +113,7 @@ class EnvKeysManager
     public function editKey(string $keyToChange, $newValue)
     {
         if (!$this->keyExists($keyToChange)) {
-            throw  new EnvException(__($this->package.'::exceptions.keyNotExists', ['name' => $keyToChange]), 11);
+            throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
         $env = $this->getEnvData();
         $newEnv = $env->map(function ($item) use ($keyToChange, $newValue) {
@@ -139,7 +139,7 @@ class EnvKeysManager
     public function deleteKey(string $key)
     {
         if (!$this->keyExists($key)) {
-            throw  new EnvException(__($this->package.'::exceptions.keyNotExists', ['name' => $key]), 10);
+            throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $key]), 10);
         }
         $env = $this->getEnvData();
         $newEnv = $env->filter(function ($item) use ($key) {
