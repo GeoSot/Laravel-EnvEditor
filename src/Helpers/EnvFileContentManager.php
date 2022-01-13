@@ -10,8 +10,19 @@ use Illuminate\Support\Collection;
 
 class EnvFileContentManager
 {
+    /**
+     * @var EnvEditor
+     */
     protected $envEditor;
+
+    /**
+     * @var string
+     */
     protected $package = 'env-editor';
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
 
     /**
@@ -34,7 +45,7 @@ class EnvFileContentManager
      *
      * @return Collection
      */
-    public function getParsedFileContent(string $fileName = '')
+    public function getParsedFileContent(string $fileName = ''): Collection
     {
         $content = preg_split('/(\r\n|\r|\n)/', $this->getFileContents($fileName));
 
@@ -58,11 +69,9 @@ class EnvFileContentManager
             $collection->push($groupArray);
         }
 
-        $filtered = $collection->sortBy('index')->reject(function ($value) use ($collection) {
-            return $value['separator'] and $collection->where('group', '==', $value['group'])->count() == 1;
+        return $collection->sortBy('index')->reject(function ($value) use ($collection) {
+            return $value['separator'] && $collection->where('group', '==', $value['group'])->count() == 1;
         });
-
-        return $filtered;
     }
 
     /**
@@ -70,15 +79,14 @@ class EnvFileContentManager
      *
      * @param string $file
      *
-     * @throws EnvException
-     *
-     * @return mixed
+     * @return string
+     *@throws EnvException
      */
-    protected function getFileContents(string $file = '')
+    protected function getFileContents(string $file = ''): string
     {
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
-        if (!$this->filesystem->exists($envFile)) {
+        if (! $this->filesystem->exists($envFile)) {
             throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
 
@@ -99,7 +107,7 @@ class EnvFileContentManager
      *
      * @return bool
      */
-    public function save(Collection $envValues, string $fileName = '')
+    public function save(Collection $envValues, string $fileName = ''): bool
     {
         $env = $envValues->sortBy(['index'])->map(function ($item) {
             if ($item['key'] == '') {

@@ -9,7 +9,14 @@ use Illuminate\Support\Collection;
 
 class EnvKeysManager
 {
+    /**
+     * @var EnvEditor
+     */
     protected $envEditor;
+
+    /**
+     * @var string
+     */
     protected $package = 'env-editor';
 
     /**
@@ -31,7 +38,7 @@ class EnvKeysManager
      *
      * @return bool
      */
-    public function keyExists(string $key)
+    public function keyExists(string $key): bool
     {
         $env = $this->getEnvData();
 
@@ -58,13 +65,13 @@ class EnvKeysManager
      *
      * @param string $key
      * @param mixed  $value
-     * @param array  $options
+     * @param array<string, int|string> $options
      *
      * @throws EnvException
      *
      * @return bool
      */
-    public function addKey(string $key, $value, array $options = [])
+    public function addKey(string $key, $value, array $options = []): bool
     {
         if ($this->keyExists($key)) {
             throw new EnvException(__($this->package.'::env-editor.exceptions.keyAlreadyExists', ['name' => $key]), 0);
@@ -74,13 +81,13 @@ class EnvKeysManager
 
         $groupIndex = $givenGroup ?? $env->pluck('group')->unique()->sort()->last() + 1;
 
-        if (!$givenGroup and !$env->last()['separator']) {
-            $separator = $this->getKeysSeparator($groupIndex, $env->count() + 1);
+        if (! $givenGroup && ! $env->last()['separator']) {
+            $separator = $this->getKeysSeparator((int) $groupIndex, $env->count() + 1);
             $env->push($separator);
         }
 
         $lastSameGroupIndex = $env->last(function ($value, $key) use ($givenGroup) {
-            return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) and $value['key'] !== null;
+            return explode('_', $value['key'], 2)[0] == strtoupper($givenGroup) && $value['key'] !== null;
         });
 
         $keyArray = [
@@ -110,9 +117,9 @@ class EnvKeysManager
      *
      * @return bool
      */
-    public function editKey(string $keyToChange, $newValue)
+    public function editKey(string $keyToChange, $newValue): bool
     {
-        if (!$this->keyExists($keyToChange)) {
+        if (! $this->keyExists($keyToChange)) {
             throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
         $env = $this->getEnvData();
@@ -136,9 +143,9 @@ class EnvKeysManager
      *
      * @return bool
      */
-    public function deleteKey(string $key)
+    public function deleteKey(string $key): bool
     {
-        if (!$this->keyExists($key)) {
+        if (! $this->keyExists($key)) {
             throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $key]), 10);
         }
         $env = $this->getEnvData();
@@ -150,12 +157,11 @@ class EnvKeysManager
     }
 
     /**
-     * @param $groupIndex
-     * @param $index
-     *
-     * @return array
+     * @param  int  $groupIndex
+     * @param  int  $index
+     * @return array<string, mixed>
      */
-    public function getKeysSeparator($groupIndex, $index)
+    public function getKeysSeparator(int $groupIndex, int $index): array
     {
         return [
             'key'       => '',
@@ -171,7 +177,7 @@ class EnvKeysManager
      *
      * @return Collection
      */
-    protected function getEnvData()
+    protected function getEnvData(): Collection
     {
         return $this->envEditor->getFileContentManager()->getParsedFileContent();
     }

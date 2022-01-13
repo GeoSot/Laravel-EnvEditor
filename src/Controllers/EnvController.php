@@ -3,8 +3,8 @@
 namespace GeoSot\EnvEditor\Controllers;
 
 use GeoSot\EnvEditor\Facades\EnvEditor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\View\View;
@@ -12,12 +12,15 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EnvController extends BaseController
 {
+    /**
+     * @var string
+     */
     protected $package = 'env-editor';
 
     /**
      * Display main view with the Collection of current .env values.
      *
-     * @return Response|View
+     * @return JsonResponse|View
      */
     public function index()
     {
@@ -31,12 +34,8 @@ class EnvController extends BaseController
 
     /**
      * Add a new key on current .env file.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function addKey(Request $request)
+    public function addKey(Request $request): JsonResponse
     {
         $result = EnvEditor::addKey(
             $request->input('key'),
@@ -49,12 +48,8 @@ class EnvController extends BaseController
 
     /**
      * Edit a key of current .env file.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function editKey(Request $request)
+    public function editKey(Request $request): JsonResponse
     {
         $result = EnvEditor::editKey($request->input('key'), $request->input('value'));
 
@@ -63,12 +58,8 @@ class EnvController extends BaseController
 
     /**
      * Delete a key from current .env file.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function deleteKey(Request $request)
+    public function deleteKey(Request $request): JsonResponse
     {
         $result = EnvEditor::deleteKey($request->input('key'));
 
@@ -78,7 +69,7 @@ class EnvController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return View|Response
+     * @return View|JsonResponse
      */
     public function getBackupFiles()
     {
@@ -92,10 +83,8 @@ class EnvController extends BaseController
 
     /**
      * Create BackUp of .env File.
-     *
-     * @return Response
      */
-    public function createBackup()
+    public function createBackup(): JsonResponse
     {
         $result = EnvEditor::backUpCurrent();
 
@@ -104,12 +93,8 @@ class EnvController extends BaseController
 
     /**
      * Restore Backup file.
-     *
-     * @param string $filename
-     *
-     * @return Response
      */
-    public function restoreBackup(string $filename)
+    public function restoreBackup(string $filename): JsonResponse
     {
         $result = EnvEditor::restoreBackUp($filename);
 
@@ -118,12 +103,8 @@ class EnvController extends BaseController
 
     /**
      * Delete Backup file.
-     *
-     * @param string $filename
-     *
-     * @return Response
      */
-    public function destroyBackup(string $filename)
+    public function destroyBackup(string $filename): JsonResponse
     {
         $result = EnvEditor::deleteBackup($filename);
 
@@ -132,12 +113,8 @@ class EnvController extends BaseController
 
     /**
      * Get Files As Download.
-     *
-     * @param string $filename
-     *
-     * @return BinaryFileResponse
      */
-    public function download(string $filename = '')
+    public function download(string $filename = ''): BinaryFileResponse
     {
         $path = EnvEditor::getFilePath($filename);
 
@@ -146,12 +123,8 @@ class EnvController extends BaseController
 
     /**
      * Upload File As BackUp or replace Current .Env.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function upload(Request $request)
+    public function upload(Request $request): JsonResponse
     {
         $request->validate([
             'file' => 'required|file|mimetypes:application/octet-stream,text/plain|mimes:txt,text,',
@@ -166,10 +139,8 @@ class EnvController extends BaseController
 
     /**
      * Clears Config cache to get new values.
-     *
-     * @return Response
      */
-    public function clearConfigCache()
+    public function clearConfigCache(): JsonResponse
     {
         Artisan::call('config:clear');
 
@@ -178,21 +149,19 @@ class EnvController extends BaseController
 
     /**
      * Generic ajax response.
-     *
-     * @param bool   $success
-     * @param array  $data
-     * @param string $translationWord
-     * @param string $keyName
-     *
-     * @return Response
+     * @param  bool  $success
+     * @param  array<string, mixed>  $data
+     * @param  string  $translationWord
+     * @param  string  $keyName
+     * @return JsonResponse
      */
     protected function returnGenericResponse(
         bool $success,
         array $data = [],
         string $translationWord = '',
         string $keyName = ''
-    ) {
-        if (!empty($translationWord) and $success) {
+    ): JsonResponse {
+        if (! empty($translationWord) && $success) {
             $data = array_merge($data, [
                 'message' => __(
                     $this->package."::env-editor.controllerMessages.$translationWord",

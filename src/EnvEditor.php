@@ -8,24 +8,43 @@ use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Helpers\EnvKeysManager;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class Settings.
  */
 class EnvEditor
 {
+    /**
+     * @var array<string, string>
+     */
     protected $config;
+
+    /**
+     * @var EnvKeysManager
+     */
     protected $keysManager;
+
+    /**
+     * @var EnvFilesManager
+     */
     protected $filesManager;
+
+    /**
+     * @var EnvFileContentManager
+     */
     protected $fileContentManager;
+
+    /**
+     * @var string
+     */
     protected $package = 'env-editor';
 
     /**
      * Constructor.
-     *
-     * @param array $config
+     * @param  array<string, string>  $config
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->config = $config;
         $this->keysManager = new EnvKeysManager($this);
@@ -42,7 +61,7 @@ class EnvEditor
      *
      * @return Collection
      */
-    public function getEnvFileContent(string $fileName = '')
+    public function getEnvFileContent(string $fileName = ''): Collection
     {
         return $this->getFileContentManager()->getParsedFileContent($fileName);
     }
@@ -56,7 +75,7 @@ class EnvEditor
      *
      * @return bool
      */
-    public function keyExists(string $key)
+    public function keyExists(string $key): bool
     {
         return $this->getKeysManager()->keyExists($key);
     }
@@ -81,13 +100,13 @@ class EnvEditor
      *
      * @param string $key
      * @param mixed  $value
-     * @param array  $options
+     * @param array<string, int|string>  $options
      *
      * @throws EnvException
      *
      * @return bool
      */
-    public function addKey(string $key, $value, array $options = [])
+    public function addKey(string $key, $value, array $options = []): bool
     {
         return $this->getKeysManager()->addKey($key, $value, $options);
     }
@@ -102,7 +121,7 @@ class EnvEditor
      *
      * @return bool
      */
-    public function editKey(string $keyToChange, $newValue)
+    public function editKey(string $keyToChange, $newValue): bool
     {
         return $this->getKeysManager()->editKey($keyToChange, $newValue);
     }
@@ -110,13 +129,12 @@ class EnvEditor
     /**
      * Deletes the Given Key form env.
      *
-     * @param string $key
-     *
-     * @throws EnvException
+     * @param  string  $key
      *
      * @return bool
+     * @throws EnvException
      */
-    public function deleteKey(string $key)
+    public function deleteKey(string $key): bool
     {
         return $this->getKeysManager()->deleteKey($key);
     }
@@ -125,23 +143,16 @@ class EnvEditor
      * Get all Backup Files.
      *
      * @throws EnvException
-     *
-     * @return Collection
      */
-    public function getAllBackUps()
+    public function getAllBackUps(): Collection
     {
         return $this->getFilesManager()->getAllBackUps();
     }
 
     /**
      * uploadBackup.
-     *
-     * @param UploadedFile $uploadedFile
-     * @param bool         $replaceCurrentEnv
-     *
-     * @return \Symfony\Component\HttpFoundation\File\File
      */
-    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv)
+    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): File
     {
         return $this->getFilesManager()->upload($uploadedFile, $replaceCurrentEnv);
     }
@@ -154,7 +165,7 @@ class EnvEditor
      *
      * @return bool
      */
-    public function backUpCurrent()
+    public function backUpCurrent(): bool
     {
         return $this->getFilesManager()->backUpCurrentEnv();
     }
@@ -168,7 +179,7 @@ class EnvEditor
      *
      * @return string
      */
-    public function getFilePath(string $fileName = '')
+    public function getFilePath(string $fileName = ''): string
     {
         return $this->getFilesManager()->getFilePath($fileName);
     }
@@ -182,7 +193,7 @@ class EnvEditor
      *
      * @return bool
      */
-    public function deleteBackup(string $fileName)
+    public function deleteBackup(string $fileName): bool
     {
         return $this->getFilesManager()->deleteBackup($fileName);
     }
@@ -196,7 +207,7 @@ class EnvEditor
      *
      * @return bool
      */
-    public function restoreBackUp(string $fileName)
+    public function restoreBackUp(string $fileName): bool
     {
         return $this->getFilesManager()->restoreBackup($fileName);
     }
@@ -212,26 +223,17 @@ class EnvEditor
         return config($this->package.'.'.$key, $default);
     }
 
-    /**
-     * @return EnvKeysManager
-     */
-    public function getKeysManager()
+    public function getKeysManager(): EnvKeysManager
     {
         return $this->keysManager;
     }
 
-    /**
-     * @return EnvFilesManager
-     */
-    public function getFilesManager()
+    public function getFilesManager(): EnvFilesManager
     {
         return $this->filesManager;
     }
 
-    /**
-     * @return EnvFileContentManager
-     */
-    public function getFileContentManager()
+    public function getFileContentManager(): EnvFileContentManager
     {
         return $this->fileContentManager;
     }

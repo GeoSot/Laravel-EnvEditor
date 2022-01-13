@@ -6,7 +6,7 @@ return [
         'backupWasCreated'                       => 'A new backup was created',
         'fileWasRestored'                        => 'The backup file ":name", was restored as default .env',
         'fileWasDeleted'                         => 'The backup file ":name", was deleted',
-        'currentEnvWasReplacedByTheUploadedFile' => 'File was uploaded and bacome the new .env file',
+        'currentEnvWasReplacedByTheUploadedFile' => 'File was uploaded and become the new .env file',
         'uploadedFileSavedAsBackup'              => 'File was uploaded as backup with the name ":name"',
         'keyWasAdded'                            => 'Key ":name" was added',
         'keyWasEdited'                           => 'Key ":name" has ben updated',

@@ -8,11 +8,23 @@ use GeoSot\EnvEditor\Exceptions\EnvException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 
 class EnvFilesManager
 {
+    /**
+     * @var EnvEditor
+     */
     protected $envEditor;
+
+    /**
+     * @var string
+     */
     protected $package = 'env-editor';
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
 
     /**
@@ -95,12 +107,12 @@ class EnvFilesManager
     /**
      * uploadBackup.
      *
-     * @param UploadedFile $uploadedFile
-     * @param bool         $replaceCurrentEnv
+     * @param  UploadedFile  $uploadedFile
+     * @param  bool  $replaceCurrentEnv
      *
-     * @return \Symfony\Component\HttpFoundation\File\File
+     * @return File
      */
-    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): bool
+    public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): File
     {
         return $replaceCurrentEnv ?
             $uploadedFile->move($this->getEnvDir(), $this->getEnvFileName()) :
@@ -150,8 +162,6 @@ class EnvFilesManager
 
     /**
      * Get the backup File Name.
-     *
-     * @return string
      */
     protected function makeBackUpFileName(): string
     {
@@ -160,8 +170,6 @@ class EnvFilesManager
 
     /**
      * Get the .env File Name.
-     *
-     * @return string
      */
     protected function getEnvFileName(): string
     {
@@ -189,12 +197,12 @@ class EnvFilesManager
     }
 
     /**
-     *Checks if Backups directory Exists and creates it.
+     * Checks if Backups directory Exists and creates it.
      */
     public function makeBackupsDirectory(): void
     {
         $path = $this->getBackupsDir();
-        if (!$this->filesystem->exists($path)) {
+        if (! $this->filesystem->exists($path)) {
             $this->filesystem->makeDirectory($path, 0755, true, true);
         }
     }

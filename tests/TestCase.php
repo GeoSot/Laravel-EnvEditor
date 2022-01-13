@@ -14,7 +14,7 @@ class TestCase extends OrchestraTestCase
     private $tempDir;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -28,7 +28,7 @@ class TestCase extends OrchestraTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getPackageProviders($app)
     {
@@ -38,7 +38,7 @@ class TestCase extends OrchestraTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getPackageAliases($app)
     {
