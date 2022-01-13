@@ -163,7 +163,7 @@ class EnvController extends BaseController
         string $translationWord = '',
         string $keyName = ''
     ): JsonResponse {
-        if (! empty($translationWord) && $success) {
+        if (!empty($translationWord) && $success) {
             $data = array_merge($data, [
                 'message' => __(
                     $this->package."::env-editor.controllerMessages.$translationWord",
