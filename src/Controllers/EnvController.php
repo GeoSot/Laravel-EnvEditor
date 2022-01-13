@@ -149,10 +149,12 @@ class EnvController extends BaseController
 
     /**
      * Generic ajax response.
-     * @param  bool  $success
-     * @param  array<string, mixed>  $data
-     * @param  string  $translationWord
-     * @param  string  $keyName
+     *
+     * @param bool                 $success
+     * @param array<string, mixed> $data
+     * @param string               $translationWord
+     * @param string               $keyName
+     *
      * @return JsonResponse
      */
     protected function returnGenericResponse(
@@ -161,7 +163,7 @@ class EnvController extends BaseController
         string $translationWord = '',
         string $keyName = ''
     ): JsonResponse {
-        if (! empty($translationWord) && $success) {
+        if (!empty($translationWord) && $success) {
             $data = array_merge($data, [
                 'message' => __(
                     $this->package."::env-editor.controllerMessages.$translationWord",

@@ -59,14 +59,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->alias(EnvEditor::class, 'env-editor');
     }
 
-    private function loadResources():void
+    private function loadResources(): void
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->loadViewsFrom(__DIR__.'/resources/views', $this->package);
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', $this->package);
     }
 
-    private function publishResources():void
+    private function publishResources(): void
     {
         $this->publishes([
             __DIR__."/../config/{$this->package}.php" => config_path($this->package.'.php'),

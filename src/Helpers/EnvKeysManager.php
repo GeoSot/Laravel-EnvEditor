@@ -63,8 +63,8 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string                    $key
+     * @param mixed                     $value
      * @param array<string, int|string> $options
      *
      * @throws EnvException
@@ -81,7 +81,7 @@ class EnvKeysManager
 
         $groupIndex = $givenGroup ?? $env->pluck('group')->unique()->sort()->last() + 1;
 
-        if (! $givenGroup && ! $env->last()['separator']) {
+        if (!$givenGroup && !$env->last()['separator']) {
             $separator = $this->getKeysSeparator((int) $groupIndex, $env->count() + 1);
             $env->push($separator);
         }
@@ -119,7 +119,7 @@ class EnvKeysManager
      */
     public function editKey(string $keyToChange, $newValue): bool
     {
-        if (! $this->keyExists($keyToChange)) {
+        if (!$this->keyExists($keyToChange)) {
             throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
         $env = $this->getEnvData();
@@ -145,7 +145,7 @@ class EnvKeysManager
      */
     public function deleteKey(string $key): bool
     {
-        if (! $this->keyExists($key)) {
+        if (!$this->keyExists($key)) {
             throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $key]), 10);
         }
         $env = $this->getEnvData();
@@ -157,8 +157,9 @@ class EnvKeysManager
     }
 
     /**
-     * @param  int  $groupIndex
-     * @param  int  $index
+     * @param int $groupIndex
+     * @param int $index
+     *
      * @return array<string, mixed>
      */
     public function getKeysSeparator(int $groupIndex, int $index): array

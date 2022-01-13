@@ -107,8 +107,8 @@ class EnvFilesManager
     /**
      * uploadBackup.
      *
-     * @param  UploadedFile  $uploadedFile
-     * @param  bool  $replaceCurrentEnv
+     * @param UploadedFile $uploadedFile
+     * @param bool         $replaceCurrentEnv
      *
      * @return File
      */
@@ -202,7 +202,7 @@ class EnvFilesManager
     public function makeBackupsDirectory(): void
     {
         $path = $this->getBackupsDir();
-        if (! $this->filesystem->exists($path)) {
+        if (!$this->filesystem->exists($path)) {
             $this->filesystem->makeDirectory($path, 0755, true, true);
         }
     }

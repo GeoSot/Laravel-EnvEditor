@@ -42,7 +42,8 @@ class EnvEditor
 
     /**
      * Constructor.
-     * @param  array<string, string>  $config
+     *
+     * @param array<string, string> $config
      */
     public function __construct(array $config = [])
     {
@@ -98,9 +99,9 @@ class EnvEditor
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param array<string, int|string>  $options
+     * @param string                    $key
+     * @param mixed                     $value
+     * @param array<string, int|string> $options
      *
      * @throws EnvException
      *
@@ -129,10 +130,11 @@ class EnvEditor
     /**
      * Deletes the Given Key form env.
      *
-     * @param  string  $key
+     * @param string $key
+     *
+     * @throws EnvException
      *
      * @return bool
-     * @throws EnvException
      */
     public function deleteKey(string $key): bool
     {

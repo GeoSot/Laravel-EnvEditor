@@ -79,14 +79,15 @@ class EnvFileContentManager
      *
      * @param string $file
      *
-     * @return string
      *@throws EnvException
+     *
+     * @return string
      */
     protected function getFileContents(string $file = ''): string
     {
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
-        if (! $this->filesystem->exists($envFile)) {
+        if (!$this->filesystem->exists($envFile)) {
             throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
 
