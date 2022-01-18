@@ -22,7 +22,7 @@ class EnvKeysManager
     /**
      * Constructor.
      *
-     * @param EnvEditor $envEditor
+     * @param  EnvEditor  $envEditor
      */
     public function __construct(EnvEditor $envEditor)
     {
@@ -32,11 +32,10 @@ class EnvKeysManager
     /**
      * Check if key Exist in Current env.
      *
-     * @param string $key
-     *
-     * @throws EnvException
+     * @param  string  $key
      *
      * @return bool
+     * @throws EnvException
      */
     public function keyExists(string $key): bool
     {
@@ -48,12 +47,11 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param  string  $key
+     * @param  mixed  $default
      *
+     * @return string|float|int|bool|null
      * @throws EnvException
-     *
-     * @return mixed
      */
     public function getKey(string $key, $default = null)
     {
@@ -63,13 +61,12 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param string                    $key
-     * @param mixed                     $value
-     * @param array<string, int|string> $options
-     *
-     * @throws EnvException
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  array<string, int|string>  $options
      *
      * @return bool
+     * @throws EnvException
      */
     public function addKey(string $key, $value, array $options = []): bool
     {
@@ -91,7 +88,7 @@ class EnvKeysManager
         });
 
         $keyArray = [
-            'key'   => $key,
+            'key' => $key,
             'value' => $value,
             'group' => $groupIndex,
             'index' => Arr::get(
@@ -110,12 +107,11 @@ class EnvKeysManager
     /**
      * Deletes the Given Key form env.
      *
-     * @param string $keyToChange
-     * @param mixed  $newValue
-     *
-     * @throws EnvException
+     * @param  string  $keyToChange
+     * @param  mixed  $newValue
      *
      * @return bool
+     * @throws EnvException
      */
     public function editKey(string $keyToChange, $newValue): bool
     {
@@ -137,11 +133,10 @@ class EnvKeysManager
     /**
      * Deletes the Given Key form env.
      *
-     * @param string $key
-     *
-     * @throws EnvException
+     * @param  string  $key
      *
      * @return bool
+     * @throws EnvException
      */
     public function deleteKey(string $key): bool
     {
@@ -157,26 +152,25 @@ class EnvKeysManager
     }
 
     /**
-     * @param int $groupIndex
-     * @param int $index
+     * @param  int  $groupIndex
+     * @param  int  $index
      *
      * @return array<string, mixed>
      */
     public function getKeysSeparator(int $groupIndex, int $index): array
     {
         return [
-            'key'       => '',
-            'value'     => '',
-            'group'     => $groupIndex,
-            'index'     => $index,
+            'key' => '',
+            'value' => '',
+            'group' => $groupIndex,
+            'index' => $index,
             'separator' => true,
         ];
     }
 
     /**
+     * @return Collection<int, array{key:string, value: int|string, group:int, index:int , separator:bool}>
      * @throws EnvException
-     *
-     * @return Collection
      */
     protected function getEnvData(): Collection
     {

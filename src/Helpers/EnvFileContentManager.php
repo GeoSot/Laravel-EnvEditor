@@ -28,28 +28,28 @@ class EnvFileContentManager
     /**
      * Constructor.
      *
-     * @param EnvEditor $envEditor
+     * @param  EnvEditor  $envEditor
      */
-    public function __construct(EnvEditor $envEditor)
+    public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
     {
         $this->envEditor = $envEditor;
-        $this->filesystem = new Filesystem();
+        $this->filesystem = $filesystem;
     }
 
     /**
      * Parse the .env Contents.
      *
-     * @param string $fileName
+     * @param  string  $fileName
      *
+     * @return Collection<int, array{key:string, value: int|string, group:int, index:int , separator:bool}>
      * @throws EnvException
-     *
-     * @return Collection
      */
     public function getParsedFileContent(string $fileName = ''): Collection
     {
         $content = preg_split('/(\r\n|\r|\n)/', $this->getFileContents($fileName));
 
         $groupIndex = 1;
+        /** @var Collection<int, array{key:string, value: int|string, group:int, index:int , separator:bool}> $collection */
         $collection = collect([]);
         foreach ($content as $index => $line) {
             if ($line == '') {
@@ -60,10 +60,10 @@ class EnvFileContentManager
             }
             $entry = explode('=', $line, 2);
             $groupArray = [
-                'key'       => Arr::get($entry, 0),
-                'value'     => Arr::get($entry, 1),
-                'group'     => $groupIndex,
-                'index'     => $index,
+                'key' => Arr::get($entry, 0),
+                'value' => Arr::get($entry, 1),
+                'group' => $groupIndex,
+                'index' => $index,
                 'separator' => false,
             ];
             $collection->push($groupArray);
@@ -77,11 +77,10 @@ class EnvFileContentManager
     /**
      * Get The File Contents.
      *
-     * @param string $file
-     *
-     *@throws EnvException
+     * @param  string  $file
      *
      * @return string
+     * @throws EnvException
      */
     protected function getFileContents(string $file = ''): string
     {
@@ -101,12 +100,11 @@ class EnvFileContentManager
     /**
      * Save the new collection on .env file.
      *
-     * @param Collection $envValues
-     * @param string     $fileName
-     *
-     * @throws EnvException
+     * @param  Collection  $envValues
+     * @param  string  $fileName
      *
      * @return bool
+     * @throws EnvException
      */
     public function save(Collection $envValues, string $fileName = ''): bool
     {

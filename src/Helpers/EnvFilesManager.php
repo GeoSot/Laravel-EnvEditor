@@ -30,19 +30,17 @@ class EnvFilesManager
     /**
      * Constructor.
      *
-     * @param EnvEditor $envEditor
+     * @param  EnvEditor  $envEditor
      */
-    public function __construct(EnvEditor $envEditor)
+    public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
     {
         $this->envEditor = $envEditor;
-        $this->filesystem = new Filesystem();
+        $this->filesystem = $filesystem;
         $this->makeBackupsDirectory();
     }
 
     /**
      * Get all Backup Files.
-     *
-     * @throws EnvException
      *
      * @return Collection
      */
@@ -52,15 +50,15 @@ class EnvFilesManager
         $collection = collect([]);
         foreach ($files as $file) {
             $data = [
-                'real_name'             => $file->getFilename(),
-                'name'                  => $file->getFilename(),
-                'crated_at'             => $file->getCTime(),
-                'modified_at'           => $file->getMTime(),
-                'created_at_formatted'  => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
+                'real_name' => $file->getFilename(),
+                'name' => $file->getFilename(),
+                'crated_at' => $file->getCTime(),
+                'modified_at' => $file->getMTime(),
+                'created_at_formatted' => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
                 'modified_at_formatted' => Carbon::createFromTimestamp($file->getMTime())->format($this->envEditor->config('timeFormat')),
-                'content'               => $file->getContents(),
-                'path'                  => $file->getPath(),
-                'parsed_data'           => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
+                'content' => $file->getContents(),
+                'path' => $file->getPath(),
+                'parsed_data' => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
             ];
 
             $collection->push($data);
@@ -73,9 +71,8 @@ class EnvFilesManager
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @throws EnvException
-     *
      * @return bool
+     * @throws EnvException
      */
     public function backUpCurrentEnv(): bool
     {
@@ -88,11 +85,10 @@ class EnvFilesManager
     /**
      * Restore  the given backup-file.
      *
-     * @param string $fileName
-     *
-     * @throws EnvException
+     * @param  string  $fileName
      *
      * @return bool
+     * @throws EnvException
      */
     public function restoreBackup(string $fileName): bool
     {
@@ -107,8 +103,8 @@ class EnvFilesManager
     /**
      * uploadBackup.
      *
-     * @param UploadedFile $uploadedFile
-     * @param bool         $replaceCurrentEnv
+     * @param  UploadedFile  $uploadedFile
+     * @param  bool  $replaceCurrentEnv
      *
      * @return File
      */
@@ -122,11 +118,10 @@ class EnvFilesManager
     /**
      * Delete the given backup-file.
      *
-     * @param string $fileName
-     *
-     * @throws EnvException
+     * @param  string  $fileName
      *
      * @return bool
+     * @throws EnvException
      */
     public function deleteBackup(string $fileName): bool
     {
@@ -141,11 +136,10 @@ class EnvFilesManager
     /**
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @param string $fileName
-     *
-     * @throws EnvException
+     * @param  string  $fileName
      *
      * @return string
+     * @throws EnvException
      */
     public function getFilePath(string $fileName = ''): string
     {
@@ -177,7 +171,7 @@ class EnvFilesManager
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
      *
      * @return string
      */
@@ -187,7 +181,7 @@ class EnvFilesManager
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
      *
      * @return string
      */
