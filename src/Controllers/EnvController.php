@@ -3,6 +3,7 @@
 namespace GeoSot\EnvEditor\Controllers;
 
 use GeoSot\EnvEditor\Facades\EnvEditor;
+use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -12,11 +13,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EnvController extends BaseController
 {
-    /**
-     * @var string
-     */
-    protected $package = 'env-editor';
-
     /**
      * Display main view with the Collection of current .env values.
      *
@@ -29,7 +25,7 @@ class EnvController extends BaseController
             return $this->returnGenericResponse(true, ['items' => $envValues]);
         }
 
-        return view($this->package.'::index', compact('envValues'));
+        return view(ServiceProvider::PACKAGE.'::index', compact('envValues'));
     }
 
     /**
@@ -78,7 +74,7 @@ class EnvController extends BaseController
             return $this->returnGenericResponse(true, ['items' => $backUpFiles]);
         }
 
-        return view($this->package.'::index', compact('backUpFiles'));
+        return view(ServiceProvider::PACKAGE.'::index', compact('backUpFiles'));
     }
 
     /**
@@ -150,10 +146,10 @@ class EnvController extends BaseController
     /**
      * Generic ajax response.
      *
-     * @param bool                 $success
-     * @param array<string, mixed> $data
-     * @param string               $translationWord
-     * @param string               $keyName
+     * @param  bool  $success
+     * @param  array<string, mixed>  $data
+     * @param  string  $translationWord
+     * @param  string  $keyName
      *
      * @return JsonResponse
      */
@@ -166,7 +162,7 @@ class EnvController extends BaseController
         if (! empty($translationWord) && $success) {
             $data = array_merge($data, [
                 'message' => __(
-                    $this->package."::env-editor.controllerMessages.$translationWord",
+                    ServiceProvider::TRANSLATE_PREFIX."controllerMessages.$translationWord",
                     ['name' => $keyName]
                 ),
             ]);

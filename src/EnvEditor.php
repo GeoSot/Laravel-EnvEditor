@@ -35,12 +35,6 @@ class EnvEditor
      * @var EnvFileContentManager
      */
     protected $fileContentManager;
-
-    /**
-     * @var string
-     */
-    protected $package = 'env-editor';
-
     /**
      * Constructor.
      *
@@ -213,7 +207,7 @@ class EnvEditor
      */
     public function config(string $key, $default = null)
     {
-        return config($this->package.'.'.$key, $default);
+        return config(ServiceProvider::PACKAGE.'.'.$key, $default);
     }
 
     public function getKeysManager(): EnvKeysManager

@@ -20,14 +20,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      *
      * @var string
      */
-    protected $vendor = 'geo-sv';
+    public const VENDOR = 'geo-sv';
 
     /**
      * Package name.
      *
      * @var string
      */
-    protected $package = 'env-editor';
+    public const PACKAGE = 'env-editor';
+
+    public const TRANSLATE_PREFIX = self::PACKAGE.'::env-editor.';
 
     /**
      * Bootstrap services.
@@ -48,12 +50,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__."/../config/{$this->package}.php",
-            $this->package
+            __DIR__.'/../config/'.static::PACKAGE.'.php',
+            static::PACKAGE
         );
 
         $this->app->singleton(EnvEditor::class, function () {
-            return new EnvEditor(config($this->package));
+            return new EnvEditor(config(static::PACKAGE));
         });
 
         $this->app->alias(EnvEditor::class, 'env-editor');
@@ -62,22 +64,22 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function loadResources(): void
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', $this->package);
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', $this->package);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', static::PACKAGE);
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', static::PACKAGE);
     }
 
     private function publishResources(): void
     {
         $this->publishes([
-            __DIR__."/../config/{$this->package}.php" => config_path($this->package.'.php'),
+            __DIR__.'/../config/'.static::PACKAGE.'.php' => config_path(static::PACKAGE.'.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path("/views/vendor/{$this->package}"),
+            __DIR__.'/../resources/views' => resource_path('/views/vendor/'.static::PACKAGE),
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../resources/lang/' => resource_path("lang/vendor/{$this->package}"),
+            __DIR__.'/../resources/lang/' => resource_path('lang/vendor/'.static::PACKAGE),
         ], 'translations');
     }
 }

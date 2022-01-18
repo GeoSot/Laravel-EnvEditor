@@ -5,6 +5,7 @@ namespace GeoSot\EnvEditor\Helpers;
 use Carbon\Carbon;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -16,11 +17,6 @@ class EnvFilesManager
      * @var EnvEditor
      */
     protected $envEditor;
-
-    /**
-     * @var string
-     */
-    protected $package = 'env-editor';
 
     /**
      * @var Filesystem
@@ -93,7 +89,7 @@ class EnvFilesManager
     public function restoreBackup(string $fileName): bool
     {
         if (empty($fileName)) {
-            throw new EnvException(__($this->package.'::env-editor.exceptions.provideFileName'), 1);
+            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.provideFileName'), 1);
         }
         $file = $this->getBackupsDir($fileName);
 
@@ -126,7 +122,7 @@ class EnvFilesManager
     public function deleteBackup(string $fileName): bool
     {
         if (empty($fileName)) {
-            throw new EnvException(__($this->package.'::env-editor.exceptions.provideFileName'), 1);
+            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.provideFileName'), 1);
         }
         $file = $this->getFilePath($fileName);
 
@@ -151,7 +147,7 @@ class EnvFilesManager
             return $path;
         }
 
-        throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $path]), 0);
+        throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $path]), 0);
     }
 
     /**

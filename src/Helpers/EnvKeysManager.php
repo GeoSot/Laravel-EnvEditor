@@ -4,6 +4,7 @@ namespace GeoSot\EnvEditor\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -13,11 +14,6 @@ class EnvKeysManager
      * @var EnvEditor
      */
     protected $envEditor;
-
-    /**
-     * @var string
-     */
-    protected $package = 'env-editor';
 
     /**
      * Constructor.
@@ -73,7 +69,7 @@ class EnvKeysManager
     public function addKey(string $key, $value, array $options = []): bool
     {
         if ($this->keyExists($key)) {
-            throw new EnvException(__($this->package.'::env-editor.exceptions.keyAlreadyExists', ['name' => $key]), 0);
+            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $env = $this->getEnvData();
         $givenGroup = Arr::get($options, 'group', null);
@@ -118,7 +114,7 @@ class EnvKeysManager
     public function editKey(string $keyToChange, $newValue): bool
     {
         if (! $this->keyExists($keyToChange)) {
-            throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $keyToChange]), 11);
+            throw  new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
         $env = $this->getEnvData();
         $newEnv = $env->map(function ($item) use ($keyToChange, $newValue) {
@@ -143,7 +139,7 @@ class EnvKeysManager
     public function deleteKey(string $key): bool
     {
         if (! $this->keyExists($key)) {
-            throw  new EnvException(__($this->package.'::env-editor.exceptions.keyNotExists', ['name' => $key]), 10);
+            throw  new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyNotExists', ['name' => $key]), 10);
         }
         $env = $this->getEnvData();
         $newEnv = $env->filter(function ($item) use ($key) {
