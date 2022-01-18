@@ -4,6 +4,7 @@ namespace GeoSot\EnvEditor\Tests;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
 /**
@@ -22,7 +23,7 @@ class FilesManagerTest extends TestCase
     {
         parent::setUp();
 
-        $this->manager = $this->app[EnvFilesManager::class];
+        $this->manager = $this->app->make(EnvFilesManager::class);
     }
 
     protected function tearDown(): void
@@ -51,7 +52,7 @@ class FilesManagerTest extends TestCase
         // now call the constructor
         $reflectedClass = new \ReflectionClass($classname);
         $constructor = $reflectedClass->getConstructor();
-        $constructor->invoke($mock, $this->app[EnvEditor::class]);
+        $constructor->invoke($mock, $this->app[EnvEditor::class],$this->app->make(Filesystem::class));
     }
 
     /**
