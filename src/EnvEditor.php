@@ -35,6 +35,7 @@ class EnvEditor
      * @var EnvFileContentManager
      */
     protected $fileContentManager;
+
     /**
      * Constructor.
      *
