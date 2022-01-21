@@ -4,28 +4,22 @@ namespace GeoSot\EnvEditor\Tests;
 
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\ServiceProvider;
+use Illuminate\Encryption\Encrypter;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
-/**
- * Class TestCase.
- */
-class TestCase extends OrchestraTestCase
-{
-    private $tempDir;
 
-    /**
-     * @inheritdoc
-     */
+abstract class TestCase extends OrchestraTestCase
+{
+
     protected function getEnvironmentSetUp($app)
     {
-        // set up database configuration
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+        $key = 'base64:'.base64_encode(
+                Encrypter::generateKey('AES-256-CBC')
+            );
+
+        $app['config']->set('app.key', $key);
     }
+
 
     /**
      * @inheritdoc
@@ -45,5 +39,16 @@ class TestCase extends OrchestraTestCase
         return [
             'env-editor' => EnvEditor::class,
         ];
+    }
+
+    protected static function getTestPath(): string
+    {
+        return realpath(__DIR__.'/fixtures');
+    }
+
+    protected static function getTestFile(bool $fullPath = false): string
+    {
+        $file = '.env.example';
+        return $fullPath ? static::getTestPath().DIRECTORY_SEPARATOR.$file : $file;
     }
 }

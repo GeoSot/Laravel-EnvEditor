@@ -62,8 +62,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function loadResources(): void
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
-        $this->loadViewsFrom(__DIR__.'/resources/views', $this->package);
-        $this->loadTranslationsFrom(__DIR__.'/resources/lang', $this->package);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', $this->package);
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', $this->package);
     }
 
     private function publishResources(): void
@@ -73,11 +73,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/resources/views/' => resource_path("views/vendor/{$this->vendor}/{$this->package}"),
+            __DIR__.'/../resources/views' => resource_path("/views/vendor/{$this->package}"),
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/resources/lang/' => resource_path("lang/vendor/{$this->vendor}"),
+            __DIR__.'/../resources/lang/' => resource_path("lang/vendor/{$this->package}"),
         ], 'translations');
     }
 }
