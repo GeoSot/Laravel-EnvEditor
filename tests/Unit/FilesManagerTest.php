@@ -1,9 +1,10 @@
 <?php
 
-namespace GeoSot\EnvEditor\Tests;
+namespace GeoSot\EnvEditor\Tests\Unit;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
+use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 

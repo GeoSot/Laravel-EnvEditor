@@ -10,8 +10,11 @@
          processIsolation="false"
          stopOnFailure="true">
     <testsuites>
-        <testsuite name="Env Editor Suite">
-            <directory suffix="Test.php">./tests/</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
     <coverage>
