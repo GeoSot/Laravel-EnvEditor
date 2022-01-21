@@ -21,6 +21,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      * @var string
      */
     protected $vendor = 'geo-sv';
+
     /**
      * Package name.
      *
