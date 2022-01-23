@@ -5,19 +5,6 @@ namespace GeoSot\EnvEditor;
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Vendor name.
-     *
      * @var string
      */
     public const VENDOR = 'geo-sv';
@@ -50,7 +37,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/'.static::PACKAGE.'.php',
+            __DIR__.'/../config/env-editor.php',
             static::PACKAGE
         );
 
@@ -71,7 +58,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function publishResources(): void
     {
         $this->publishes([
-            __DIR__.'/../config/'.static::PACKAGE.'.php' => config_path(static::PACKAGE.'.php'),
+            __DIR__.'/../config/env-editor.php' => config_path(static::PACKAGE.'.php'),
         ], 'config');
 
         $this->publishes([
