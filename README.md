@@ -6,13 +6,13 @@ This Package allows to manage Laravel .env file values on the Fly (add, edit, de
 <br/>
 Management can be done through the user interface, or programmatically by using the `EnvEditor` Facade, without breaking the files structure. 
 <br/>
-The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor).
+The inspiration for this package was, [Brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor).
 
 *   [Installation](#installation)
 *   [Available Methods](#available_methods)
 *   [User Interface](#user_interface)
 
-    ## <a name="installation">Installation:</a>
+## <a name="installation">Installation:</a>
 
 1. Install package
     ```bash
@@ -33,8 +33,8 @@ The inspiration for this package was -, [Brotzka/laravel-dotenv-editor](https://
       ```      
       This will publish all files:
     * config -> env-editor.php
-    * views -> resources/views/vendor/geo-sot/env-editor/..
-    * lang -> resources/lang/vendor/geo-sot/env-editor.php
+    * views -> resources/views/vendor/env-editor/..
+    * lang -> resources/lang/vendor/env-editor.php
       
      Or publish specific tags
 
