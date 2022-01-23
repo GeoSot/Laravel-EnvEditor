@@ -4,6 +4,7 @@ namespace GeoSot\EnvEditor\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -14,11 +15,6 @@ class EnvFileContentManager
      * @var EnvEditor
      */
     protected $envEditor;
-
-    /**
-     * @var string
-     */
-    protected $package = 'env-editor';
 
     /**
      * @var Filesystem
@@ -87,13 +83,13 @@ class EnvFileContentManager
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
         if (! $this->filesystem->exists($envFile)) {
-            throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 0);
+            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
 
         try {
             return $this->filesystem->get($envFile);
         } catch (\Exception $e) {
-            throw new EnvException(__($this->package.'::env-editor.exceptions.fileNotExists', ['name' => $envFile]), 2);
+            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 2);
         }
     }
 

@@ -1,35 +1,34 @@
 <?php
 
+use GeoSot\EnvEditor\Controllers\EnvController;
 use Illuminate\Support\Facades\Route;
 
-$package = 'env-editor';
-$routeMainName = config($package.'.route.name');
-$controllerName = 'GeoSot\EnvEditor\Controllers\\EnvController';
+$routeMainName = config('env-editor.route.name');
 
-Route::prefix(config($package.'.route.prefix'))
-    ->middleware(config($package.'.route.middleware'))
-    ->group(function () use ($routeMainName, $controllerName) {
-        Route::get('/', $controllerName.'@index')->name($routeMainName.'.index');
+Route::prefix(config('env-editor.route.prefix'))
+    ->middleware(config('env-editor.route.middleware'))
+    ->group(function () use ($routeMainName) {
+        Route::get('/', [EnvController::class, 'index'])->name($routeMainName.'.index');
 
-        Route::post('key', $controllerName.'@addKey')->name($routeMainName.'.key');
-        Route::patch('key', $controllerName.'@editKey');
-        Route::delete('key', $controllerName.'@deleteKey');
+        Route::post('key', [EnvController::class, 'addKey'])->name($routeMainName.'.key');
+        Route::patch('key', [EnvController::class, 'editKey']);
+        Route::delete('key', [EnvController::class, 'deleteKey']);
 
-        Route::delete('clear-cache', $controllerName.'@clearConfigCache')->name($routeMainName.'.clearConfigCache');
+        Route::delete('clear-cache', [EnvController::class, 'clearConfigCache'])->name($routeMainName.'.clearConfigCache');
 
-        Route::prefix('files')->group(function () use ($routeMainName, $controllerName) {
-            Route::get('/', $controllerName.'@getBackupFiles')
+        Route::prefix('files')->group(function () use ($routeMainName) {
+            Route::get('/', [EnvController::class, 'getBackupFiles'])
                 ->name($routeMainName.'.getBackups');
-            Route::post('create-backup', $controllerName.'@createBackup')
+            Route::post('create-backup', [EnvController::class, 'createBackup'])
                 ->name($routeMainName.'.createBackup');
-            Route::post('restore-backup/{filename?}', $controllerName.'@restoreBackup')
+            Route::post('restore-backup/{filename?}', [EnvController::class, 'restoreBackup'])
                 ->name($routeMainName.'.restoreBackup');
-            Route::delete('destroy-backup/{filename?}', $controllerName.'@destroyBackup')
+            Route::delete('destroy-backup/{filename?}', [EnvController::class, 'destroyBackup'])
                 ->name($routeMainName.'.destroyBackup');
 
-            Route::get('download/{filename?}', $controllerName.'@download')
+            Route::get('download/{filename?}', [EnvController::class, 'download'])
                 ->name($routeMainName.'.download');
-            Route::post('upload', $controllerName.'@upload')
+            Route::post('upload', [EnvController::class, 'upload'])
                 ->name($routeMainName.'.upload');
         });
     });
