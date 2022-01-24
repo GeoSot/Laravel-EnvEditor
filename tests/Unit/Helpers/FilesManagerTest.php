@@ -15,18 +15,6 @@ use Illuminate\Support\Arr;
  */
 class FilesManagerTest extends TestCase
 {
-    /**
-     * @var EnvFilesManager
-     */
-    protected $manager;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->manager = $this->app->make(EnvFilesManager::class);
-    }
-
     protected function tearDown(): void
     {
         $this->cleanBackUpDir();
@@ -53,7 +41,9 @@ class FilesManagerTest extends TestCase
         // now call the constructor
         $reflectedClass = new \ReflectionClass($classname);
         $constructor = $reflectedClass->getConstructor();
-        $constructor->invoke($mock, $this->app[EnvEditor::class],$this->app->make(Filesystem::class));
+
+        $envEditorMock = \Mockery::mock(EnvEditor::class);
+        $constructor->invoke($mock, $envEditorMock, $this->app->make(Filesystem::class));
     }
 
     /**
@@ -62,7 +52,7 @@ class FilesManagerTest extends TestCase
      */
     public function backupDir_is_created()
     {
-        $path = $this->manager->getBackupsDir();
+        $path = $this->getEnvFilesManager()->getBackupsDir();
         $this->createAndTestPath($path);
     }
 
@@ -72,7 +62,7 @@ class FilesManagerTest extends TestCase
      */
     public function getEnvDir_exists()
     {
-        $path = $this->manager->getEnvDir();
+        $path = $this->getEnvFilesManager()->getEnvDir();
         $this->createAndTestPath($path);
     }
 
@@ -81,12 +71,12 @@ class FilesManagerTest extends TestCase
      */
     public function getBackupsDir_can_return_file()
     {
-        $path = $this->manager->getBackupsDir();
+        $path = $this->getEnvFilesManager()->getBackupsDir();
         $filename = 'test.tmp';
         $filePath = $path.DIRECTORY_SEPARATOR.$filename;
         file_put_contents($filePath, 'dummy');
 
-        $filePath1 = $this->manager->getBackupsDir($filename);
+        $filePath1 = $this->getEnvFilesManager()->getBackupsDir($filename);
         $this->assertTrue(file_exists($filePath1));
         unlink($filePath);
     }
@@ -96,12 +86,12 @@ class FilesManagerTest extends TestCase
      */
     public function getEnvDir_can_return_file()
     {
-        $path = $this->manager->getEnvDir();
+        $path = $this->getEnvFilesManager()->getEnvDir();
         $filename = 'test.tmp';
         $filePath = $path.DIRECTORY_SEPARATOR.$filename;
         file_put_contents($filePath, 'dummy');
 
-        $filePath1 = $this->manager->getEnvDir($filename);
+        $filePath1 = $this->getEnvFilesManager()->getEnvDir($filename);
         $this->assertTrue(file_exists($filePath1));
         unlink($filePath);
     }
@@ -111,12 +101,13 @@ class FilesManagerTest extends TestCase
      */
     public function getAllBackUps_returns_all_files()
     {
-        $file1 = $this->manager->getBackupsDir('test.tmp');
-        $file2 = $this->manager->getBackupsDir('test2.tmp');
+        $manager = $this->getEnvFilesManager();
+        $file1 = $manager->getBackupsDir('test.tmp');
+        $file2 = $manager->getBackupsDir('test2.tmp');
         file_put_contents($file1, 'dummy');
         file_put_contents($file2, 'dummy');
 
-        $backUps = $this->manager->getAllBackUps();
+        $backUps = $manager->getAllBackUps();
         $this->assertEquals(2, $backUps->count());
 
         unlink($file1);
@@ -132,18 +123,20 @@ class FilesManagerTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', $fileName);
 
         $content = time().'_dummy';
-        $file = $this->manager->getEnvDir($fileName);
+        $manager = $this->getEnvFilesManager();
+        $file = $manager->getEnvDir($fileName);
         file_put_contents($file, $content);
 
         //Check CurrentEnv
-        $currentEnv = $this->manager->getFilePath();
+        $currentEnv = $manager->getFilePath();
+
         $this->assertTrue(file_exists($currentEnv));
         $this->assertEquals(file_get_contents($currentEnv), $content);
 
-        $result = $this->manager->backUpCurrentEnv();
+        $result = $manager->backUpCurrentEnv();
         $this->assertTrue($result);
 
-        $backUps = $this->manager->getAllBackUps();
+        $backUps = $manager->getAllBackUps();
         $this->assertEquals(1, $backUps->count());
         $this->assertEquals(Arr::get($backUps->first(), 'content'), $content);
 
@@ -155,18 +148,19 @@ class FilesManagerTest extends TestCase
      */
     public function restoreBackup_works_and_returns_bool()
     {
+        $manager = $this->getEnvFilesManager();
         //place a dummy env file
-        file_put_contents($this->manager->getEnvDir($this->app['config']->get('env-editor.envFileName')), '');
+        file_put_contents($manager->getEnvDir($this->app['config']->get('env-editor.envFileName')), '');
 
         $fileName = time().'_test.tmp';
         $content = time().'_dummy';
-        $file = $this->manager->getBackupsDir($fileName);
+        $file = $manager->getBackupsDir($fileName);
         file_put_contents($file, $content);
 
-        $result = $this->manager->restoreBackup($fileName);
+        $result = $manager->restoreBackup($fileName);
         $this->assertTrue($result);
 
-        $currentEnv = $this->manager->getFilePath();
+        $currentEnv = $manager->getFilePath();
         $this->assertEquals(file_get_contents($currentEnv), $content);
 
         unlink($file);
@@ -178,18 +172,18 @@ class FilesManagerTest extends TestCase
     public function deleteBackup_works_and_returns_bool()
     {
         $fileName = time().'_test.tmp';
-
-        $file = $this->manager->getBackupsDir($fileName);
+        $manager = $this->getEnvFilesManager();
+        $file = $manager->getBackupsDir($fileName);
         file_put_contents($file, 'dummy');
 
-        $result = $this->manager->deleteBackup($fileName);
+        $result = $manager->deleteBackup($fileName);
         $this->assertTrue($result);
 
         $this->assertFalse(file_exists($file));
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
      */
     private function createAndTestPath(string $path): void
     {
@@ -205,12 +199,15 @@ class FilesManagerTest extends TestCase
      */
     private function cleanBackUpDir(): void
     {
-        $files = glob($this->manager->getBackupsDir('*'));
+        (new Filesystem())->cleanDirectory($this->getEnvFilesManager()->getBackupsDir());
+    }
 
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
+    protected function getEnvFilesManager(array $config = []): EnvFilesManager
+    {
+        $envEditor = new EnvEditor(
+            $config ?: $this->app['config']->get('env-editor'),
+            new Filesystem()
+        );
+        return new EnvFilesManager($envEditor, new Filesystem());
     }
 }
