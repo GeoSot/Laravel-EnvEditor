@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class EnvEditor
 {
     /**
-     * @var array<string, string>
+     * @var Repository
      */
     protected $config;
 
