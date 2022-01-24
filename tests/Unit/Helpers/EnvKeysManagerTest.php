@@ -23,10 +23,11 @@ class EnvKeysManagerTest extends TestCase
      */
     public function check_key_existence(): void
     {
-        self::assertTrue($this->getEnvKeysManager()->keyExists('LOG_CHANNEL'));
-        self::assertTrue($this->getEnvKeysManager()->keyExists('DB_CONNECTION'));
-        self::assertFalse($this->getEnvKeysManager()->keyExists('FOO'));
-        self::assertFalse($this->getEnvKeysManager()->keyExists('null'));
+        self::assertTrue($this->getEnvKeysManager()->has('LOG_CHANNEL'));
+        self::assertTrue($this->getEnvKeysManager()->has('DB_CONNECTION'));
+        self::assertFalse($this->getEnvKeysManager()->has('FOO'));
+        self::assertFalse($this->getEnvKeysManager()->has(''));
+        self::assertFalse($this->getEnvKeysManager()->has('null'));
     }
 
     /**
@@ -34,13 +35,13 @@ class EnvKeysManagerTest extends TestCase
      */
     public function returns_value_or_default(): void
     {
-        self::assertEquals('stack', $this->getEnvKeysManager()->getKey('LOG_CHANNEL'));
-        self::assertEquals('mysql', $this->getEnvKeysManager()->getKey('DB_CONNECTION'));
-        self::assertEquals('3306', $this->getEnvKeysManager()->getKey('DB_PORT'));
-        self::assertEquals('', $this->getEnvKeysManager()->getKey('BROADCAST_DRIVER'));
-        self::assertEquals('foo', $this->getEnvKeysManager()->getKey('BROADCAST_DRIVER', 'foo'));
-        self::assertEquals(null, $this->getEnvKeysManager()->getKey('FOO'));
-        self::assertEquals('Bar', $this->getEnvKeysManager()->getKey('FOO', 'Bar'));
+        self::assertEquals('stack', $this->getEnvKeysManager()->get('LOG_CHANNEL'));
+        self::assertEquals('mysql', $this->getEnvKeysManager()->get('DB_CONNECTION'));
+        self::assertEquals('3306', $this->getEnvKeysManager()->get('DB_PORT'));
+        self::assertEquals('', $this->getEnvKeysManager()->get('BROADCAST_DRIVER'));
+        self::assertEquals('foo', $this->getEnvKeysManager()->get('BROADCAST_DRIVER', 'foo'));
+        self::assertEquals(null, $this->getEnvKeysManager()->get('FOO'));
+        self::assertEquals('Bar', $this->getEnvKeysManager()->get('FOO', 'Bar'));
     }
 
     /**
@@ -53,16 +54,16 @@ class EnvKeysManagerTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', $fileName);
 
         self::assertStringContainsString('LOG_CHANNEL', file_get_contents($fullPath));
-        self::assertTrue($this->getEnvKeysManager()->deleteKey('LOG_CHANNEL'));
+        self::assertTrue($this->getEnvKeysManager()->delete('LOG_CHANNEL'));
         self::assertStringNotContainsString('LOG_CHANNEL=stack', file_get_contents($fullPath));
 
         self::assertStringContainsString('CACHE_DRIVER', file_get_contents($fullPath));
-        self::assertTrue($this->getEnvKeysManager()->deleteKey('CACHE_DRIVER'));
+        self::assertTrue($this->getEnvKeysManager()->delete('CACHE_DRIVER'));
         self::assertStringNotContainsString('CACHE_DRIVER="file"', file_get_contents($fullPath));
 
         self::assertStringNotContainsString('CACHE_DRIVER', file_get_contents($fullPath));
         try {
-            $this->getEnvKeysManager()->deleteKey('CACHE_DRIVER');
+            $this->getEnvKeysManager()->delete('CACHE_DRIVER');
         } catch (\Exception $e) {
             self::assertInstanceOf(EnvException::class, $e);
             unlink($fullPath);
@@ -79,22 +80,22 @@ class EnvKeysManagerTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', $fileName);
 
         self::assertStringContainsString('LOG_CHANNEL=stack', file_get_contents($fullPath));
-        self::assertTrue($this->getEnvKeysManager()->editKey('LOG_CHANNEL', 'foo'));
+        self::assertTrue($this->getEnvKeysManager()->edit('LOG_CHANNEL', 'foo'));
         self::assertStringContainsString('LOG_CHANNEL=foo', file_get_contents($fullPath));
 
         self::assertStringContainsString('CACHE_DRIVER="file"', file_get_contents($fullPath));
-        self::assertTrue($this->getEnvKeysManager()->editKey('CACHE_DRIVER', '"bar"'));
+        self::assertTrue($this->getEnvKeysManager()->edit('CACHE_DRIVER', '"bar"'));
         self::assertStringContainsString('CACHE_DRIVER="bar"', file_get_contents($fullPath));
 
-        self::assertTrue($this->getEnvKeysManager()->editKey('CACHE_DRIVER', ''));
+        self::assertTrue($this->getEnvKeysManager()->edit('CACHE_DRIVER', ''));
         self::assertStringContainsString('CACHE_DRIVER=', file_get_contents($fullPath));
 
-        self::assertTrue($this->getEnvKeysManager()->editKey('CACHE_DRIVER', null));
+        self::assertTrue($this->getEnvKeysManager()->edit('CACHE_DRIVER', null));
         self::assertStringContainsString('CACHE_DRIVER=', file_get_contents($fullPath));
 
         self::assertStringNotContainsString('WRONG_KEY', file_get_contents($fullPath));
         try {
-            $this->getEnvKeysManager()->editKey('WRONG_KEY', 'fail');
+            $this->getEnvKeysManager()->edit('WRONG_KEY', 'fail');
         } catch (\Exception $e) {
             self::assertInstanceOf(EnvException::class, $e);
             unlink($fullPath);
@@ -111,9 +112,7 @@ class EnvKeysManagerTest extends TestCase
             new Repository($config ?: $this->app['config']->get('env-editor')),
             new Filesystem()
         );
-        $this->app->singleton(EnvEditor::class, function () use ($envEditor) {
-            return $envEditor;
-        });
+        $this->app->singleton(EnvEditor::class, fn () => $envEditor);
 
         return $envEditor->getKeysManager();
     }

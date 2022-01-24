@@ -6,26 +6,14 @@ use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class EnvFileContentManager
 {
-    /**
-     * @var EnvEditor
-     */
-    protected $envEditor;
+    protected EnvEditor $envEditor;
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * Constructor.
-     *
-     * @param  EnvEditor  $envEditor
-     */
     public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
     {
         $this->envEditor = $envEditor;
@@ -37,7 +25,7 @@ class EnvFileContentManager
      *
      * @param  string  $fileName
      *
-     * @return Collection<int, array{key:string, value: int|string, group:int, index:int , separator:bool}>
+     * @return Collection<int, EntryObj>
      * @throws EnvException
      */
     public function getParsedFileContent(string $fileName = ''): Collection
@@ -45,29 +33,18 @@ class EnvFileContentManager
         $content = preg_split('/(\r\n|\r|\n)/', $this->getFileContents($fileName));
 
         $groupIndex = 1;
-        /** @var Collection<int, array{key:string, value: int|string, group:int, index:int , separator:bool}> $collection */
+        /** @var Collection<int, EntryObj> $collection */
         $collection = collect([]);
         foreach ($content as $index => $line) {
-            if ($line == '') {
-                $separator = $this->envEditor->getkeysManager()->getKeysSeparator($groupIndex, $index);
-                $collection->push($separator);
+            $entryObj = EntryObj::parseEnvLine($line, $groupIndex, $index);
+            $collection->push($entryObj);
+
+            if ($entryObj->isSeparator()) {
                 $groupIndex++;
-                continue;
             }
-            $entry = explode('=', $line, 2);
-            $groupArray = [
-                'key' => Arr::get($entry, 0),
-                'value' => Arr::get($entry, 1),
-                'group' => $groupIndex,
-                'index' => $index,
-                'separator' => false,
-            ];
-            $collection->push($groupArray);
         }
 
-        return $collection->sortBy('index')->reject(function ($value) use ($collection) {
-            return $value['separator'] && $collection->where('group', '==', $value['group'])->count() == 1;
-        });
+        return $collection->sortBy('index');
     }
 
     /**
@@ -96,7 +73,7 @@ class EnvFileContentManager
     /**
      * Save the new collection on .env file.
      *
-     * @param  Collection  $envValues
+     * @param  Collection<int, EntryObj>  $envValues
      * @param  string  $fileName
      *
      * @return bool
@@ -104,16 +81,16 @@ class EnvFileContentManager
      */
     public function save(Collection $envValues, string $fileName = ''): bool
     {
-        $env = $envValues->sortBy(['index'])->map(function ($item) {
-            if ($item['key'] == '') {
-                return '';
-            }
+        $env = $envValues
+            ->sortBy(fn (EntryObj $item) => $item->index)
+            ->map(fn (EntryObj $item) => $item->getAsEnvLine());
 
-            return $item['key'].'='.$item['value'];
-        });
+        $content = implode(PHP_EOL, $env->toArray());
 
-        $content = implode("\n", $env->toArray());
-        $result = $this->filesystem->put($this->envEditor->getFilesManager()->getFilePath($fileName), $content);
+        $result = $this->filesystem->put(
+            $this->envEditor->getFilesManager()->getFilePath($fileName),
+            $content
+        );
 
         return $result !== false;
     }
