@@ -50,7 +50,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function loadResources(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', static::PACKAGE);
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', static::PACKAGE);
     }
