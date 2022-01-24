@@ -5,6 +5,7 @@ namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Tests\TestCase;
+use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
@@ -205,9 +206,9 @@ class FilesManagerTest extends TestCase
     protected function getEnvFilesManager(array $config = []): EnvFilesManager
     {
         $envEditor = new EnvEditor(
-            $config ?: $this->app['config']->get('env-editor'),
+            new Repository($config ?: $this->app['config']->get('env-editor')),
             new Filesystem()
         );
-        return new EnvFilesManager($envEditor, new Filesystem());
+        return $envEditor->getFilesManager();
     }
 }
