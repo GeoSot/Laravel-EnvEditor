@@ -2,18 +2,13 @@
 
 namespace GeoSot\EnvEditor;
 
+use Illuminate\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
+
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    /**
-     * @var string
-     */
     public const VENDOR = 'geo-sv';
 
-    /**
-     * Package name.
-     *
-     * @var string
-     */
     public const PACKAGE = 'env-editor';
 
     public const TRANSLATE_PREFIX = self::PACKAGE.'::env-editor.';
@@ -42,7 +37,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         );
 
         $this->app->singleton(EnvEditor::class, function () {
-            return new EnvEditor(config(static::PACKAGE));
+            return new EnvEditor(
+                new Repository(config(static::PACKAGE)),
+                $this->app->make(Filesystem::class)
+            );
         });
 
         $this->app->alias(EnvEditor::class, 'env-editor');

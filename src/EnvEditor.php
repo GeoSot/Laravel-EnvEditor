@@ -6,6 +6,7 @@ use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Helpers\EnvKeysManager;
+use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class EnvEditor
 {
     /**
-     * @var array<string, string>
+     * @var Repository
      */
     protected $config;
 
@@ -36,17 +37,12 @@ class EnvEditor
      */
     protected $fileContentManager;
 
-    /**
-     * Constructor.
-     *
-     * @param  array<string, string>  $config
-     */
-    public function __construct(array $config = [])
+    public function __construct(Repository $config, Filesystem $filesystem)
     {
         $this->config = $config;
         $this->keysManager = new EnvKeysManager($this);
-        $this->filesManager = new EnvFilesManager($this, app(Filesystem::class));
-        $this->fileContentManager = new EnvFileContentManager($this, app(Filesystem::class));
+        $this->filesManager = new EnvFilesManager($this, $filesystem);
+        $this->fileContentManager = new EnvFileContentManager($this, $filesystem);
     }
 
     /**
@@ -204,11 +200,11 @@ class EnvEditor
      * @param  string  $key
      * @param  mixed  $default
      *
-     * @return mixed
+     * @return array|mixed
      */
     public function config(string $key, $default = null)
     {
-        return config(ServiceProvider::PACKAGE.'.'.$key, $default);
+        return $this->config->get($key, $default);
     }
 
     public function getKeysManager(): EnvKeysManager
