@@ -1,6 +1,6 @@
 <?php
 
-namespace GeoSot\EnvEditor\Tests\Unit;
+namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
