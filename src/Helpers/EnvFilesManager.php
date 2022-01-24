@@ -48,7 +48,7 @@ class EnvFilesManager
             $data = [
                 'real_name' => $file->getFilename(),
                 'name' => $file->getFilename(),
-                'crated_at' => $file->getCTime(),
+                'created_at' => $file->getCTime(),
                 'modified_at' => $file->getMTime(),
                 'created_at_formatted' => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
                 'modified_at_formatted' => Carbon::createFromTimestamp($file->getMTime())->format($this->envEditor->config('timeFormat')),
