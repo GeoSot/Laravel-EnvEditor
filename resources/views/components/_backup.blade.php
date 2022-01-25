@@ -23,15 +23,15 @@
                             <th scope="row" class="font-weight-bold ">@{{ item.name }}</th>
                             <td>@{{ item.created_at_formatted }}</td>
                             <td>
-                                <div class="btn-group btn-group-sm">
+                                <div class="btn-group" role="group">
                                     <button class="btn btn-info" data-toggle="collapse" aria-expanded="false"
                                             :data-target="'#collapse_'+item.real_name"
-                                            :aria-controls="'#collaps_'+item.real_name" title="{{__($translatePrefix.'btn.viewContent')}}"><span class="fa fa-eye"></span></button>
+                                            :aria-controls="'#collaps_'+item.real_name" title="{{__($translatePrefix.'btn.viewContent')}}"><span class="fas fa-eye"></span></button>
                                     <a class="btn btn-info" :href="getDownLoadLink(item)" title="{{__($translatePrefix.'btn.download')}}"><span
-                                            class="fa fa-download"></span></a>
-                                    <button class="btn btn-secondary" @click="restore(item)" title="{{__($translatePrefix.'btn.restore')}}"><span class="fa fa-refresh"></span>
+                                            class="fas fa-download"></span></a>
+                                    <button class="btn btn-secondary" @click="restore(item)" title="{{__($translatePrefix.'btn.restore')}}"><span class="fas fa-redo"></span>
                                     </button>
-                                    <button class="btn btn-danger" @click="destroy(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
+                                    <button class="btn btn-danger" @click="destroy(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fas fa-trash"></span></button>
                                 </div>
                             </td>
                         </tr>

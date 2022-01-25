@@ -3,7 +3,7 @@
 
 @extends(config("$package.layout"))
 @push('documentTitle')
-    <i class="fa fa-cog" aria-hidden="true"></i>
+    <i class="fas fa-cog" aria-hidden="true"></i>
     {{trans('env-editor::env-editor.menuTitle')}}
 @endpush
 
