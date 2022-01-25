@@ -19,10 +19,10 @@
                     <th scope="row" class="font-weight-bold ">@{{ item.key }}</th>
                     <td>@{{ item.value }}</td>
                     <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-info" @click="edit(item)" title="{{__($translatePrefix.'btn.edit')}}"><span class="fa fa-edit"></span></button>
-                            <button class="btn btn-secondary" @click="addAfter(item)" title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fa fa-share"></span></button>
-                            <button class="btn btn-danger" @click="remove(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-info" @click="edit(item)" title="{{__($translatePrefix.'btn.edit')}}"><span class="fas fa-edit"></span></button>
+                            <button class="btn btn-secondary" @click="addAfter(item)" title="{{__($translatePrefix.'btn.addAfterKey')}}"><span class="fas fa-share"></span></button>
+                            <button class="btn btn-danger" @click="remove(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fas fa-trash"></span></button>
                         </div>
                     </td>
                 </tr>
