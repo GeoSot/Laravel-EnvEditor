@@ -2,11 +2,8 @@
 
 namespace GeoSot\EnvEditor\Tests\Feature;
 
-
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\Tests\TestCase;
-use Illuminate\Config\Repository;
-use Illuminate\Filesystem\Filesystem;
 
 class UiTest extends TestCase
 {
@@ -40,7 +37,6 @@ class UiTest extends TestCase
         $response->assertStatus(200);
         $response->assertDownload(self::getTestFile());
     }
-
 
     /**
      * @param  string  $route

@@ -26,7 +26,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function constructor_calls_makeBackupsDirectory_method()
+    public function constructor_calls_makeBackupsDirectory_method(): void
     {
         $classname = EnvFilesManager::class;
 
@@ -51,7 +51,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function backupDir_is_created()
+    public function backupDir_is_created(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
         $this->createAndTestPath($path);
@@ -61,7 +61,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function getEnvDir_exists()
+    public function getEnvDir_exists(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
         $this->createAndTestPath($path);
@@ -70,7 +70,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getBackupsDir_can_return_file()
+    public function getBackupsDir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
         $filename = 'test.tmp';
@@ -85,7 +85,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getEnvDir_can_return_file()
+    public function getEnvDir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
         $filename = 'test.tmp';
@@ -100,7 +100,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getAllBackUps_returns_all_files()
+    public function getAllBackUps_returns_all_files(): void
     {
         $manager = $this->getEnvFilesManager();
         $file1 = $manager->getBackupsDir('test.tmp');
@@ -118,7 +118,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function backUpCurrentEnv_works_and_returns_bool()
+    public function backUpCurrentEnv_works_and_returns_bool(): void
     {
         $fileName = 'test.tmp';
         $this->app['config']->set('env-editor.envFileName', $fileName);
@@ -147,7 +147,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function restoreBackup_works_and_returns_bool()
+    public function restoreBackup_works_and_returns_bool(): void
     {
         $manager = $this->getEnvFilesManager();
         //place a dummy env file
@@ -170,7 +170,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function deleteBackup_works_and_returns_bool()
+    public function deleteBackup_works_and_returns_bool(): void
     {
         $fileName = time().'_test.tmp';
         $manager = $this->getEnvFilesManager();
@@ -195,20 +195,22 @@ class FilesManagerTest extends TestCase
         unlink($filename);
     }
 
-    /**
-     * @return mixed
-     */
     private function cleanBackUpDir(): void
     {
         (new Filesystem())->cleanDirectory($this->getEnvFilesManager()->getBackupsDir());
     }
 
+    /**
+     * @param  array<string, mixed>  $config
+     * @return EnvFilesManager
+     */
     protected function getEnvFilesManager(array $config = []): EnvFilesManager
     {
         $envEditor = new EnvEditor(
             new Repository($config ?: $this->app['config']->get('env-editor')),
             new Filesystem()
         );
+
         return $envEditor->getFilesManager();
     }
 }

@@ -3,6 +3,7 @@ includes:
 parameters:
     paths:
         - src
+        - tests
     # The level 8 is the highest level
     level: 6
     reportStaticMethodSignatures: true
