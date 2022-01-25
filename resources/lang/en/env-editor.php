@@ -11,7 +11,6 @@ return [
         'keyWasAdded'                            => 'Key ":name" was added',
         'keyWasEdited'                           => 'Key ":name" has ben updated',
         'keyWasDeleted'                          => 'Key ":name" was Deleted',
-        'configCacheWasCleared'                  => 'Config cache, was cleared',
     ],
     'views' => [
         'tabTitles' => [

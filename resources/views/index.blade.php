@@ -4,7 +4,7 @@
 @extends(config("$package.layout"))
 @push('documentTitle')
     <i class="fa fa-cog" aria-hidden="true"></i>
-{{trans('env-editor::env-editor.menuTitle')}}
+    {{trans('env-editor::env-editor.menuTitle')}}
 @endpush
 
 @section('content')
@@ -68,7 +68,34 @@
             setTimeout(() => {
                 $('#' + $id).alert('close')
             }, 3000)
+        };
 
+        window.envClient = (endpoint, customConfig) => {
+            const data= customConfig && customConfig.data
+            let headers = {
+                'Accept': 'application/json',
+                "X-CSRF-Token": '{{csrf_token()}}'
+            }
+            if (data) {
+                headers['Content-Type'] = 'application/json'
+                customConfig.body = JSON.stringify(customConfig.data)
+            }
+
+            const config = {
+                ...customConfig,
+                headers: headers,
+            }
+
+            return window
+                .fetch(endpoint, config)
+                .then(async response => {
+                    const data = await response.json()
+                    if (response.ok) {
+                        return data
+                    }
+                    envAlert('danger', data.message);
+                    return Promise.reject(data)
+                })
         };
 
         const dotEnv = new Vue({

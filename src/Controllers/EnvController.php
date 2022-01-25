@@ -140,7 +140,7 @@ class EnvController extends BaseController
     {
         Artisan::call('config:clear');
 
-        return $this->returnGenericResponse(true, [], 'configCacheWasCleared');
+        return $this->returnGenericResponse(true, ['message'=> Artisan::output()]);
     }
 
     /**
@@ -170,6 +170,6 @@ class EnvController extends BaseController
 
         return response()->json(array_merge($data, [
             'success' => $success,
-        ]));
+        ]), $success ? 200 : 400);
     }
 }
