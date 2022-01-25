@@ -75,11 +75,8 @@
                         envEventBus.$emit('env:item:delete', item);
                     },
                     getItemsWithAjax() {
-                        axios.get('{{route(config($package.'.route.name').'.index')}}').then((response) => {
-                            this.items = response.data.items;
-                        }).catch((error) => {
-                            envAlert('danger', error.response.data.message);
-                        })
+                        envClient('{{route(config($package.'.route.name').'.index')}}')
+                            .then(data => this.items = data.items)
                     }
                 },
             }

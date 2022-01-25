@@ -18,17 +18,12 @@
                     this.submit('delete', '{{route(config($package.'.route.name').'.clearConfigCache')}}');
                 },
                 submit(method, url) {
-                    axios({
-                        method: method,
-                        _token: '{{csrf_token()}}',
-                        url: url,
-                        data: this.modalItem
-                    }).then((response) => {
-                        if (response.data.message) {
-                            envAlert('info', response.data.message);
+                    envClient(url,{
+                        method: method
+                    }).then(data => {
+                        if (data.message) {
+                            envAlert('info', data.message);
                         }
-                    }).catch((error) => {
-                        envAlert('danger', error.response.data.message);
                     })
                 },
             }

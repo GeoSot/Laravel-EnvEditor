@@ -100,7 +100,6 @@
                         group: null,
                     }
                 },
-
                 hideModal() {
                     this.modalItem = this.newModalItem();
                     this.readonly.key = false;
@@ -133,19 +132,15 @@
                     $(this.modal).modal('show')
                 },
                 submit() {
-                    axios({
+                    envClient('{{route(config($package.'.route.name').'.key')}}',{
                         method: this.getAjaxMethod(),
-                        _token:'{{csrf_token()}}',
-                        url: '{{route(config($package.'.route.name').'.key')}}',
                         data: this.modalItem
-                    }).then((response) => {
-                        if (response.data.message) {
-                            envAlert('info', response.data.message);
+                    }).then(data => {
+                        if (data.message) {
+                            envAlert('info', data.message);
                         }
                         envEventBus.$emit('env:changed')
 
-                    }).catch((error) => {
-                        envAlert('danger', error.response.data.message);
                     }).then(() => {
                         this.hideModal();
                     });

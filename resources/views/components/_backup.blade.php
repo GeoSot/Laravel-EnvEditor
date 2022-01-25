@@ -2,15 +2,14 @@
 <template id="env-editor-backups">
     <div>
         <div class="h5 my-4">{{__($translatePrefix.'title')}}</div>
-       <div>
-           <button class="btn-info btn " @click="createBackUp">{{__($translatePrefix.'btn.backUpCurrentEnv')}}</button>
-           <a class="btn-info btn" href="{{route(config($package.'.route.name').'.download')}}">{{__($translatePrefix.'btn.downloadCurrentEnv')}}</a>
-
-       </div>
+        <div>
+            <button class="btn-info btn " @click="createBackUp">{{__($translatePrefix.'btn.backUpCurrentEnv')}}</button>
+            <a class="btn-info btn" href="{{route(config($package.'.route.name').'.download')}}">{{__($translatePrefix.'btn.downloadCurrentEnv')}}</a>
+        </div>
         <div class=" my-3">
 
-            <div  v-if="items.length" class="table-responsive">
-                <table id="env-editor-table-accordion" class="table  ">
+            <div v-if="items.length" class="table-responsive">
+                <table id="env-editor-table-accordion" class="table">
                     <thead>
                     <tr class="table-secondary">
                         <th scope="col">{{__($translatePrefix.'tableTitles.filename')}}</th>
@@ -29,7 +28,7 @@
                                             :data-target="'#collapse_'+item.real_name"
                                             :aria-controls="'#collaps_'+item.real_name" title="{{__($translatePrefix.'btn.viewContent')}}"><span class="fa fa-eye"></span></button>
                                     <a class="btn btn-info" :href="getDownLoadLink(item)" title="{{__($translatePrefix.'btn.download')}}"><span
-                                                class="fa fa-download"></span></a>
+                                            class="fa fa-download"></span></a>
                                     <button class="btn btn-secondary" @click="restore(item)" title="{{__($translatePrefix.'btn.restore')}}"><span class="fa fa-refresh"></span>
                                     </button>
                                     <button class="btn btn-danger" @click="destroy(item)" title="{{__($translatePrefix.'btn.delete')}}"><span class="fa fa-trash"></span></button>
@@ -98,22 +97,18 @@
                     let url = '{{route(config($package.'.route.name').'.destroyBackup')}}/';
                     this.sendBasicAjaxRequest('delete', url + item.real_name, 'backupsChanged');
 
-                }, sendBasicAjaxRequest($method, $url, $eventToTrigger) {
-                    axios({method: $method, url: $url}).then((response) => {
-                        if (response.data.message) {
-                            envAlert('info', response.data.message);
+                },
+                sendBasicAjaxRequest($method, $url, $eventToTrigger) {
+                    envClient($url, { method: $method }).then((data) => {
+                        if (data.message) {
+                            envAlert('info', data.message);
                         }
                         envEventBus.$emit('env:' + $eventToTrigger);
-                    }).catch((error) => {
-                        envAlert('danger', error.response.data.message);
                     })
                 },
-
                 getItemsWithAjax() {
-                    axios.get('{{route(config($package.'.route.name').'.getBackups')}}').then((response) => {
-                        this.items = response.data.items;
-
-                    })
+                    envClient('{{route(config($package.'.route.name').'.getBackups')}}')
+                        .then(data => this.items = Object.values(data.items))
                 }
             },
         };
