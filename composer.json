@@ -15,13 +15,13 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
-        "laravel/framework": ">=8"
+        "php": "^7|^8",
+        "laravel/framework": "^8|^9"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.4",
-        "nunomaduro/larastan": "^1.0",
-        "orchestra/testbench": "^6"
+        "friendsofphp/php-cs-fixer": "^3",
+        "nunomaduro/larastan": "^2",
+        "orchestra/testbench": "^7"
     },
     "autoload": {
         "psr-4": {
