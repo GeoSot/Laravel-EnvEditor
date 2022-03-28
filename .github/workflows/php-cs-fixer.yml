@@ -12,17 +12,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT }}
+        uses: actions/checkout@v3
+#        with:
+#          ref: ${{ github.head_ref }}
+#          token: ${{ secrets.PAT }}
 
       - name: Run PHP CS Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: --config=ruleset-php_cs.php --allow-risky=yes --show-progress=dots
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply php-cs-fixer changes
+          args: --config=ruleset-php_cs.php --allow-risky=yes --show-progress=dots --diff --dry-run
+#
+#      - name: Commit changes
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: Apply php-cs-fixer changes
