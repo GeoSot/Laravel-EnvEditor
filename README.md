@@ -18,16 +18,7 @@ The inspiration for this package was, [Brotzka/laravel-dotenv-editor](https://gi
     ```bash
     composer require geo-sot/laravel-env-editor
     ```
-2. Edit config/app.php (*Skip this step if you are using laravel 5.5+*)
-    Service provider:
-    ```php
-    GeoSot\EnvEditor\ServiceProvider::class
-    ```
-    Class aliases:
-    ```php
-    'EnvEditor' => GeoSot\\EnvEditor\\Facades\\EnvEditor::class
-    ```
- 3. Publish assets 
+2. Publish assets 
      ```bash
      php artisan vendor:publish --provider=GeoSot\EnvEditor\ServiceProvider     
       ```      
@@ -63,6 +54,9 @@ The inspiration for this package was, [Brotzka/laravel-dotenv-editor](https://gi
 >* getFilePath
 >* deleteBackup
 >* restoreBackUp
+
+<Details>
+<Summary>Example</Summary>
 
    ```php
      
@@ -106,7 +100,8 @@ The inspiration for this package was, [Brotzka/laravel-dotenv-editor](https://gi
      
 
 
- ````
+ ```
+</Details>
  <br/>
  
 

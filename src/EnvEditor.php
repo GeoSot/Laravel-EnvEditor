@@ -3,6 +3,7 @@
 namespace GeoSot\EnvEditor;
 
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Helpers\EnvKeysManager;
@@ -17,25 +18,13 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class EnvEditor
 {
-    /**
-     * @var Repository
-     */
-    protected $config;
+    protected Repository $config;
 
-    /**
-     * @var EnvKeysManager
-     */
-    protected $keysManager;
+    protected EnvKeysManager $keysManager;
 
-    /**
-     * @var EnvFilesManager
-     */
-    protected $filesManager;
+    protected EnvFilesManager $filesManager;
 
-    /**
-     * @var EnvFileContentManager
-     */
-    protected $fileContentManager;
+    protected EnvFileContentManager $fileContentManager;
 
     public function __construct(Repository $config, Filesystem $filesystem)
     {
@@ -50,7 +39,7 @@ class EnvEditor
      *
      * @param  string  $fileName
      *
-     * @return Collection
+     * @return Collection<int, EntryObj>
      * @throws EnvException
      */
     public function getEnvFileContent(string $fileName = ''): Collection
@@ -60,15 +49,10 @@ class EnvEditor
 
     /**
      * Check if key Exist in Current env.
-     *
-     * @param  string  $key
-     *
-     * @return bool
-     * @throws EnvException
      */
     public function keyExists(string $key): bool
     {
-        return $this->getKeysManager()->keyExists($key);
+        return $this->getKeysManager()->has($key);
     }
 
     /**
@@ -78,11 +62,10 @@ class EnvEditor
      * @param  mixed  $default
      *
      * @return bool|float|int|string|null
-     * @throws EnvException
      */
-    public function getKey(string $key, $default = null)
+    public function getKey(string $key, mixed $default = null): float|bool|int|string|null
     {
-        return $this->getKeysManager()->getKey($key, $default);
+        return $this->getKeysManager()->get($key, $default);
     }
 
     /**
@@ -95,9 +78,9 @@ class EnvEditor
      * @return bool
      * @throws EnvException
      */
-    public function addKey(string $key, $value, array $options = []): bool
+    public function addKey(string $key, mixed $value, array $options = []): bool
     {
-        return $this->getKeysManager()->addKey($key, $value, $options);
+        return $this->getKeysManager()->add($key, $value, $options);
     }
 
     /**
@@ -109,9 +92,9 @@ class EnvEditor
      * @return bool
      * @throws EnvException
      */
-    public function editKey(string $keyToChange, $newValue): bool
+    public function editKey(string $keyToChange, mixed $newValue): bool
     {
-        return $this->getKeysManager()->editKey($keyToChange, $newValue);
+        return $this->getKeysManager()->edit($keyToChange, $newValue);
     }
 
     /**
@@ -124,12 +107,13 @@ class EnvEditor
      */
     public function deleteKey(string $key): bool
     {
-        return $this->getKeysManager()->deleteKey($key);
+        return $this->getKeysManager()->delete($key);
     }
 
     /**
      * Get all Backup Files.
      *
+     * @return Collection<int, array{real_name:string, name:string, created_at:int, modified_at:int, created_at_formatted:string, modified_at_formatted:string, content:string, path:string,parsed_data:Collection<int, EntryObj>}>
      * @throws EnvException
      */
     public function getAllBackUps(): Collection
@@ -138,7 +122,7 @@ class EnvEditor
     }
 
     /**
-     * uploadBackup.
+     * upload Backup.
      */
     public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): File
     {
@@ -196,13 +180,7 @@ class EnvEditor
         return $this->getFilesManager()->restoreBackup($fileName);
     }
 
-    /**
-     * @param  string  $key
-     * @param  mixed  $default
-     *
-     * @return array|mixed
-     */
-    public function config(string $key, $default = null)
+    public function config(string $key, mixed $default = null): mixed
     {
         return $this->config->get($key, $default);
     }
