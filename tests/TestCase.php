@@ -9,7 +9,19 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function setUp(): void
+    {
+        parent::setUp();
+        copy(self::getTestFile(true), self::getTestPath().'/copy');
+    }
+
+    protected function tearDown(): void
+    {
+        copy(self::getTestPath().'/copy', self::getTestFile(true));
+        unlink(self::getTestPath().'/copy');
+    }
+
+    protected function getEnvironmentSetUp($app): void
     {
         $key = 'base64:'.base64_encode(
             Encrypter::generateKey('AES-256-CBC')
@@ -21,7 +33,7 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * @inheritdoc
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ServiceProvider::class,
@@ -31,7 +43,7 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * @inheritdoc
      */
-    protected function getPackageAliases($app)
+    protected function getPackageAliases($app): array
     {
         return [
             'env-editor' => EnvEditor::class,
