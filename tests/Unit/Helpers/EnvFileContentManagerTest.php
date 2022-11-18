@@ -36,7 +36,7 @@ class EnvFileContentManagerTest extends TestCase
     public function wrong_file_throws_exception(): void
     {
         self::expectException(EnvException::class);
-        $file = config('env-editor.paths.backupDirectory').'\not-existed-file';
+        $file = config('env-editor.paths.backupDirectory').DIRECTORY_SEPARATOR.'not-existed-file';
         self::expectExceptionMessage('File "'.$file.'" does not Exists !!!');
         \GeoSot\EnvEditor\Facades\EnvEditor::getFilePath('not-existed-file');
     }
@@ -47,7 +47,7 @@ class EnvFileContentManagerTest extends TestCase
     public function fail_to_retrieve_file_contents(): void
     {
         $manager = $this->getEnvFileContentManager();
-        $file = $file = config('env-editor.paths.backupDirectory').'\not-existed-file';
+        $file = $file = config('env-editor.paths.backupDirectory').DIRECTORY_SEPARATOR.'not-existed-file';
 
         self::expectException(EnvException::class);
         self::expectExceptionMessage('File "'.$file.'" does not Exists !!!');
