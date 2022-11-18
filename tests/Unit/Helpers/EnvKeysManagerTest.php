@@ -4,6 +4,7 @@ namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
+use GeoSot\EnvEditor\Facades\EnvEditor as EnvEditorFacade;
 use GeoSot\EnvEditor\Helpers\EnvKeysManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
@@ -96,6 +97,25 @@ class EnvKeysManagerTest extends TestCase
         self::assertStringNotContainsString('WRONG_KEY', file_get_contents($fullPath));
         try {
             $this->getEnvKeysManager()->edit('WRONG_KEY', 'fail');
+        } catch (\Exception $e) {
+            self::assertInstanceOf(EnvException::class, $e);
+            unlink($fullPath);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function adds_keys(): void
+    {
+        $fileName = 'dummy.tmp';
+        $fullPath = $this->createNewDummyFile($fileName);
+        $this->app['config']->set('env-editor.envFileName', $fileName);
+
+        EnvEditorFacade::addKey('FOO', 'bar');
+        $this->assertSame('bar', EnvEditorFacade::getKey('FOO'));
+        try {
+            EnvEditorFacade::addKey('FOO', 'bar2');
         } catch (\Exception $e) {
             self::assertInstanceOf(EnvException::class, $e);
             unlink($fullPath);

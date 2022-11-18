@@ -3,6 +3,7 @@
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
+use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Tests\TestCase;
@@ -27,6 +28,30 @@ class EnvFileContentManagerTest extends TestCase
         self::assertCount(5, $separators);
         self::assertCount(5, $groups);
         self::assertCount(17, $content);
+    }
+
+    /**
+     * @test
+     */
+    public function wrong_file_throws_exception(): void
+    {
+        self::expectException(EnvException::class);
+        $file = config('env-editor.paths.backupDirectory').DIRECTORY_SEPARATOR.'not-existed-file';
+        self::expectExceptionMessage('File "'.$file.'" does not Exists !!!');
+        \GeoSot\EnvEditor\Facades\EnvEditor::getFilePath('not-existed-file');
+    }
+
+    /**
+     * @test
+     */
+    public function fail_to_retrieve_file_contents(): void
+    {
+        $manager = $this->getEnvFileContentManager();
+        $file = $file = config('env-editor.paths.backupDirectory').DIRECTORY_SEPARATOR.'not-existed-file';
+
+        self::expectException(EnvException::class);
+        self::expectExceptionMessage('File "'.$file.'" does not Exists !!!');
+        $manager->getParsedFileContent('not-existed-file');
     }
 
     /**

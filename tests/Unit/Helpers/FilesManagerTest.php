@@ -3,6 +3,7 @@
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
+use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
@@ -165,6 +166,18 @@ class FilesManagerTest extends TestCase
         $this->assertEquals(file_get_contents($currentEnv), $content);
 
         unlink($file);
+    }
+
+    /**
+     * @test
+     */
+    public function restoreBackup_wrong_backup(): void
+    {
+        $manager = $this->getEnvFilesManager();
+
+        self::expectException(EnvException::class);
+        self::expectExceptionMessage('You have to provide a FileName !!!');
+        $manager->restoreBackup('');
     }
 
     /**
