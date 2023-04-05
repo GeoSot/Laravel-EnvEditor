@@ -109,11 +109,11 @@
                 getAjaxMethod() {
                     switch (this.type) {
                         case 'delete':
-                            return 'delete';
+                            return 'DELETE';
                         case 'edit':
-                            return 'patch';
+                            return 'PATCH';
                         default:
-                            return 'post'
+                            return 'POST'
                     }
                 },
                 makeReadOnly(arg = null) {
