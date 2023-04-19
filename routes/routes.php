@@ -8,7 +8,7 @@ $routeMainName = config('env-editor.route.name');
 Route::prefix(config('env-editor.route.prefix'))
     ->middleware(config('env-editor.route.middleware'))
     ->group(function () use ($routeMainName) {
-        Route::get('/', [EnvController::class, 'index'])->name($routeMainName.'.index');
+        Route::get('index', [EnvController::class, 'index'])->name($routeMainName.'.index');
 
         Route::post('key', [EnvController::class, 'addKey'])->name($routeMainName.'.key');
         Route::patch('key', [EnvController::class, 'editKey']);
