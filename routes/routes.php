@@ -14,7 +14,8 @@ Route::prefix(config('env-editor.route.prefix'))
         Route::patch('key', [EnvController::class, 'editKey']);
         Route::delete('key', [EnvController::class, 'deleteKey']);
 
-        Route::delete('clear-cache', [EnvController::class, 'clearConfigCache'])->name($routeMainName.'.clearConfigCache');
+        Route::delete('clear-cache', [EnvController::class, 'clearConfigCache'])
+            ->name($routeMainName.'.clearConfigCache');
 
         Route::prefix('files')->group(function () use ($routeMainName) {
             Route::get('/', [EnvController::class, 'getBackupFiles'])
