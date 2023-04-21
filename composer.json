@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "php": "^8",
-        "laravel/framework": "^8|^9"
+        "php": ">=8.0",
+        "laravel/framework": ">=8.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3",
