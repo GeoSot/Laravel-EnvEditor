@@ -157,7 +157,10 @@ class EnvFilesManager
         $envFileName = $this->envEditor->config('envFileName');
 
         // Attempt to auto-detect the currently used .env file, if provided config has been left blank
-        if ($envFileName === '') { $envFileName = app()->environmentFile(); }
+        if ($envFileName === '') {
+            $envFileName = app()->environmentFile();
+        }
+
         return $envFileName;
     }
 
