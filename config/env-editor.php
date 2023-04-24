@@ -12,7 +12,8 @@ return [
         //backup files directory
         'backupDirectory' => storage_path('env-editor'),
     ],
-    // .env file name
+
+    // .env file name, use '' (empty string) to auto-detect currently used .env
     'envFileName' => '.env',
 
     /*
