@@ -37,9 +37,8 @@ class EnvEditor
     /**
      * Parse the .env Contents.
      *
-     * @param  string  $fileName
-     *
      * @return Collection<int, EntryObj>
+     *
      * @throws EnvException
      */
     public function getEnvFileContent(string $fileName = ''): Collection
@@ -58,10 +57,7 @@ class EnvEditor
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $default
-     *
-     * @return bool|float|int|string|null
+     * @param mixed $default
      */
     public function getKey(string $key, mixed $default = null): float|bool|int|string|null
     {
@@ -71,11 +67,8 @@ class EnvEditor
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array<string, int|string>  $options
+     * @param array<string, int|string> $options
      *
-     * @return bool
      * @throws EnvException
      */
     public function addKey(string $key, mixed $value, array $options = []): bool
@@ -86,10 +79,6 @@ class EnvEditor
     /**
      * Edits the Given Key  env.
      *
-     * @param  string  $keyToChange
-     * @param  mixed  $newValue
-     *
-     * @return bool
      * @throws EnvException
      */
     public function editKey(string $keyToChange, mixed $newValue): bool
@@ -100,9 +89,6 @@ class EnvEditor
     /**
      * Deletes the Given Key form env.
      *
-     * @param  string  $key
-     *
-     * @return bool
      * @throws EnvException
      */
     public function deleteKey(string $key): bool
@@ -114,6 +100,7 @@ class EnvEditor
      * Get all Backup Files.
      *
      * @return Collection<int, array{real_name:string, name:string, created_at:int, modified_at:int, created_at_formatted:string, modified_at_formatted:string, content:string, path:string,parsed_data:Collection<int, EntryObj>}>
+     *
      * @throws EnvException
      */
     public function getAllBackUps(): Collection
@@ -133,7 +120,6 @@ class EnvEditor
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @return bool
      * @throws EnvException
      */
     public function backUpCurrent(): bool
@@ -144,9 +130,6 @@ class EnvEditor
     /**
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @param  string  $fileName
-     *
-     * @return string
      * @throws EnvException
      */
     public function getFilePath(string $fileName = ''): string
@@ -157,9 +140,6 @@ class EnvEditor
     /**
      * Delete the given backup-file.
      *
-     * @param  string  $fileName
-     *
-     * @return bool
      * @throws EnvException
      */
     public function deleteBackup(string $fileName): bool
@@ -170,9 +150,6 @@ class EnvEditor
     /**
      * Restore  the given backup-file.
      *
-     * @param  string  $fileName
-     *
-     * @return bool
      * @throws EnvException
      */
     public function restoreBackUp(string $fileName): bool

@@ -23,9 +23,8 @@ class EnvFileContentManager
     /**
      * Parse the .env Contents.
      *
-     * @param  string  $fileName
-     *
      * @return Collection<int, EntryObj>
+     *
      * @throws EnvException
      */
     public function getParsedFileContent(string $fileName = ''): Collection
@@ -40,7 +39,7 @@ class EnvFileContentManager
             $collection->push($entryObj);
 
             if ($entryObj->isSeparator()) {
-                $groupIndex++;
+                ++$groupIndex;
             }
         }
 
@@ -50,16 +49,13 @@ class EnvFileContentManager
     /**
      * Get The File Contents.
      *
-     * @param  string  $file
-     *
-     * @return string
      * @throws EnvException
      */
     protected function getFileContents(string $file = ''): string
     {
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
-        if (! $this->filesystem->exists($envFile)) {
+        if (!$this->filesystem->exists($envFile)) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 0);
         }
 
@@ -73,10 +69,8 @@ class EnvFileContentManager
     /**
      * Save the new collection on .env file.
      *
-     * @param  Collection<int, EntryObj>  $envValues
-     * @param  string  $fileName
+     * @param Collection<int, EntryObj> $envValues
      *
-     * @return bool
      * @throws EnvException
      */
     public function save(Collection $envValues, string $fileName = ''): bool
@@ -92,6 +86,6 @@ class EnvFileContentManager
             $content
         );
 
-        return $result !== false;
+        return false !== $result;
     }
 }

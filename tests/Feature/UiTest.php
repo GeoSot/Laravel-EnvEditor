@@ -121,7 +121,7 @@ class UiTest extends TestCase
     {
         $backupsDir = config('env-editor.paths.backupDirectory');
         File::deleteDirectory($backupsDir);
-        $files = fn () => File::glob($backupsDir.'/env_*', );
+        $files = fn () => File::glob($backupsDir.'/env_*');
         $this->assertEmpty($files());
         $response = $this->postJson($this->makeRoute('createBackup'));
         $response->assertStatus(200);
@@ -190,9 +190,7 @@ class UiTest extends TestCase
     }
 
     /**
-     * @param  string  $route
-     * @param  array<string, string>  $parameters
-     * @return string
+     * @param array<string, string> $parameters
      */
     protected function makeRoute(string $route, array $parameters = []): string
     {

@@ -27,7 +27,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function constructor_calls_makeBackupsDirectory_method(): void
+    public function constructor_calls_make_backups_directory_method(): void
     {
         $classname = EnvFilesManager::class;
 
@@ -52,7 +52,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function backupDir_is_created(): void
+    public function backup_dir_is_created(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
         $this->createAndTestPath($path);
@@ -62,7 +62,7 @@ class FilesManagerTest extends TestCase
      * @test
      * Test makeBackupsDirectory method
      */
-    public function getEnvDir_exists(): void
+    public function get_env_dir_exists(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
         $this->createAndTestPath($path);
@@ -71,7 +71,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getBackupsDir_can_return_file(): void
+    public function get_backups_dir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
         $filename = 'test.tmp';
@@ -86,7 +86,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getEnvDir_can_return_file(): void
+    public function get_env_dir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
         $filename = 'test.tmp';
@@ -101,7 +101,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function getAllBackUps_returns_all_files(): void
+    public function get_all_back_ups_returns_all_files(): void
     {
         $manager = $this->getEnvFilesManager();
         $file1 = $manager->getBackupsDir('test.tmp');
@@ -119,7 +119,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function backUpCurrentEnv_works_and_returns_bool(): void
+    public function back_up_current_env_works_and_returns_bool(): void
     {
         $fileName = 'test.tmp';
         $this->app['config']->set('env-editor.envFileName', $fileName);
@@ -129,7 +129,7 @@ class FilesManagerTest extends TestCase
         $file = $manager->getEnvDir($fileName);
         file_put_contents($file, $content);
 
-        //Check CurrentEnv
+        // Check CurrentEnv
         $currentEnv = $manager->getFilePath();
 
         $this->assertTrue(file_exists($currentEnv));
@@ -148,10 +148,10 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function restoreBackup_works_and_returns_bool(): void
+    public function restore_backup_works_and_returns_bool(): void
     {
         $manager = $this->getEnvFilesManager();
-        //place a dummy env file
+        // place a dummy env file
         file_put_contents($manager->getEnvDir($this->app['config']->get('env-editor.envFileName')), '');
 
         $fileName = time().'_test.tmp';
@@ -171,7 +171,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function restoreBackup_wrong_backup(): void
+    public function restore_backup_wrong_backup(): void
     {
         $manager = $this->getEnvFilesManager();
 
@@ -183,7 +183,7 @@ class FilesManagerTest extends TestCase
     /**
      * @test
      */
-    public function deleteBackup_works_and_returns_bool(): void
+    public function delete_backup_works_and_returns_bool(): void
     {
         $fileName = time().'_test.tmp';
         $manager = $this->getEnvFilesManager();
@@ -196,9 +196,6 @@ class FilesManagerTest extends TestCase
         $this->assertFalse(file_exists($file));
     }
 
-    /**
-     * @param  string  $path
-     */
     private function createAndTestPath(string $path): void
     {
         $path = realpath($path);
@@ -214,8 +211,7 @@ class FilesManagerTest extends TestCase
     }
 
     /**
-     * @param  array<string, mixed>  $config
-     * @return EnvFilesManager
+     * @param array<string, mixed> $config
      */
     protected function getEnvFilesManager(array $config = []): EnvFilesManager
     {

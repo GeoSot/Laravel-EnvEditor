@@ -30,9 +30,6 @@ abstract class TestCase extends OrchestraTestCase
         $app['config']->set('app.key', $key);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getPackageProviders($app): array
     {
         return [
@@ -40,9 +37,6 @@ abstract class TestCase extends OrchestraTestCase
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getPackageAliases($app): array
     {
         return [

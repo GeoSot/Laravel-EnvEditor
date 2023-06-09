@@ -3,14 +3,15 @@
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\Helpers\EntryObj;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EntryObjTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider getDummyData
      */
+    #[DataProvider('getDummyData')]
     public function parses_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
@@ -36,8 +37,8 @@ class EntryObjTest extends TestCase
 
     /**
      * @test
-     * @dataProvider getDummyData
      */
+    #[DataProvider('getDummyData')]
     public function returns_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
@@ -47,8 +48,8 @@ class EntryObjTest extends TestCase
 
     /**
      * @test
-     * @dataProvider getDummyData
      */
+    #[DataProvider('getDummyData')]
     public function returns_value_or_default(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
@@ -58,7 +59,7 @@ class EntryObjTest extends TestCase
     /**
      * @return array{array{string, string, mixed, bool}}
      */
-    public function getDummyData(): array
+    public static function getDummyData(): array
     {
         return [
             ['test=1', 'test', 1, false],

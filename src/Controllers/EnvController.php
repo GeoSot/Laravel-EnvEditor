@@ -140,18 +140,13 @@ class EnvController extends BaseController
     {
         Artisan::call('config:clear');
 
-        return $this->returnGenericResponse(true, ['message'=> Artisan::output()]);
+        return $this->returnGenericResponse(true, ['message' => Artisan::output()]);
     }
 
     /**
      * Generic ajax response.
      *
-     * @param  bool  $success
-     * @param  array<string, mixed>  $data
-     * @param  string  $translationWord
-     * @param  string  $keyName
-     *
-     * @return JsonResponse
+     * @param array<string, mixed> $data
      */
     protected function returnGenericResponse(
         bool $success,
@@ -159,7 +154,7 @@ class EnvController extends BaseController
         string $translationWord = '',
         string $keyName = ''
     ): JsonResponse {
-        if (! empty($translationWord) && $success) {
+        if (!empty($translationWord) && $success) {
             $data = array_merge($data, [
                 'message' => __(
                     ServiceProvider::TRANSLATE_PREFIX."controllerMessages.$translationWord",

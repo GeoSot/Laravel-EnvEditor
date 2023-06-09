@@ -2,9 +2,7 @@
 
 namespace GeoSot\EnvEditor\Exceptions;
 
-use Exception;
-
-class EnvException extends Exception
+class EnvException extends \Exception
 {
     public function __toString()
     {
