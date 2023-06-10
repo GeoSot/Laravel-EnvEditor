@@ -10,6 +10,7 @@ class EntryObjTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider getDummyData
      */
     public function parses_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
@@ -37,6 +38,7 @@ class EntryObjTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider getDummyData
      */
     public function returns_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
@@ -48,6 +50,7 @@ class EntryObjTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider getDummyData
      */
     public function returns_value_or_default(string $line, string $key, mixed $value, bool $isSeparator): void
