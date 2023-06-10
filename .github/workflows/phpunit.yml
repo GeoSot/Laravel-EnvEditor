@@ -13,13 +13,27 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest]
-        php: [8.0.14, 8.1]
+        php: [8.0, 8.1, 8.2]
         laravel: [8.*, 9.*, 10.*]
-#        include:
-#          - laravel: 9.*
-#            testbench: ^7
+        include:
+          -   laravel: 10.*
+              testbench: 8.*
+          -   laravel: 9.*
+              testbench: 7.*
+          -   laravel: 8.*
+              testbench: 6.*
+        exclude:
+          -   laravel: 8.*
+              php: 8.1
+          -   laravel: 8.*
+              php: 8.2
+          -   laravel: 9.*
+              php: 8.2
+          -   laravel: 10.*
+              php: 8.0
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.os }}
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -37,8 +51,24 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
+      - name: Cache vendor folder
+        uses: actions/cache@v3
+        with:
+          path:
+            - /vendor
+            -  ~/.composer/cache/files
+          key: dependencies-env-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-${{ matrix.os }}
+
+
+
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        run: |
+          composer --version
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer require "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --dev
+          composer update --prefer-dist --no-interaction --no-suggest --dev
+          composer dump
+
 
       - name: Execute tests
         run: vendor/bin/phpunit
