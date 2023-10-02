@@ -123,8 +123,7 @@ class EnvKeysManagerTest extends TestCase
     }
 
     /**
-     * @param  array<string, mixed>  $config
-     * @return EnvKeysManager
+     * @param array<string, mixed> $config
      */
     protected function getEnvKeysManager(array $config = []): EnvKeysManager
     {

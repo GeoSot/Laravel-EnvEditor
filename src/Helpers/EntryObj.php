@@ -20,11 +20,7 @@ class EntryObj implements \JsonSerializable
     protected bool $isSeparator = false;
 
     /**
-     * @param  string  $key
-     * @param  int|string|null  $value
-     * @param  int  $group
-     * @param  int  $index
-     * @param  bool  $isSeparator
+     * @param int|string|null $value
      */
     public function __construct(string $key, mixed $value, int $group, int $index, bool $isSeparator = false)
     {
@@ -38,7 +34,7 @@ class EntryObj implements \JsonSerializable
     public static function parseEnvLine(string $line, int $group, int $index): self
     {
         $entry = explode('=', $line, 2);
-        $isSeparator = count($entry) === 1;
+        $isSeparator = 1 === count($entry);
 
         return new self(Arr::get($entry, 0), Arr::get($entry, 1), $group, $index, $isSeparator);
     }
@@ -53,17 +49,15 @@ class EntryObj implements \JsonSerializable
         return $this->isSeparator() ? '' : "$this->key=$this->value";
     }
 
-    /**
-     * @return bool
-     */
     public function isSeparator(): bool
     {
         return $this->isSeparator;
     }
 
     /**
-     * @param  mixed  $default
-     * @return int|string|null|mixed
+     * @param mixed $default
+     *
+     * @return int|string|mixed|null
      */
     public function getValue(mixed $default = null): mixed
     {
@@ -71,7 +65,7 @@ class EntryObj implements \JsonSerializable
     }
 
     /**
-     * @param  int|string|null|mixed  $value
+     * @param int|string|mixed|null $value
      */
     public function setValue(mixed $value): void
     {

@@ -57,7 +57,6 @@ class EnvFilesManager
      * Used to create a backup of the current .env.
      * Will be assigned with the current timestamp.
      *
-     * @return bool
      * @throws EnvException
      */
     public function backUpCurrentEnv(): bool
@@ -71,9 +70,6 @@ class EnvFilesManager
     /**
      * Restore  the given backup-file.
      *
-     * @param  string  $fileName
-     *
-     * @return bool
      * @throws EnvException
      */
     public function restoreBackup(string $fileName): bool
@@ -88,11 +84,6 @@ class EnvFilesManager
 
     /**
      * uploadBackup.
-     *
-     * @param  UploadedFile  $uploadedFile
-     * @param  bool  $replaceCurrentEnv
-     *
-     * @return File
      */
     public function upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv): File
     {
@@ -104,9 +95,6 @@ class EnvFilesManager
     /**
      * Delete the given backup-file.
      *
-     * @param  string  $fileName
-     *
-     * @return bool
      * @throws EnvException
      */
     public function deleteBackup(string $fileName): bool
@@ -122,9 +110,6 @@ class EnvFilesManager
     /**
      * Returns the full path of a backup file. If $fileName is empty return the path of the .env file.
      *
-     * @param  string  $fileName
-     *
-     * @return string
      * @throws EnvException
      */
     public function getFilePath(string $fileName = ''): string
@@ -156,21 +141,11 @@ class EnvFilesManager
         return $this->envEditor->config('envFileName');
     }
 
-    /**
-     * @param  string  $path
-     *
-     * @return string
-     */
     public function getBackupsDir(string $path = ''): string
     {
         return $this->envEditor->config('paths.backupDirectory').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
-    /**
-     * @param  string  $path
-     *
-     * @return string
-     */
     public function getEnvDir(string $path = ''): string
     {
         return $this->envEditor->config('paths.env').($path ? DIRECTORY_SEPARATOR.$path : $path);
@@ -182,7 +157,7 @@ class EnvFilesManager
     public function makeBackupsDirectory(): void
     {
         $path = $this->getBackupsDir();
-        if (! $this->filesystem->exists($path)) {
+        if (!$this->filesystem->exists($path)) {
             $this->filesystem->makeDirectory($path, 0755, true, true);
         }
     }
