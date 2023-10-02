@@ -55,8 +55,6 @@ class EntryObj implements \JsonSerializable
     }
 
     /**
-     * @param mixed $default
-     *
      * @return int|string|mixed|null
      */
     public function getValue(mixed $default = null): mixed

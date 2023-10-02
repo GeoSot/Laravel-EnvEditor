@@ -77,8 +77,6 @@ class EnvKeysManager
     /**
      * Deletes the Given Key form env.
      *
-     * @param mixed $newValue
-     *
      * @throws EnvException
      */
     public function edit(string $keyToChange, mixed $newValue = null): bool

@@ -56,8 +56,6 @@ class EnvEditor
 
     /**
      * Add the  Key  on the Current Env.
-     *
-     * @param mixed $default
      */
     public function getKey(string $key, mixed $default = null): float|bool|int|string|null
     {
