@@ -138,7 +138,15 @@ class EnvFilesManager
      */
     protected function getEnvFileName(): string
     {
-        return $this->envEditor->config('envFileName');
+        // Attempt to fetch the used .env file from 'config/env-editor'
+        $envFileName = $this->envEditor->config('envFileName');
+
+        // Attempt to auto-detect the currently used .env file, if provided config has been left blank
+        if ($envFileName === '') {
+            $envFileName = app()->environmentFile();
+        }
+
+        return $envFileName;
     }
 
     public function getBackupsDir(string $path = ''): string
