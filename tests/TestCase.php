@@ -19,6 +19,7 @@ abstract class TestCase extends OrchestraTestCase
     {
         copy(self::getTestPath().'/copy', self::getTestFile(true));
         unlink(self::getTestPath().'/copy');
+        parent::tearDown();
     }
 
     protected function getEnvironmentSetUp($app): void

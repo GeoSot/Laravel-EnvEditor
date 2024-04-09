@@ -6,6 +6,7 @@ use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class UiTest extends TestCase
 {
@@ -16,9 +17,7 @@ class UiTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', self::getTestFile());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_see_dashboard(): void
     {
         $response = $this->get($this->makeRoute('index'));
@@ -26,9 +25,7 @@ class UiTest extends TestCase
             ->assertSee(trans('env-editor::env-editor.menuTitle'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_json_results(): void
     {
         $response = $this->getJson($this->makeRoute('index'));
@@ -41,9 +38,7 @@ class UiTest extends TestCase
         $this->assertEqualsCanonicalizing($envData, $jsonResponse);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_set_key_value(): void
     {
         $response = $this->postJson($this->makeRoute('key'), [
@@ -54,9 +49,7 @@ class UiTest extends TestCase
         $this->assertSame('bar', EnvEditor::getKey('FOO'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_edit_key_value(): void
     {
         $this->postJson($this->makeRoute('key'), [
@@ -72,9 +65,7 @@ class UiTest extends TestCase
         $this->assertSame('foo-test', EnvEditor::getKey('FOO'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_delete_key_value(): void
     {
         $this->postJson($this->makeRoute('key'), [
@@ -89,9 +80,7 @@ class UiTest extends TestCase
         $this->assertFalse(EnvEditor::keyExists('FOO'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_see_backups(): void
     {
         $response = $this->get($this->makeRoute('getBackups'));
@@ -99,9 +88,7 @@ class UiTest extends TestCase
             ->assertSee(trans('env-editor::env-editor.views.backup.title'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_get_json_backups(): void
     {
         $response = $this->getJson($this->makeRoute('getBackups'));
@@ -114,9 +101,7 @@ class UiTest extends TestCase
         $this->assertEqualsCanonicalizing($envData, $jsonResponse);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_create_backups(): void
     {
         $backupsDir = config('env-editor.paths.backupDirectory');
@@ -128,9 +113,7 @@ class UiTest extends TestCase
         $this->assertCount(1, $files());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_restore_backups(): void
     {
         $backupsDir = config('env-editor.paths.backupDirectory');
@@ -145,9 +128,7 @@ class UiTest extends TestCase
         $this->assertSame('bar', EnvEditor::getKey('FOO'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_destroy_backups(): void
     {
         $backupsDir = config('env-editor.paths.backupDirectory');
@@ -159,9 +140,7 @@ class UiTest extends TestCase
         $this->assertCount(0, EnvEditor::getAllBackUps());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_download(): void
     {
         EnvEditor::shouldReceive('getFilePath')->once()->with('fooBar')->andReturns(self::getTestFile(true));
@@ -170,9 +149,7 @@ class UiTest extends TestCase
         $response->assertDownload(self::getTestFile());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_upload_file(): void
     {
         $this->assertFalse(EnvEditor::keyExists('FOO'));

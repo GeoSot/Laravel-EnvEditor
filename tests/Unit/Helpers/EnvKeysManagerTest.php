@@ -9,6 +9,7 @@ use GeoSot\EnvEditor\Helpers\EnvKeysManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnvKeysManagerTest extends TestCase
 {
@@ -19,9 +20,7 @@ class EnvKeysManagerTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', self::getTestFile());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function check_key_existence(): void
     {
         self::assertTrue($this->getEnvKeysManager()->has('LOG_CHANNEL'));
@@ -31,9 +30,7 @@ class EnvKeysManagerTest extends TestCase
         self::assertFalse($this->getEnvKeysManager()->has('null'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returns_value_or_default(): void
     {
         self::assertEquals('stack', $this->getEnvKeysManager()->get('LOG_CHANNEL'));
@@ -45,9 +42,7 @@ class EnvKeysManagerTest extends TestCase
         self::assertEquals('Bar', $this->getEnvKeysManager()->get('FOO', 'Bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function deletes_keys(): void
     {
         $fileName = 'dummy.tmp';
@@ -71,9 +66,7 @@ class EnvKeysManagerTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function edits_keys(): void
     {
         $fileName = 'dummy.tmp';
@@ -103,9 +96,7 @@ class EnvKeysManagerTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function adds_keys(): void
     {
         $fileName = 'dummy.tmp';

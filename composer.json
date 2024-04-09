@@ -15,13 +15,13 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
-        "laravel/framework": ">=8.0"
+        "php": ">=8.1",
+        "laravel/framework": ">=10.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3",
-        "nunomaduro/larastan": "^1|^2",
-        "orchestra/testbench": ">=7"
+        "larastan/larastan": "^2",
+        "orchestra/testbench": ">=9"
     },
     "autoload": {
         "psr-4": {
@@ -35,8 +35,8 @@
     },
     "scripts": {
         "phpstan": "php --version && php vendor/bin/phpstan --version && php -d memory_limit=1G vendor/bin/phpstan analyse -c ruleset-phpstan.neon  -vvv",
-        "test": "./vendor/bin/phpunit",
         "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots --config=ruleset-php_cs.php",
+        "test": "./vendor/bin/phpunit",
         "test-all": [
             "@test",
             "@phpstan",

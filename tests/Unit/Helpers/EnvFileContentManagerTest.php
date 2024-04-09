@@ -9,12 +9,11 @@ use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnvFileContentManagerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function retrieves_file_contents(): void
     {
         $this->app['config']->set('env-editor.paths.backupDirectory', self::getTestPath());
@@ -30,9 +29,7 @@ class EnvFileContentManagerTest extends TestCase
         self::assertCount(17, $content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wrong_file_throws_exception(): void
     {
         self::expectException(EnvException::class);
@@ -41,9 +38,7 @@ class EnvFileContentManagerTest extends TestCase
         \GeoSot\EnvEditor\Facades\EnvEditor::getFilePath('not-existed-file');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fail_to_retrieve_file_contents(): void
     {
         $manager = $this->getEnvFileContentManager();
@@ -54,9 +49,7 @@ class EnvFileContentManagerTest extends TestCase
         $manager->getParsedFileContent('not-existed-file');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function saves_file_contents(): void
     {
         $testPath = self::getTestPath();
