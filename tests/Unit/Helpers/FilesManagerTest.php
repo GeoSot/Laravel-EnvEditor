@@ -9,12 +9,10 @@ use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
-/**
- * Class FilesManagerTest.
- *
- * @group helpers
- */
+#[Group('helpers')]
 class FilesManagerTest extends TestCase
 {
     protected function tearDown(): void
@@ -24,9 +22,9 @@ class FilesManagerTest extends TestCase
     }
 
     /**
-     * @test
-     * Test makeBackupsDirectory method
+     * Test makeBackupsDirectory method.
      */
+    #[Test]
     public function constructor_calls_make_backups_directory_method(): void
     {
         $classname = EnvFilesManager::class;
@@ -49,9 +47,9 @@ class FilesManagerTest extends TestCase
     }
 
     /**
-     * @test
-     * Test makeBackupsDirectory method
+     * Test makeBackupsDirectory method.
      */
+    #[Test]
     public function backup_dir_is_created(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
@@ -59,18 +57,16 @@ class FilesManagerTest extends TestCase
     }
 
     /**
-     * @test
-     * Test makeBackupsDirectory method
+     * Test makeBackupsDirectory method.
      */
+    #[Test]
     public function get_env_dir_exists(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
         $this->createAndTestPath($path);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_backups_dir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getBackupsDir();
@@ -83,9 +79,7 @@ class FilesManagerTest extends TestCase
         unlink($filePath);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_env_dir_can_return_file(): void
     {
         $path = $this->getEnvFilesManager()->getEnvDir();
@@ -98,9 +92,7 @@ class FilesManagerTest extends TestCase
         unlink($filePath);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_all_back_ups_returns_all_files(): void
     {
         $manager = $this->getEnvFilesManager();
@@ -116,9 +108,7 @@ class FilesManagerTest extends TestCase
         unlink($file2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function back_up_current_env_works_and_returns_bool(): void
     {
         $fileName = 'test.tmp';
@@ -145,9 +135,7 @@ class FilesManagerTest extends TestCase
         unlink($file);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function restore_backup_works_and_returns_bool(): void
     {
         $manager = $this->getEnvFilesManager();
@@ -168,9 +156,7 @@ class FilesManagerTest extends TestCase
         unlink($file);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function restore_backup_wrong_backup(): void
     {
         $manager = $this->getEnvFilesManager();
@@ -180,9 +166,7 @@ class FilesManagerTest extends TestCase
         $manager->restoreBackup('');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function delete_backup_works_and_returns_bool(): void
     {
         $fileName = time().'_test.tmp';

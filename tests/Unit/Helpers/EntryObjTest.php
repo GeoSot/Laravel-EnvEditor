@@ -3,16 +3,14 @@
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
 use GeoSot\EnvEditor\Helpers\EntryObj;
+use GeoSot\EnvEditor\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class EntryObjTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider getDummyData
-     */
+    #[Test]
+    #[DataProvider('getDummyData')]
     public function parses_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
@@ -22,9 +20,7 @@ class EntryObjTest extends TestCase
         self::assertSame($isSeparator, $entry->isSeparator());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function creates_key_separator(): void
     {
         $entry = EntryObj::makeKeysSeparator(1, 2);
@@ -36,11 +32,8 @@ class EntryObjTest extends TestCase
         self::assertTrue($entry->isSeparator());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider getDummyData
-     */
+    #[Test]
+    #[DataProvider('getDummyData')]
     public function returns_env_lines(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
@@ -48,11 +41,8 @@ class EntryObjTest extends TestCase
         self::assertSame($line, $entry->getAsEnvLine());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider getDummyData
-     */
+    #[Test]
+    #[DataProvider('getDummyData')]
     public function returns_value_or_default(string $line, string $key, mixed $value, bool $isSeparator): void
     {
         $entry = EntryObj::parseEnvLine($line, 2, 8);
