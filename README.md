@@ -1,3 +1,5 @@
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/geo-sot/laravel-env-editor.svg?style=flat-square)](https://packagist.org/packages/geo-sot/laravel-env-editor)
+[![Total Downloads](https://img.shields.io/packagist/dt/geo-sot/laravel-env-editor.svg?style=flat-square)](https://packagist.org/packages/geo-sot/laravel-env-editor)
 [![Coverage Status](https://coveralls.io/repos/github/GeoSot/Laravel-EnvEditor/badge.svg)](https://coveralls.io/github/GeoSot/Laravel-EnvEditor)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bdb3a7b58b5d4efc9dbf07be99ae84df)](https://www.codacy.com/manual/geo.sotis/Laravel-EnvEditor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GeoSot/Laravel-EnvEditor&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f494c7292af300b0c7fc/maintainability)](https://codeclimate.com/github/GeoSot/Laravel-EnvEditor/maintainability)
