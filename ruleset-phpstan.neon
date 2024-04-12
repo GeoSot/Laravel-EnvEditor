@@ -1,10 +1,10 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 parameters:
     paths:
         - src
         - tests
-    # The level 8 is the highest level
+
     level: 6
     reportStaticMethodSignatures: true
     parallel:
