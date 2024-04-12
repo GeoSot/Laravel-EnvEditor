@@ -17,12 +17,23 @@ class UiTest extends TestCase
         $this->app['config']->set('env-editor.envFileName', self::getTestFile());
     }
 
+
     #[Test]
     public function can_see_dashboard(): void
     {
         $response = $this->get($this->makeRoute('index'));
         $response->assertStatus(200)
             ->assertSee(trans('env-editor::env-editor.menuTitle'));
+    }
+    #[Test]
+    #[TestWith([true])]
+    #[TestWith([false])]
+    public function can_disable_routes(bool $enableRoutes): void
+    {
+        $this->app['config']->set('env-editor.route.enable', $enableRoutes);
+        $response = $this->get($this->makeRoute('index'));
+        $response->assertStatus($enableRoutes ? 200 : 400);
+
     }
 
     #[Test]

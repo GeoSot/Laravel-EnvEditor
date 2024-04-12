@@ -22,6 +22,7 @@ return [
     |
     */
     'route' => [
+        'enable'=> true,
         // Prefix url for route Group
         'prefix' => 'env-editor',
         // Routes base name
