@@ -115,7 +115,7 @@ class EnvFilesManager
     public function getFilePath(string $fileName = ''): string
     {
         $path = (empty($fileName))
-            ? $this->getEnvDir($this->getEnvFileName())
+            ? $this->getEnvFileName()
             : $this->getBackupsDir($fileName);
 
         if ($this->filesystem->exists($path)) {
@@ -138,7 +138,7 @@ class EnvFilesManager
      */
     protected function getEnvFileName(): string
     {
-        return $this->envEditor->config('envFileName');
+        return app()->environmentFilePath();
     }
 
     public function getBackupsDir(string $path = ''): string
@@ -148,7 +148,7 @@ class EnvFilesManager
 
     public function getEnvDir(string $path = ''): string
     {
-        return $this->envEditor->config('paths.env').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return dirname($this->getEnvFileName()).($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

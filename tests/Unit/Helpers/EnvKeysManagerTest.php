@@ -16,8 +16,8 @@ class EnvKeysManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['config']->set('env-editor.paths.env', self::getTestPath());
-        $this->app['config']->set('env-editor.envFileName', self::getTestFile());
+        $this->app->useEnvironmentPath(self::getTestPath());
+        $this->app->loadEnvironmentFrom(self::getTestFile());
     }
 
     #[Test]
@@ -47,8 +47,7 @@ class EnvKeysManagerTest extends TestCase
     {
         $fileName = 'dummy.tmp';
         $fullPath = $this->createNewDummyFile($fileName);
-        $this->app['config']->set('env-editor.envFileName', $fileName);
-
+        $this->app->loadEnvironmentFrom($fileName);
         $getContent = fn (): string => file_get_contents($fullPath) ?: throw new \RuntimeException("File {$fullPath}, not found");
 
         self::assertStringContainsString('LOG_CHANNEL', $getContent());
@@ -73,7 +72,7 @@ class EnvKeysManagerTest extends TestCase
     {
         $fileName = 'dummy.tmp';
         $fullPath = $this->createNewDummyFile($fileName);
-        $this->app['config']->set('env-editor.envFileName', $fileName);
+        $this->app->loadEnvironmentFrom($fileName);
 
         $getContent = fn (): string => file_get_contents($fullPath) ?: throw new \RuntimeException("File {$fullPath}, not found");
 
@@ -105,7 +104,7 @@ class EnvKeysManagerTest extends TestCase
     {
         $fileName = 'dummy.tmp';
         $fullPath = $this->createNewDummyFile($fileName);
-        $this->app['config']->set('env-editor.envFileName', $fileName);
+        $this->app->loadEnvironmentFrom($fileName);
 
         EnvEditorFacade::addKey('FOO', 'bar');
         $this->assertSame('bar', EnvEditorFacade::getKey('FOO'));
@@ -117,13 +116,10 @@ class EnvKeysManagerTest extends TestCase
         }
     }
 
-    /**
-     * @param array<string, mixed> $config
-     */
-    protected function getEnvKeysManager(array $config = []): EnvKeysManager
+    protected function getEnvKeysManager(): EnvKeysManager
     {
         $envEditor = new EnvEditor(
-            new Repository($config ?: $this->app['config']->get('env-editor')),
+            new Repository($this->app['config']->get('env-editor')),
             new Filesystem()
         );
         $this->app->singleton(EnvEditor::class, fn () => $envEditor);

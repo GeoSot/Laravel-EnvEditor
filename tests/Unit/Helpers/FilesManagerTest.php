@@ -112,7 +112,7 @@ class FilesManagerTest extends TestCase
     public function back_up_current_env_works_and_returns_bool(): void
     {
         $fileName = 'test.tmp';
-        $this->app['config']->set('env-editor.envFileName', $fileName);
+        $this->app->loadEnvironmentFrom($fileName);
 
         $content = time().'_dummy';
         $manager = $this->getEnvFilesManager();
@@ -140,7 +140,7 @@ class FilesManagerTest extends TestCase
     {
         $manager = $this->getEnvFilesManager();
         // place a dummy env file
-        file_put_contents($manager->getEnvDir($this->app['config']->get('env-editor.envFileName')), '');
+        file_put_contents($this->app->environmentFile(), '');
 
         $fileName = time().'_test.tmp';
         $content = time().'_dummy';
