@@ -138,6 +138,7 @@ class FilesManagerTest extends TestCase
     #[Test]
     public function restore_backup_works_and_returns_bool(): void
     {
+        $this->app->loadEnvironmentFrom('.env.example');
         $manager = $this->getEnvFilesManager();
         // place a dummy env file
         file_put_contents($this->app->environmentFile(), '');
