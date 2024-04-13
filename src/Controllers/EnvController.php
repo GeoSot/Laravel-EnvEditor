@@ -6,6 +6,7 @@ use GeoSot\EnvEditor\Facades\EnvEditor;
 use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\View\View;
@@ -127,7 +128,9 @@ class EnvController extends BaseController
         ]);
         $replaceCurrentEnv = filter_var($request->input('replace_current'), FILTER_VALIDATE_BOOLEAN);
 
-        $file = EnvEditor::upload($request->file('file'), $replaceCurrentEnv);
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $request->file('file');
+        $file = EnvEditor::upload($uploadedFile, $replaceCurrentEnv);
         $successMsg = ($replaceCurrentEnv) ? 'currentEnvWasReplacedByTheUploadedFile' : 'uploadedFileSavedAsBackup';
 
         return $this->returnGenericResponse(true, [], $successMsg, $file->getFilename());

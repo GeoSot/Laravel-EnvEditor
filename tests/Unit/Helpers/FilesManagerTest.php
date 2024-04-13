@@ -184,7 +184,7 @@ class FilesManagerTest extends TestCase
     {
         $path = realpath($path);
         $this->assertNotFalse($path);
-        $filename = tempnam($path, 'test');
+        $filename = tempnam($path, 'test') ?: throw new \RuntimeException("Couldn't create file");
         $this->assertEquals($filename, realpath($filename));
         unlink($filename);
     }

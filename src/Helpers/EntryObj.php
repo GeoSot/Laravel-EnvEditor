@@ -75,7 +75,10 @@ class EntryObj implements \JsonSerializable
      */
     public function toArray(): array
     {
-        return get_object_vars($this);
+        /** @var array{key:string, value: int|string|null, group:int, index:int , isSeparator:bool} $result */
+        $result = get_object_vars($this);
+
+        return $result;
     }
 
     /**
