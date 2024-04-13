@@ -13,8 +13,8 @@ class UiTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
-        $app['config']->set('env-editor.paths.env', self::getTestPath());
-        $app['config']->set('env-editor.envFileName', self::getTestFile());
+        $app->useEnvironmentPath(self::getTestPath());
+        $app->loadEnvironmentFrom(self::getTestFile());
         $app['config']->set('env-editor.route.enable', true);
     }
 
