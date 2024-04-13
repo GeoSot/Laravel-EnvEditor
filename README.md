@@ -110,6 +110,8 @@ The inspiration for this package was, [Brotzka/laravel-dotenv-editor](https://gi
 
 ## <a name="user_interface">User Interface</a>
 
+**Note:** user interface is disabled be default. You can enable it by changing the configuration option `env-editor.route.enable`
+
 User Interface Contains three Tabs 
 
  -  [Current .env](#current_env)
