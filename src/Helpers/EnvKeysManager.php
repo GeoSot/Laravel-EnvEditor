@@ -38,7 +38,7 @@ class EnvKeysManager
     /**
      * Add the  Key  on the Current Env.
      *
-     * @param array<string, int|string> $options
+     * @param array{index?: int|string|null, group?: int|string|null} $options
      *
      * @throws EnvException
      */
@@ -57,14 +57,14 @@ class EnvKeysManager
             $env->push($separator);
         }
 
-        $lastSameGroupIndex = $env->last(function (EntryObj $entry, $key) use ($givenGroup) {
-            return explode('_', $entry->key, 2)[0] == strtoupper($givenGroup) && null !== $entry->key;
+        $lastSameGroupEntry = $env->last(function (EntryObj $entry) use ($givenGroup) {
+            return explode('_', $entry->key, 2)[0] == strtoupper($givenGroup) && $entry->isSeparator();
         });
 
         $index = Arr::get(
             $options,
             'index',
-            $env->search($lastSameGroupIndex) ? $env->search($lastSameGroupIndex) + 0.1 : $env->count() + 2
+            $lastSameGroupEntry ? $lastSameGroupEntry->index + 0.1 : $env->count() + 2
         );
 
         $entryObj = new EntryObj($key, $value, $groupIndex, $index);

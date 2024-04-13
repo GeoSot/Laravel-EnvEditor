@@ -29,11 +29,12 @@ class EnvFileContentManager
      */
     public function getParsedFileContent(string $fileName = ''): Collection
     {
+        /** @var list<string> $content */
         $content = preg_split('/(\r\n|\r|\n)/', $this->getFileContents($fileName));
 
         $groupIndex = 1;
         /** @var Collection<int, EntryObj> $collection */
-        $collection = collect([]);
+        $collection = new Collection();
         foreach ($content as $index => $line) {
             $entryObj = EntryObj::parseEnvLine($line, $groupIndex, $index);
             $collection->push($entryObj);

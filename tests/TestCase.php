@@ -47,13 +47,15 @@ abstract class TestCase extends OrchestraTestCase
 
     protected static function getTestPath(): string
     {
-        return realpath(__DIR__.'/fixtures');
+        return __DIR__.'/fixtures';
     }
 
     protected static function getTestFile(bool $fullPath = false): string
     {
         $file = '.env.example';
 
-        return $fullPath ? static::getTestPath().DIRECTORY_SEPARATOR.$file : $file;
+        return $fullPath
+            ? static::getTestPath().DIRECTORY_SEPARATOR.$file
+            : $file;
     }
 }
