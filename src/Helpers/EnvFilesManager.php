@@ -3,12 +3,14 @@
 namespace GeoSot\EnvEditor\Helpers;
 
 use Carbon\Carbon;
+use GeoSot\EnvEditor\Dto\BackupObj;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\File;
 
 class EnvFilesManager
@@ -21,30 +23,22 @@ class EnvFilesManager
     /**
      * Get all Backup Files.
      *
-     * @return Collection<int, array{real_name:string, name:string, created_at:int, modified_at:int, created_at_formatted:string, modified_at_formatted:string, content:string, path:string,parsed_data:Collection<int, EntryObj>}>
+     * @return Collection<int, BackupObj>
      */
     public function getAllBackUps(): Collection
     {
         $files = $this->filesystem->files($this->getBackupsDir());
-        /** @var Collection<int, array{real_name:string, name:string, created_at:int, modified_at:int, created_at_formatted:string, modified_at_formatted:string, content:string, path:string,parsed_data:Collection<int, EntryObj>}> $collection */
-        $collection = collect([]);
-        foreach ($files as $file) {
-            $data = [
-                'real_name' => $file->getFilename(),
-                'name' => $file->getFilename(),
-                'created_at' => $file->getCTime(),
-                'modified_at' => $file->getMTime(),
-                'created_at_formatted' => Carbon::createFromTimestamp($file->getCTime())->format($this->envEditor->config('timeFormat')),
-                'modified_at_formatted' => Carbon::createFromTimestamp($file->getMTime())->format($this->envEditor->config('timeFormat')),
-                'content' => $file->getContents(),
-                'path' => $file->getPath(),
-                'parsed_data' => $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
-            ];
 
-            $collection->push($data);
-        }
-
-        return $collection->sortByDesc('created_at');
+        return (new Collection($files))
+            ->map(fn (SplFileInfo $file): BackupObj => new BackupObj(
+                $file->getFilename(),
+                Carbon::parse($file->getCTime()),
+                Carbon::parse($file->getMTime()),
+                $file->getPath(),
+                $file->getContents(),
+                $this->envEditor->getFileContentManager()->getParsedFileContent($file->getFilename()),
+            ))
+            ->sortByDesc('createdAt');
     }
 
     /**

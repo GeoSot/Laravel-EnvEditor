@@ -8,7 +8,6 @@ use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -129,8 +128,9 @@ class FilesManagerTest extends TestCase
         $this->assertTrue($result);
 
         $backUps = $manager->getAllBackUps();
+
         $this->assertEquals(1, $backUps->count());
-        $this->assertEquals(Arr::get($backUps->first(), 'content'), $content);
+        $this->assertEquals($backUps->first()->rawContent, $content);
 
         unlink($file);
     }

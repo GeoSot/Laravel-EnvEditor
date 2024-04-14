@@ -21,7 +21,7 @@
                     <template v-for="(item, index) in items">
                         <tr :key="item.real_name" :bind="item">
                             <th scope="row" class="font-weight-bold ">@{{ item.name }}</th>
-                            <td>@{{ item.created_at_formatted }}</td>
+                            <td>@{{ item.created_at }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <button class="btn btn-info" data-toggle="collapse" aria-expanded="false"
@@ -40,7 +40,7 @@
                                 <div class="collapse" :id="'collapse_'+item.real_name" data-parent="#env-editor-table-accordion">
                                     <div class="table-responsive table-sm px-3 pb-3">
                                         <table class="w-100 bg-light">
-                                            <tr v-for="(dt, index) in item.parsed_data">
+                                            <tr v-for="(dt, index) in item.entries">
                                                 <td class="pl-3"><code>@{{ dt.key||'&nbsp;' }}</code></td>
                                                 <td><code>@{{ dt.value }}</code></td>
                                             </tr>

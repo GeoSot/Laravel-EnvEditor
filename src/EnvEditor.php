@@ -2,6 +2,7 @@
 
 namespace GeoSot\EnvEditor;
 
+use GeoSot\EnvEditor\Dto\BackupObj;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
@@ -94,9 +95,7 @@ class EnvEditor
     /**
      * Get all Backup Files.
      *
-     * @return Collection<int, array{real_name:string, name:string, created_at:int, modified_at:int, created_at_formatted:string, modified_at_formatted:string, content:string, path:string,parsed_data:Collection<int, EntryObj>}>
-     *
-     * @throws EnvException
+     * @return Collection<int, BackupObj>
      */
     public function getAllBackUps(): Collection
     {
