@@ -3,8 +3,8 @@
 namespace GeoSot\EnvEditor;
 
 use GeoSot\EnvEditor\Dto\BackupObj;
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Exceptions\EnvException;
-use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Helpers\EnvKeysManager;

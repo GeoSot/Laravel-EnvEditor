@@ -1,6 +1,6 @@
 <?php
 
-namespace GeoSot\EnvEditor\Helpers;
+namespace GeoSot\EnvEditor\Dto;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
