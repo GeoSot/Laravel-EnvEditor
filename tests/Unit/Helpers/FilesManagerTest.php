@@ -181,6 +181,15 @@ class FilesManagerTest extends TestCase
         $this->assertFalse(file_exists($file));
     }
 
+    #[Test]
+    public function delete_backup_throws_exception_if_empty_sting_given(): void
+    {
+        $manager = $this->getEnvFilesManager();
+        $this->expectException(EnvException::class);
+        $this->expectExceptionMessage('You have to provide a FileName !!!');
+        $manager->deleteBackup('');
+    }
+
     private function createAndTestPath(string $path): void
     {
         $path = realpath($path);

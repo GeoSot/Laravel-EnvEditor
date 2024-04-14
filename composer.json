@@ -38,10 +38,12 @@
         "phpstan": "php --version && php vendor/bin/phpstan --version && php -d memory_limit=1G vendor/bin/phpstan analyse -c ruleset-phpstan.neon  -vvv",
         "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots --config=ruleset-php_cs.php",
         "test": "./vendor/bin/phpunit",
+        "rector": "./vendor/bin/rector process --config=rector.php",
         "test-all": [
-            "@test",
+            "@cs",
             "@phpstan",
-            "@cs"
+            "@rector",
+            "@test"
         ]
     },
     "extra": {

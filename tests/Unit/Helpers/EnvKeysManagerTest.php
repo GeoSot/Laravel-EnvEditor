@@ -112,8 +112,28 @@ class EnvKeysManagerTest extends TestCase
             EnvEditorFacade::addKey('FOO', 'bar2');
         } catch (\Exception $e) {
             self::assertInstanceOf(EnvException::class, $e);
+            $this->assertEquals('Key "FOO" already Exists !!!', $e->getMessage());
             unlink($fullPath);
         }
+    }
+
+    #[Test]
+    public function adds_two_keys_in_different_group(): void
+    {
+        $fileName = 'dummy.tmp';
+        $fullPath = $this->createNewDummyFile($fileName);
+        $this->app->loadEnvironmentFrom($fileName);
+
+        EnvEditorFacade::addKey('FOO1', 'bar');
+        EnvEditorFacade::addKey('FOO2', 'bar');
+
+        $envData = EnvEditorFacade::getEnvFileContent();
+
+        $firstKey = $envData->firstWhere('key', 'FOO1');
+        $secondKey = $envData->firstWhere('key', 'FOO2');
+
+        $this->assertGreaterThan($firstKey->group, $secondKey->group);
+        unlink($fullPath);
     }
 
     protected function getEnvKeysManager(): EnvKeysManager
