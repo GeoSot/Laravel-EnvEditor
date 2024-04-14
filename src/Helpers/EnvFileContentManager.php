@@ -2,6 +2,7 @@
 
 namespace GeoSot\EnvEditor\Helpers;
 
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use Illuminate\Filesystem\Filesystem;

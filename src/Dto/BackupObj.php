@@ -3,7 +3,6 @@
 namespace GeoSot\EnvEditor\Dto;
 
 use Carbon\Carbon;
-use GeoSot\EnvEditor\Helpers\EntryObj;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 

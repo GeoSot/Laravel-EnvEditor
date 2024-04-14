@@ -2,9 +2,9 @@
 
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
-use GeoSot\EnvEditor\Helpers\EntryObj;
 use GeoSot\EnvEditor\Helpers\EnvFileContentManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;

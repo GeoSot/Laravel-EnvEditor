@@ -2,7 +2,7 @@
 
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
-use GeoSot\EnvEditor\Helpers\EntryObj;
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
