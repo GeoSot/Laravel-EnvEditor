@@ -6,29 +6,11 @@ use Illuminate\Support\Arr;
 
 class EntryObj implements \JsonSerializable
 {
-    public string $key;
-
-    /**
-     * @var int|string|null
-     */
-    protected mixed $value;
-
-    public int $group = 0;
-
-    public int $index = 0;
-
-    protected bool $isSeparator = false;
-
     /**
      * @param int|string|null $value
      */
-    public function __construct(string $key, mixed $value, int $group, int $index, bool $isSeparator = false)
+    public function __construct(public string $key, protected mixed $value, public int $group, public int $index, protected bool $isSeparator = false)
     {
-        $this->key = $key;
-        $this->value = $value;
-        $this->group = $group;
-        $this->index = $index;
-        $this->isSeparator = $isSeparator;
     }
 
     public static function parseEnvLine(string $line, int $group, int $index): self

@@ -10,14 +10,8 @@ use Illuminate\Support\Collection;
 
 class EnvFileContentManager
 {
-    protected EnvEditor $envEditor;
-
-    protected Filesystem $filesystem;
-
-    public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
+    public function __construct(protected EnvEditor $envEditor, protected Filesystem $filesystem)
     {
-        $this->envEditor = $envEditor;
-        $this->filesystem = $filesystem;
     }
 
     /**
@@ -62,7 +56,7 @@ class EnvFileContentManager
 
         try {
             return $this->filesystem->get($envFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 2);
         }
     }
@@ -77,8 +71,8 @@ class EnvFileContentManager
     public function save(Collection $envValues, string $fileName = ''): bool
     {
         $env = $envValues
-            ->sortBy(fn (EntryObj $item) => $item->index)
-            ->map(fn (EntryObj $item) => $item->getAsEnvLine());
+            ->sortBy(fn (EntryObj $entryObj): int => $entryObj->index)
+            ->map(fn (EntryObj $entryObj): string => $entryObj->getAsEnvLine());
 
         $content = implode(PHP_EOL, $env->toArray());
 

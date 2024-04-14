@@ -10,11 +10,8 @@ use Illuminate\Support\Collection;
 
 class EnvKeysManager
 {
-    protected EnvEditor $envEditor;
-
-    public function __construct(EnvEditor $envEditor)
+    public function __construct(protected EnvEditor $envEditor)
     {
-        $this->envEditor = $envEditor;
     }
 
     /**
@@ -32,7 +29,7 @@ class EnvKeysManager
     {
         $result = $this->getFirst($key);
 
-        return $result ? $result->getValue($default) : $default;
+        return $result instanceof EntryObj ? $result->getValue($default) : $default;
     }
 
     /**
@@ -47,31 +44,29 @@ class EnvKeysManager
         if ($this->has($key)) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
-        $env = $this->getEnvData();
+        $envData = $this->getEnvData();
         $givenGroup = Arr::get($options, 'group', null);
 
-        $groupIndex = $givenGroup ?? $env->pluck('group')->unique()->sort()->last() + 1;
+        $groupIndex = $givenGroup ?? $envData->pluck('group')->unique()->sort()->last() + 1;
 
-        if (!$givenGroup && !$env->last()->isSeparator()) {
-            $separator = EntryObj::makeKeysSeparator((int) $groupIndex, $env->count() + 1);
-            $env->push($separator);
+        if (!$givenGroup && !$envData->last()->isSeparator()) {
+            $separator = EntryObj::makeKeysSeparator((int) $groupIndex, $envData->count() + 1);
+            $envData->push($separator);
         }
 
-        $lastSameGroupEntry = $env->last(function (EntryObj $entry) use ($givenGroup) {
-            return explode('_', $entry->key, 2)[0] == strtoupper($givenGroup) && $entry->isSeparator();
-        });
+        $lastSameGroupEntry = $envData->last(fn (EntryObj $entryObj): bool => explode('_', $entryObj->key, 2)[0] === strtoupper((string) $givenGroup) && $entryObj->isSeparator());
 
         $index = Arr::get(
             $options,
             'index',
-            $lastSameGroupEntry ? $lastSameGroupEntry->index + 0.1 : $env->count() + 2
+            $lastSameGroupEntry ? $lastSameGroupEntry->index + 0.1 : $envData->count() + 2
         );
 
         $entryObj = new EntryObj($key, $value, $groupIndex, $index);
 
-        $env->push($entryObj);
+        $envData->push($entryObj);
 
-        return $this->envEditor->getFileContentManager()->save($env);
+        return $this->envEditor->getFileContentManager()->save($envData);
     }
 
     /**
@@ -84,13 +79,13 @@ class EnvKeysManager
         if (!$this->has($keyToChange)) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyNotExists', ['name' => $keyToChange]), 11);
         }
-        $env = $this->getEnvData();
-        $newEnv = $env->map(function (EntryObj $entry) use ($keyToChange, $newValue) {
-            if ($entry->key == $keyToChange) {
-                $entry->setValue($newValue);
+        $envData = $this->getEnvData();
+        $newEnv = $envData->map(function (EntryObj $entryObj) use ($keyToChange, $newValue): EntryObj {
+            if ($entryObj->key === $keyToChange) {
+                $entryObj->setValue($newValue);
             }
 
-            return $entry;
+            return $entryObj;
         });
 
         return $this->envEditor->getFileContentManager()->save($newEnv);
@@ -106,8 +101,8 @@ class EnvKeysManager
         if (!$this->has($key)) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyNotExists', ['name' => $key]), 10);
         }
-        $env = $this->getEnvData();
-        $newEnv = $env->filter(fn (EntryObj $entry) => $entry->key !== $key);
+        $envData = $this->getEnvData();
+        $newEnv = $envData->filter(fn (EntryObj $entryObj): bool => $entryObj->key !== $key);
 
         return $this->envEditor->getFileContentManager()->save($newEnv);
     }
@@ -123,7 +118,7 @@ class EnvKeysManager
     protected function getFirst(string $key): ?EntryObj
     {
         return $this->getEnvData()
-            ->reject(fn (EntryObj $entry) => $entry->isSeparator())
+            ->reject(fn (EntryObj $entryObj): bool => $entryObj->isSeparator())
             ->firstWhere('key', '==', $key);
     }
 }

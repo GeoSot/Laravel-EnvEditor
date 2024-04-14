@@ -15,10 +15,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadResources();
         $this->publishResources();
@@ -26,22 +24,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/env-editor.php',
             static::PACKAGE
         );
 
-        $this->app->singleton(EnvEditor::class, function () {
-            return new EnvEditor(
-                new Repository(config(static::PACKAGE)),
-                $this->app->make(Filesystem::class)
-            );
-        });
+        $this->app->singleton(EnvEditor::class, fn (): \GeoSot\EnvEditor\EnvEditor => new EnvEditor(
+            new Repository(config(static::PACKAGE)),
+            $this->app->make(Filesystem::class)
+        ));
 
         $this->app->alias(EnvEditor::class, 'env-editor');
     }

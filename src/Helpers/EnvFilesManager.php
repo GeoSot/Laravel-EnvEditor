@@ -13,14 +13,8 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class EnvFilesManager
 {
-    protected EnvEditor $envEditor;
-
-    protected Filesystem $filesystem;
-
-    public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
+    public function __construct(protected EnvEditor $envEditor, protected Filesystem $filesystem)
     {
-        $this->envEditor = $envEditor;
-        $this->filesystem = $filesystem;
         $this->makeBackupsDirectory();
     }
 
@@ -74,7 +68,7 @@ class EnvFilesManager
      */
     public function restoreBackup(string $fileName): bool
     {
-        if (empty($fileName)) {
+        if ('' === $fileName) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.provideFileName'), 1);
         }
         $file = $this->getBackupsDir($fileName);
@@ -99,7 +93,7 @@ class EnvFilesManager
      */
     public function deleteBackup(string $fileName): bool
     {
-        if (empty($fileName)) {
+        if ('' === $fileName) {
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.provideFileName'), 1);
         }
         $file = $this->getFilePath($fileName);
@@ -114,7 +108,7 @@ class EnvFilesManager
      */
     public function getFilePath(string $fileName = ''): string
     {
-        $path = (empty($fileName))
+        $path = ('' === $fileName)
             ? $this->getEnvFileName()
             : $this->getBackupsDir($fileName);
 
@@ -141,12 +135,12 @@ class EnvFilesManager
         return app()->environmentFilePath();
     }
 
-    public function getBackupsDir(string $path = ''): string
+    public function getBackupsDir(?string $path = null): string
     {
         return $this->envEditor->config('paths.backupDirectory').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
-    public function getEnvDir(string $path = ''): string
+    public function getEnvDir(?string $path = null): string
     {
         return dirname($this->getEnvFileName()).($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
