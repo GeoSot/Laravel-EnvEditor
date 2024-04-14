@@ -2,15 +2,24 @@
 
 namespace GeoSot\EnvEditor\Helpers;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
-class EntryObj implements \JsonSerializable
+/**
+ * @implements Arrayable<string, scalar>
+ */
+class EntryObj implements \JsonSerializable, Arrayable
 {
     /**
      * @param int|string|null $value
      */
-    public function __construct(public string $key, protected mixed $value, public int $group, public int $index, protected bool $isSeparator = false)
-    {
+    public function __construct(
+        public readonly string $key,
+        protected mixed $value,
+        public readonly int $group,
+        public readonly int $index,
+        protected bool $isSeparator = false
+    ) {
     }
 
     public static function parseEnvLine(string $line, int $group, int $index): self

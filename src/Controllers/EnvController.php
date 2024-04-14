@@ -73,7 +73,7 @@ class EnvController extends BaseController
      */
     public function getBackupFiles(Request $request): View|JsonResponse
     {
-        $allBackUps = $this->envEditor->getAllBackUps();
+        $allBackUps = $this->envEditor->getAllBackUps()->toArray();
         if ($request->wantsJson()) {
             return $this->returnGenericResponse(true, ['items' => $allBackUps]);
         }

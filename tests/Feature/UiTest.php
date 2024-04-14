@@ -124,7 +124,7 @@ class UiTest extends TestCase
         EnvEditor::backUpCurrent();
         EnvEditor::deleteKey('FOO');
         $this->assertNull(EnvEditor::getKey('FOO'));
-        $file = EnvEditor::getAllBackUps()->first()['name'];
+        $file = EnvEditor::getAllBackUps()->first()->name;
         $this->postJson($this->makeRoute('restoreBackup').'/'.$file);
         $this->assertSame('bar', EnvEditor::getKey('FOO'));
     }
@@ -136,7 +136,7 @@ class UiTest extends TestCase
         File::deleteDirectory($backupsDir);
         EnvEditor::backUpCurrent();
 
-        $file = EnvEditor::getAllBackUps()->first()['name'];
+        $file = EnvEditor::getAllBackUps()->first()->name;
         $this->deleteJson($this->makeRoute('destroyBackup').'/'.$file);
         $this->assertCount(0, EnvEditor::getAllBackUps());
     }
