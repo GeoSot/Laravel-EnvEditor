@@ -2,7 +2,7 @@
 
 namespace GeoSot\EnvEditor\Controllers;
 
-use GeoSot\EnvEditor\Facades\EnvEditor;
+use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,15 +14,20 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EnvController extends BaseController
 {
+    public function __construct(
+        protected EnvEditor $envEditor
+    ) {
+    }
+
     /**
      * Display main view with the Collection of current .env values.
      *
      * @return JsonResponse|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $envValues = EnvEditor::getEnvFileContent();
-        if (request()->wantsJson()) {
+        $envValues = $this->envEditor->getEnvFileContent();
+        if ($request->wantsJson()) {
             return $this->returnGenericResponse(true, ['items' => $envValues]);
         }
 
@@ -34,7 +39,7 @@ class EnvController extends BaseController
      */
     public function addKey(Request $request): JsonResponse
     {
-        $result = EnvEditor::addKey(
+        $result = $this->envEditor->addKey(
             $request->input('key'),
             $request->input('value'),
             $request->except(['key', 'value'])
@@ -48,7 +53,7 @@ class EnvController extends BaseController
      */
     public function editKey(Request $request): JsonResponse
     {
-        $result = EnvEditor::editKey($request->input('key'), $request->input('value'));
+        $result = $this->envEditor->editKey($request->input('key'), $request->input('value'));
 
         return $this->returnGenericResponse($result, [], 'keyWasEdited', $request->input('key'));
     }
@@ -58,20 +63,18 @@ class EnvController extends BaseController
      */
     public function deleteKey(Request $request): JsonResponse
     {
-        $result = EnvEditor::deleteKey($request->input('key'));
+        $result = $this->envEditor->deleteKey($request->input('key'));
 
         return $this->returnGenericResponse($result, [], 'keyWasDeleted', $request->input('key'));
     }
 
     /**
      * Display a listing of the resource.
-     *
-     * @return View|JsonResponse
      */
-    public function getBackupFiles()
+    public function getBackupFiles(Request $request): View|JsonResponse
     {
-        $backUpFiles = EnvEditor::getAllBackUps();
-        if (request()->wantsJson()) {
+        $backUpFiles = $this->envEditor->getAllBackUps();
+        if ($request->wantsJson()) {
             return $this->returnGenericResponse(true, ['items' => $backUpFiles]);
         }
 
@@ -83,7 +86,7 @@ class EnvController extends BaseController
      */
     public function createBackup(): JsonResponse
     {
-        $result = EnvEditor::backUpCurrent();
+        $result = $this->envEditor->backUpCurrent();
 
         return $this->returnGenericResponse($result, [], 'backupWasCreated');
     }
@@ -93,7 +96,7 @@ class EnvController extends BaseController
      */
     public function restoreBackup(string $filename): JsonResponse
     {
-        $result = EnvEditor::restoreBackUp($filename);
+        $result = $this->envEditor->restoreBackUp($filename);
 
         return $this->returnGenericResponse($result, [], 'fileWasRestored', $filename);
     }
@@ -103,7 +106,7 @@ class EnvController extends BaseController
      */
     public function destroyBackup(string $filename): JsonResponse
     {
-        $result = EnvEditor::deleteBackup($filename);
+        $result = $this->envEditor->deleteBackup($filename);
 
         return $this->returnGenericResponse($result, [], 'fileWasDeleted', $filename);
     }
@@ -113,7 +116,7 @@ class EnvController extends BaseController
      */
     public function download(string $filename = ''): BinaryFileResponse
     {
-        $path = EnvEditor::getFilePath($filename);
+        $path = $this->envEditor->getFilePath($filename);
 
         return response()->download($path);
     }
@@ -130,7 +133,7 @@ class EnvController extends BaseController
 
         /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->file('file');
-        $file = EnvEditor::upload($uploadedFile, $replaceCurrentEnv);
+        $file = $this->envEditor->upload($uploadedFile, $replaceCurrentEnv);
         $successMsg = ($replaceCurrentEnv) ? 'currentEnvWasReplacedByTheUploadedFile' : 'uploadedFileSavedAsBackup';
 
         return $this->returnGenericResponse(true, [], $successMsg, $file->getFilename());
