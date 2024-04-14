@@ -8,7 +8,7 @@ if (config('env-editor.route.enable')) {
 
     Route::prefix(config('env-editor.route.prefix'))
         ->middleware(config('env-editor.route.middleware'))
-        ->group(function () use ($routeMainName) {
+        ->group(function () use ($routeMainName): void {
             Route::get('/', [EnvController::class, 'index'])->name($routeMainName.'.index');
 
             Route::post('key', [EnvController::class, 'addKey'])->name($routeMainName.'.key');
@@ -17,7 +17,7 @@ if (config('env-editor.route.enable')) {
 
             Route::delete('clear-cache', [EnvController::class, 'clearConfigCache'])->name($routeMainName.'.clearConfigCache');
 
-            Route::prefix('files')->group(function () use ($routeMainName) {
+            Route::prefix('files')->group(function () use ($routeMainName): void {
                 Route::get('/', [EnvController::class, 'getBackupFiles'])
                     ->name($routeMainName.'.getBackups');
                 Route::post('create-backup', [EnvController::class, 'createBackup'])

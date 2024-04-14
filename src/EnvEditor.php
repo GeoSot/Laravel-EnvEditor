@@ -18,17 +18,14 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class EnvEditor
 {
-    protected Repository $config;
-
     protected EnvKeysManager $keysManager;
 
     protected EnvFilesManager $filesManager;
 
     protected EnvFileContentManager $fileContentManager;
 
-    public function __construct(Repository $config, Filesystem $filesystem)
+    public function __construct(protected Repository $configRepository, Filesystem $filesystem)
     {
-        $this->config = $config;
         $this->keysManager = new EnvKeysManager($this);
         $this->filesManager = new EnvFilesManager($this, $filesystem);
         $this->fileContentManager = new EnvFileContentManager($this, $filesystem);
@@ -157,7 +154,7 @@ class EnvEditor
 
     public function config(string $key, mixed $default = null): mixed
     {
-        return $this->config->get($key, $default);
+        return $this->configRepository->get($key, $default);
     }
 
     public function getKeysManager(): EnvKeysManager

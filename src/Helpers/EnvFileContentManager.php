@@ -4,20 +4,13 @@ namespace GeoSot\EnvEditor\Helpers;
 
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
-use GeoSot\EnvEditor\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 class EnvFileContentManager
 {
-    protected EnvEditor $envEditor;
-
-    protected Filesystem $filesystem;
-
-    public function __construct(EnvEditor $envEditor, Filesystem $filesystem)
+    public function __construct(protected EnvEditor $envEditor, protected Filesystem $filesystem)
     {
-        $this->envEditor = $envEditor;
-        $this->filesystem = $filesystem;
     }
 
     /**
@@ -56,15 +49,7 @@ class EnvFileContentManager
     {
         $envFile = $this->envEditor->getFilesManager()->getFilePath($file);
 
-        if (!$this->filesystem->exists($envFile)) {
-            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 0);
-        }
-
-        try {
-            return $this->filesystem->get($envFile);
-        } catch (\Exception $e) {
-            throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.fileNotExists', ['name' => $envFile]), 2);
-        }
+        return $this->filesystem->get($envFile);
     }
 
     /**
@@ -77,8 +62,8 @@ class EnvFileContentManager
     public function save(Collection $envValues, string $fileName = ''): bool
     {
         $env = $envValues
-            ->sortBy(fn (EntryObj $item) => $item->index)
-            ->map(fn (EntryObj $item) => $item->getAsEnvLine());
+            ->sortBy(fn (EntryObj $entryObj): int => $entryObj->index)
+            ->map(fn (EntryObj $entryObj): string => $entryObj->getAsEnvLine());
 
         $content = implode(PHP_EOL, $env->toArray());
 

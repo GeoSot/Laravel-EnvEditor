@@ -4,8 +4,8 @@ namespace GeoSot\EnvEditor\Exceptions;
 
 class EnvException extends \Exception
 {
-    public function __toString()
+    public function __toString(): string
     {
-        return __CLASS__.":[{$this->code}]: {$this->message}\n";
+        return self::class.":[{$this->code}]: {$this->message}\n";
     }
 }

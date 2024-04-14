@@ -26,12 +26,12 @@ class EnvController extends BaseController
      */
     public function index(Request $request)
     {
-        $envValues = $this->envEditor->getEnvFileContent();
+        $envFileContent = $this->envEditor->getEnvFileContent();
         if ($request->wantsJson()) {
-            return $this->returnGenericResponse(true, ['items' => $envValues]);
+            return $this->returnGenericResponse(true, ['items' => $envFileContent]);
         }
 
-        return view(ServiceProvider::PACKAGE.'::index', compact('envValues'));
+        return view(ServiceProvider::PACKAGE.'::index', ['envValues' => $envFileContent]);
     }
 
     /**
@@ -73,12 +73,12 @@ class EnvController extends BaseController
      */
     public function getBackupFiles(Request $request): View|JsonResponse
     {
-        $backUpFiles = $this->envEditor->getAllBackUps();
+        $allBackUps = $this->envEditor->getAllBackUps();
         if ($request->wantsJson()) {
-            return $this->returnGenericResponse(true, ['items' => $backUpFiles]);
+            return $this->returnGenericResponse(true, ['items' => $allBackUps]);
         }
 
-        return view(ServiceProvider::PACKAGE.'::index', compact('backUpFiles'));
+        return view(ServiceProvider::PACKAGE.'::index', ['backUpFiles' => $allBackUps]);
     }
 
     /**
@@ -157,10 +157,10 @@ class EnvController extends BaseController
     protected function returnGenericResponse(
         bool $success,
         array $data = [],
-        string $translationWord = '',
+        ?string $translationWord = null,
         string $keyName = ''
     ): JsonResponse {
-        if (!empty($translationWord) && $success) {
+        if ($translationWord && $success) {
             $data = array_merge($data, [
                 'message' => __(
                     ServiceProvider::TRANSLATE_PREFIX."controllerMessages.$translationWord",
