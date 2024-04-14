@@ -1,6 +1,6 @@
 <?php
 
-namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
+namespace GeoSot\EnvEditor\Tests\Unit\Dto;
 
 use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\Tests\TestCase;

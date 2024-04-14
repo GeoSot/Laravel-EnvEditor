@@ -32,8 +32,8 @@ class BackupObj implements \JsonSerializable, Arrayable
         return [
             'real_name' => $this->name,
             'name' => $this->name,
-            'created_at' => Carbon::createFromTimestamp($this->createdAt)->format(config('env-editor.timeFormat')),
-            'modified_at' => Carbon::createFromTimestamp($this->modifiedAt)->format(config('env-editor.timeFormat')),
+            'created_at' => $this->createdAt->format(config('env-editor.timeFormat')),
+            'modified_at' => $this->modifiedAt->format(config('env-editor.timeFormat')),
             'raw_content' => $this->rawContent,
             'path' => $this->path,
             'entries' => $this->entries->toArray(),

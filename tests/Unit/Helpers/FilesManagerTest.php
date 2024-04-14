@@ -2,12 +2,14 @@
 
 namespace GeoSot\EnvEditor\Tests\Unit\Helpers;
 
+use GeoSot\EnvEditor\Dto\EntryObj;
 use GeoSot\EnvEditor\EnvEditor;
 use GeoSot\EnvEditor\Exceptions\EnvException;
 use GeoSot\EnvEditor\Helpers\EnvFilesManager;
 use GeoSot\EnvEditor\Tests\TestCase;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -130,7 +132,10 @@ class FilesManagerTest extends TestCase
         $backUps = $manager->getAllBackUps();
 
         $this->assertEquals(1, $backUps->count());
-        $this->assertEquals($backUps->first()->rawContent, $content);
+        $backup = $backUps->first();
+        $this->assertInstanceOf(Collection::class, $backup->entries);
+        $this->assertInstanceOf(EntryObj::class, $backup->entries->first());
+        $this->assertEquals($backup->rawContent, $content);
 
         unlink($file);
     }
