@@ -7,8 +7,6 @@ use Illuminate\Filesystem\Filesystem;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    public const VENDOR = 'geo-sv';
-
     public const PACKAGE = 'env-editor';
 
     public const TRANSLATE_PREFIX = self::PACKAGE.'::env-editor.';
@@ -32,7 +30,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             static::PACKAGE
         );
 
-        $this->app->singleton(EnvEditor::class, fn (): \GeoSot\EnvEditor\EnvEditor => new EnvEditor(
+        $this->app->singleton(EnvEditor::class, fn (): EnvEditor => new EnvEditor(
             new Repository(config(static::PACKAGE)),
             $this->app->make(Filesystem::class)
         ));
@@ -43,7 +41,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function loadResources(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', static::PACKAGE);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'env-editor');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', static::PACKAGE);
     }
 

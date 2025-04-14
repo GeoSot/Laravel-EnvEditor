@@ -14,8 +14,13 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EnvController extends BaseController
 {
+    /**
+     * @const view-string
+     */
+    protected const INDEX_VIEW = ServiceProvider::PACKAGE.'::index';
+
     public function __construct(
-        protected EnvEditor $envEditor
+        protected EnvEditor $envEditor,
     ) {
     }
 
@@ -31,7 +36,7 @@ class EnvController extends BaseController
             return $this->returnGenericResponse(true, ['items' => $envFileContent]);
         }
 
-        return view(ServiceProvider::PACKAGE.'::index', ['envValues' => $envFileContent]);
+        return view(static::INDEX_VIEW, ['envValues' => $envFileContent]);
     }
 
     /**
@@ -78,7 +83,7 @@ class EnvController extends BaseController
             return $this->returnGenericResponse(true, ['items' => $allBackUps]);
         }
 
-        return view(ServiceProvider::PACKAGE.'::index', ['backUpFiles' => $allBackUps]);
+        return view(static::INDEX_VIEW, ['backUpFiles' => $allBackUps]);
     }
 
     /**
@@ -158,7 +163,7 @@ class EnvController extends BaseController
         bool $success,
         array $data = [],
         ?string $translationWord = null,
-        string $keyName = ''
+        string $keyName = '',
     ): JsonResponse {
         if ($translationWord && $success) {
             $data = array_merge($data, [

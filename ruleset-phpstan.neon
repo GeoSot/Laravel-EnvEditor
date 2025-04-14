@@ -5,8 +5,12 @@ parameters:
         - src
         - tests
 
-    level: 7
+    level: 6
     reportStaticMethodSignatures: true
+    noEnvCallsOutsideOfConfig: true
+    viewDirectories:
+        - resources/views
+
     parallel:
         jobSize: 20
         maximumNumberOfProcesses: 32

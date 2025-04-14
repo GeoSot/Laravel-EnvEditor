@@ -27,13 +27,9 @@ return RectorConfig::configure()
         earlyReturn: true,
 //        strictBooleans: true,
     )
-    ->withRules([
-        AddVoidReturnTypeWhereNoReturnRector::class,
-    ])
     ->withCache(
     // ensure file system caching is used instead of in-memory
         cacheClass: FileCacheStorage::class,
-
         // specify a path that works locally as well as on CI job runners
         cacheDirectory: '/tmp/rector'
     );

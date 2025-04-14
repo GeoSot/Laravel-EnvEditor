@@ -2,19 +2,21 @@
 
 namespace GeoSot\EnvEditor\Facades;
 
+use GeoSot\EnvEditor\Dto\BackupObj;
+use GeoSot\EnvEditor\Dto\EntryObj;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * @method static Collection getEnvFileContent(string $fileName = '')
+ * @method static Collection<int, EntryObj> getEnvFileContent(string $fileName = '')
  * @method static bool keyExists(string $key)
  * @method static mixed getKey(string $key, $default = null)
- * @method static bool addKey(string $key, $value, array $options = [])
+ * @method static bool addKey(string $key, $value, array<string, int|string> $options = [])
  * @method static bool editKey(string $keyToChange, $newValue)
  * @method static bool deleteKey(string $key)
- * @method static Collection getAllBackUps()
+ * @method static Collection<int, BackupObj> getAllBackUps()
  * @method static File upload(UploadedFile $uploadedFile, bool $replaceCurrentEnv)
  * @method static bool backUpCurrent()
  * @method static string getFilePath(string $fileName = '')

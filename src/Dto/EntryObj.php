@@ -18,7 +18,7 @@ class EntryObj implements \JsonSerializable, Arrayable
         protected mixed $value,
         public readonly int $group,
         public readonly int $index,
-        protected bool $isSeparator = false
+        protected bool $isSeparator = false,
     ) {
     }
 
