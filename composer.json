@@ -35,10 +35,10 @@
         }
     },
     "scripts": {
-        "phpstan": "php --version && php vendor/bin/phpstan --version && php -d memory_limit=1G vendor/bin/phpstan analyse -c ruleset-phpstan.neon  -vvv",
-        "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots --config=ruleset-php_cs.php",
+        "phpstan": "php --version && php vendor/bin/phpstan --version && php -d memory_limit=1G vendor/bin/phpstan analyse -c ruleset-phpstan.neon  -vvv --ansi",
+        "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots --config=ruleset-php_cs.php --ansi",
         "test": "./vendor/bin/phpunit",
-        "rector": "./vendor/bin/rector process --config=rector.php",
+        "rector": "./vendor/bin/rector process --config=rector.php --ansi",
         "test-all": [
             "@cs",
             "@phpstan",
