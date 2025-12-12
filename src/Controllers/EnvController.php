@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class EnvController extends BaseController
 {
     /**
-     * @const view-string
+     * @var view-string
      */
     protected const INDEX_VIEW = ServiceProvider::PACKAGE.'::index';
 
