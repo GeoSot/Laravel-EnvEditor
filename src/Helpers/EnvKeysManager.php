@@ -46,7 +46,7 @@ class EnvKeysManager
             throw new EnvException(__(ServiceProvider::TRANSLATE_PREFIX.'exceptions.keyAlreadyExists', ['name' => $key]), 0);
         }
         $envData = $this->getEnvData();
-        $givenGroup = Arr::get($options, 'group', null);
+        $givenGroup = Arr::get($options, 'group');
 
         $groupIndex = $givenGroup ?? $envData->pluck('group')->unique()->sort()->last() + 1;
 

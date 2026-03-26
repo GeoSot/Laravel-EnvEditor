@@ -40,9 +40,9 @@
         "test": "./vendor/bin/phpunit",
         "rector": "./vendor/bin/rector process --config=rector.php",
         "test-all": [
+            "@rector",
             "@cs",
             "@phpstan",
-            "@rector",
             "@test"
         ]
     },

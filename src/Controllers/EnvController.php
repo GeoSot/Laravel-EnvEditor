@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class EnvController extends BaseController
 {
     /**
-     * @const view-string
+     * @var non-empty-string
      */
     protected const INDEX_VIEW = ServiceProvider::PACKAGE.'::index';
 
@@ -29,7 +29,7 @@ class EnvController extends BaseController
      *
      * @return JsonResponse|View
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $envFileContent = $this->envEditor->getEnvFileContent();
         if ($request->wantsJson()) {
